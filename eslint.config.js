@@ -1,3 +1,4 @@
+import eslintReact from '@eslint-react/eslint-plugin';
 import js from '@eslint/js';
 import globals from 'globals';
 import prettier from 'eslint-config-prettier';
@@ -15,6 +16,7 @@ export default defineConfig([
       tseslint.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
+      eslintReact.configs['recommended-type-checked'],
     ],
     languageOptions: {
       globals: globals.browser,
