@@ -9,24 +9,13 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
+const configFiles = ['**/*.config.{js,ts}'];
+
 export default defineConfig([
-  globalIgnores(['dist', '**/*.config.*']),
+  globalIgnores(['dist']),
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommendedTypeChecked,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-      eslintReact.configs['recommended-type-checked'],
-      jsxA11y.flatConfigs.recommended,
-    ],
-    languageOptions: {
-      globals: globals.browser,
-      parserOptions: {
-        projectService: true,
-      },
-    },
+    files: ['**/*.{js,ts,tsx}'],
+    extends: [js.configs.recommended],
     plugins: {
       'simple-import-sort': simpleImportSort,
     },
@@ -41,6 +30,30 @@ export default defineConfig([
         },
       ],
       'simple-import-sort/exports': 'error',
+    },
+  },
+  {
+    files: ['**/*.{ts,tsx}'],
+    ignores: configFiles,
+    extends: [
+      tseslint.configs.recommendedTypeChecked,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+      eslintReact.configs['recommended-type-checked'],
+      jsxA11y.flatConfigs.recommended,
+    ],
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
+  {
+    files: configFiles,
+    extends: [tseslint.configs.recommended],
+    languageOptions: {
+      globals: globals.node,
     },
   },
   prettier,
