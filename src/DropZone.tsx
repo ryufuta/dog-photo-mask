@@ -9,6 +9,7 @@ export function DropZone() {
     isDragAccept,
     isDragReject,
     acceptedFiles,
+    fileRejections,
   } = useDropzone({
     maxFiles: 1,
     accept: {
@@ -17,9 +18,15 @@ export function DropZone() {
   });
 
   // TODO: 動作確認用なので画像表示できるようになったら削除する
-  const files = acceptedFiles.map((file) => (
+  const acceptedItems = acceptedFiles.map((file) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
+    </li>
+  ));
+
+  const rejectedItems = fileRejections.map(({ file, errors }) => (
+    <li key={file.name}>
+      {file.name}: {errors.map((e) => e.code).join(',')}
     </li>
   ));
 
@@ -76,8 +83,17 @@ export function DropZone() {
       {/* TODO: 動作確認用なので画像表示できるようになったら削除する */}
       <aside>
         <h4>Accepted files</h4>
-        <ul>{files}</ul>
+        <ul>{acceptedItems}</ul>
       </aside>
+
+      {rejectedItems.length > 0 && (
+        <div>
+          <p style={{ color: '#dc3545', fontWeight: 'bold' }}>
+            ファイルを読み込めませんでした
+          </p>
+          <ul>{rejectedItems}</ul>
+        </div>
+      )}
     </section>
   );
 }
