@@ -19,8 +19,8 @@ export function DropZone() {
 
   // TODO: 動作確認用なので画像表示できるようになったら削除する
   const acceptedItems = acceptedFiles.map((file) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
+    <li key={file.name}>
+      {file.name} - {file.size} bytes
     </li>
   ));
 
