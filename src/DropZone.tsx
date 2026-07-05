@@ -1,6 +1,21 @@
+import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { EditingScreen } from '@/EditingScreen.tsx';
 
 export function DropZone() {
+  const [image, setImage] = useState<HTMLImageElement | null>(null);
+
+  const onDrop = (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    const objURL = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      setImage(img);
+      URL.revokeObjectURL(objURL);
+    };
+    img.src = objURL;
+  };
+
   const {
     getRootProps,
     getInputProps,
@@ -8,21 +23,14 @@ export function DropZone() {
     isDragActive,
     isDragAccept,
     isDragReject,
-    acceptedFiles,
     fileRejections,
   } = useDropzone({
     maxFiles: 1,
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg'],
     },
+    onDrop,
   });
-
-  // TODO: 動作確認用なので画像表示できるようになったら削除する
-  const acceptedItems = acceptedFiles.map((file) => (
-    <li key={file.name}>
-      {file.name} - {file.size} bytes
-    </li>
-  ));
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
     <li key={file.name}>
@@ -30,7 +38,9 @@ export function DropZone() {
     </li>
   ));
 
-  return (
+  return image ? (
+    <EditingScreen image={image} />
+  ) : (
     <section
       className="container"
       style={{ minHeight: '100vh', padding: '20px' }}
@@ -79,12 +89,6 @@ export function DropZone() {
           </p>
         )}
       </div>
-
-      {/* TODO: 動作確認用なので画像表示できるようになったら削除する */}
-      <aside>
-        <h4>Accepted files</h4>
-        <ul>{acceptedItems}</ul>
-      </aside>
 
       {rejectedItems.length > 0 && (
         <div>
