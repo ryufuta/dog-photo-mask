@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import React from 'react';
 import { useDropzone } from 'react-dropzone';
-import { EditingScreen } from '@/EditingScreen.tsx';
 
-export function DropZone() {
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
-
+export function DropZone({
+  setImage,
+}: {
+  setImage: React.Dispatch<React.SetStateAction<HTMLImageElement | null>>;
+}) {
   const onDrop = (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     const objURL = URL.createObjectURL(file);
@@ -38,9 +39,7 @@ export function DropZone() {
     </li>
   ));
 
-  return image ? (
-    <EditingScreen image={image} />
-  ) : (
+  return (
     <section
       className="container"
       style={{ minHeight: '100vh', padding: '20px' }}
