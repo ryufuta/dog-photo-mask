@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 
-export function DropZone({
+export function UploadScreen({
   setImage,
 }: {
   setImage: React.Dispatch<React.SetStateAction<HTMLImageElement | null>>;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { DropZone } from '@/DropZone.tsx';
 import { EditingScreen } from '@/EditingScreen.tsx';
+import { UploadScreen } from '@/UploadScreen.tsx';
 
 export function ImageEditor() {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -8,6 +8,6 @@ export function ImageEditor() {
   return image ? (
     <EditingScreen image={image} />
   ) : (
-    <DropZone setImage={setImage} />
+    <UploadScreen setImage={setImage} />
   );
 }
