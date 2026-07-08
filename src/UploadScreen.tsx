@@ -7,6 +7,8 @@ export function UploadScreen({
   setImage: React.Dispatch<React.SetStateAction<HTMLImageElement | null>>;
 }) {
   const onDrop = (acceptedFiles: File[]) => {
+    if (acceptedFiles.length === 0) return;
+
     const file = acceptedFiles[0];
     const objURL = URL.createObjectURL(file);
     const img = new Image();
