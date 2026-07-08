@@ -16,6 +16,11 @@ export function UploadScreen({
       setImage(img);
       URL.revokeObjectURL(objURL);
     };
+    img.onerror = (e) => {
+      URL.revokeObjectURL(objURL);
+      // TODO: UIに表示するよう変更
+      console.error(e);
+    };
     img.src = objURL;
   };
 
