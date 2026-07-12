@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
+import { cn } from '@/lib/cn.ts';
 
 export function UploadScreen({
   setImage,
@@ -47,43 +48,33 @@ export function UploadScreen({
   ));
 
   return (
-    <section
-      className="container"
-      style={{ minHeight: '100vh', padding: '20px' }}
-    >
+    <section className="min-h-svh p-5">
       <div
         {...getRootProps({
-          className: 'dropzone',
-          style: {
-            border: '2px dashed #ccc',
-            borderRadius: '8px',
-            padding: '40px',
-            textAlign: 'center',
-            backgroundColor: isDragAccept
-              ? '#d4edda'
-              : isDragReject
-                ? '#f8d7da'
-                : 'white',
-            transition: 'all 0.2s',
-          },
+          className: cn(
+            'rounded-lg border-2 border-dashed border-gray-300 p-10 text-center transition-colors',
+            {
+              'bg-green-100': isDragAccept,
+              'bg-red-100': isDragReject,
+              'bg-white': !isDragAccept && !isDragReject,
+            },
+          ),
         })}
       >
         <input {...getInputProps()} />
 
         {isDragGlobal && !isDragAccept && !isDragReject && (
-          <p style={{ color: '#6c757d' }}>
-            ここにファイルをドロップしてください
-          </p>
+          <p className="text-gray-500">ここにファイルをドロップしてください</p>
         )}
 
         {isDragAccept && (
-          <p style={{ color: '#28a745', fontWeight: 'bold' }}>
+          <p className="font-bold text-green-500">
             ✅ ここにファイルをドロップしてください
           </p>
         )}
 
         {isDragReject && (
-          <p style={{ color: '#dc3545', fontWeight: 'bold' }}>
+          <p className="font-bold text-red-600">
             ❌ PNG形式またはJPEG形式のファイルを1つだけ選択してください
           </p>
         )}
@@ -98,7 +89,7 @@ export function UploadScreen({
 
       {rejectedItems.length > 0 && (
         <div>
-          <p style={{ color: '#dc3545', fontWeight: 'bold' }}>
+          <p className="font-bold text-red-600">
             ファイルを読み込めませんでした
           </p>
           <ul>{rejectedItems}</ul>
