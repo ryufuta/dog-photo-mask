@@ -64,7 +64,7 @@ export function UploadScreen({
         <input {...getInputProps()} />
 
         {isDragGlobal && !isDragAccept && !isDragReject && (
-          <p className="text-gray-500">ここにファイルをドロップしてください</p>
+          <p>ここにファイルをドロップしてください</p>
         )}
 
         {isDragAccept && (
