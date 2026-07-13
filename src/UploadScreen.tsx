@@ -56,7 +56,7 @@ export function UploadScreen({
             {
               'bg-green-100': isDragAccept,
               'bg-red-100': isDragReject,
-              'bg-white': !isDragAccept && !isDragReject,
+              'bg-surface': !isDragAccept && !isDragReject,
             },
           ),
         })}
