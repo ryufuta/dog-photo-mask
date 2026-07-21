@@ -1,11 +1,10 @@
-import { Image, Layer, Stage } from 'react-konva';
+import { CanvasArea } from '@/CanvasArea.tsx';
 
 export function EditingScreen({ image }: { image: HTMLImageElement }) {
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
-      <Layer>
-        <Image image={image} scaleX={0.5} scaleY={0.5} />
-      </Layer>
-    </Stage>
+    <section className="flex min-h-svh flex-col p-5">
+      {/* TODO: 画像編集・保存用のツールバーやボタンを追加 */}
+      <CanvasArea image={image} />
+    </section>
   );
 }
