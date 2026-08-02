@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import eslintReact from '@eslint-react/eslint-plugin';
+import vitest from '@vitest/eslint-plugin';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import prettier from 'eslint-config-prettier';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
@@ -55,6 +56,10 @@ export default defineConfig([
     languageOptions: {
       globals: globals.node,
     },
+  },
+  {
+    files: ['src/**/*.test.{ts,tsx}'],
+    extends: [vitest.configs.recommended],
   },
   prettier,
 ]);
