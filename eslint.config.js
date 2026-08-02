@@ -4,6 +4,7 @@ import vitest from '@vitest/eslint-plugin';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import prettier from 'eslint-config-prettier';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import playwright from 'eslint-plugin-playwright';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
@@ -60,6 +61,10 @@ export default defineConfig([
   {
     files: ['src/**/*.test.{ts,tsx}'],
     extends: [vitest.configs.recommended],
+  },
+  {
+    files: ['e2e/**'],
+    extends: [playwright.configs['flat/recommended']],
   },
   prettier,
 ]);
