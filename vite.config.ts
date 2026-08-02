@@ -18,6 +18,8 @@ export default defineConfig({
       instances: [{ browser: 'chromium' }],
       headless: true,
     },
+    include: ['src/**/*.test.{ts,tsx}'],
+    exclude: ['**/node_modules/**', '**/dist/**', 'e2e/**'],
     coverage: {
       provider: 'v8',
     },

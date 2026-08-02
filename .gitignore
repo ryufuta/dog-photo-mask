@@ -27,3 +27,10 @@ dist-ssr
 .vitest-attachments/
 **/__screenshots__/
 coverage/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
