@@ -26,3 +26,4 @@ dist-ssr
 # Vitest
 .vitest-attachments/
 **/__screenshots__/
+coverage/

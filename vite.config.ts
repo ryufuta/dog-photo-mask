@@ -18,5 +18,8 @@ export default defineConfig({
       instances: [{ browser: 'chromium' }],
       headless: true,
     },
+    coverage: {
+      provider: 'v8',
+    },
   },
 });
