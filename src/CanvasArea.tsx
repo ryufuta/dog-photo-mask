@@ -6,8 +6,8 @@ export function CanvasArea({ image }: { image: HTMLImageElement }) {
   const [setRef, size] = useElementSize<HTMLDivElement>();
   const canvasWidth = size.width;
   const canvasHeight = size.height;
-  const imageWidth = image.width;
-  const imageHeight = image.height;
+  const imageWidth = image.naturalWidth;
+  const imageHeight = image.naturalHeight;
 
   const { x, y, scale } = calculateImageLayout({
     canvasWidth,
