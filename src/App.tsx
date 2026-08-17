@@ -1,4 +1,4 @@
-import { ImageEditor } from '@/ImageEditor.tsx';
+import { ImageEditor } from '@/image-editor/ImageEditor.tsx';
 
 function App() {
   return (

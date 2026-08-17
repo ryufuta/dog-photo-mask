@@ -1,6 +1,6 @@
-import { AddStickerButton } from '@/AddStickerButton.tsx';
-import { CanvasArea } from '@/CanvasArea.tsx';
-import { Toolbar } from '@/Toolbar.tsx';
+import { AddStickerButton } from './AddStickerButton.tsx';
+import { CanvasArea } from './CanvasArea.tsx';
+import { Toolbar } from './Toolbar.tsx';
 
 export function EditingScreen({ image }: { image: HTMLImageElement }) {
   return (

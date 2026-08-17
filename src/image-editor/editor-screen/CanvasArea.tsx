@@ -1,6 +1,6 @@
 import { Image as KonvaImage, Layer, Stage } from 'react-konva';
-import { calculateImageLayout } from '@/calculateImageLayout.ts';
-import { useElementSize } from '@/useElementSize.ts';
+import { calculateImageLayout } from './calculateImageLayout.ts';
+import { useElementSize } from './useElementSize.ts';
 
 export function CanvasArea({ image }: { image: HTMLImageElement }) {
   const [setRef, size] = useElementSize<HTMLDivElement>();
