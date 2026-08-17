@@ -1,8 +1,15 @@
 import { Image as KonvaImage, Layer, Stage } from 'react-konva';
+import { CanvasSticker } from '@/sticker/CanvasSticker.tsx';
+import type { Sticker } from '@/sticker/sticker.ts';
 import { calculateImageLayout } from './calculateImageLayout.ts';
 import { useElementSize } from './useElementSize.ts';
 
-export function CanvasArea({ image }: { image: HTMLImageElement }) {
+type Props = {
+  image: HTMLImageElement;
+  stickers: Sticker[];
+};
+
+export function CanvasArea({ image, stickers }: Props) {
   const [setRef, size] = useElementSize<HTMLDivElement>();
   const canvasWidth = size.width;
   const canvasHeight = size.height;
@@ -21,6 +28,9 @@ export function CanvasArea({ image }: { image: HTMLImageElement }) {
       <Stage width={canvasWidth} height={canvasHeight}>
         <Layer>
           <KonvaImage image={image} x={x} y={y} scaleX={scale} scaleY={scale} />
+          {stickers.map((sticker) => (
+            <CanvasSticker key={sticker.id} sticker={sticker} />
+          ))}
         </Layer>
       </Stage>
     </div>
