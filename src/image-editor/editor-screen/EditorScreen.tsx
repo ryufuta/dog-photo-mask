@@ -4,7 +4,11 @@ import { AddStickerButton } from './AddStickerButton.tsx';
 import { CanvasArea } from './CanvasArea.tsx';
 import { Toolbar } from './Toolbar.tsx';
 
-export function EditorScreen({ image }: { image: HTMLImageElement }) {
+type Props = {
+  image: HTMLImageElement;
+};
+
+export function EditorScreen({ image }: Props) {
   const [stickers, setStickers] = useState<Sticker[]>([]);
 
   function handleAddSticker() {

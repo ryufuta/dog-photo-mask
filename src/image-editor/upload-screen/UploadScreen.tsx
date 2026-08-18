@@ -2,11 +2,11 @@ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/cn.ts';
 
-export function UploadScreen({
-  setImage,
-}: {
+type Props = {
   setImage: React.Dispatch<React.SetStateAction<HTMLImageElement | null>>;
-}) {
+};
+
+export function UploadScreen({ setImage }: Props) {
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 0) return;
 
