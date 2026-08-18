@@ -6,7 +6,7 @@ type Props = {
 };
 
 export function UploadScreen({ onUpload }: Props) {
-  const onDrop = (acceptedFiles: File[]) => {
+  function handleDrop(acceptedFiles: File[]) {
     if (acceptedFiles.length === 0) return;
 
     const file = acceptedFiles[0];
@@ -22,7 +22,7 @@ export function UploadScreen({ onUpload }: Props) {
       console.error(e);
     };
     img.src = objURL;
-  };
+  }
 
   const {
     getRootProps,
@@ -37,7 +37,7 @@ export function UploadScreen({ onUpload }: Props) {
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg'],
     },
-    onDrop,
+    onDrop: handleDrop,
   });
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
