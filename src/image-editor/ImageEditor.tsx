@@ -8,6 +8,6 @@ export function ImageEditor() {
   return image ? (
     <EditorScreen image={image} />
   ) : (
-    <UploadScreen setImage={setImage} />
+    <UploadScreen onUpload={setImage} />
   );
 }

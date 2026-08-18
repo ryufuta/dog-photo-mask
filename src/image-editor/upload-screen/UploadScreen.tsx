@@ -1,12 +1,11 @@
-import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/cn.ts';
 
 type Props = {
-  setImage: React.Dispatch<React.SetStateAction<HTMLImageElement | null>>;
+  onUpload: (image: HTMLImageElement) => void;
 };
 
-export function UploadScreen({ setImage }: Props) {
+export function UploadScreen({ onUpload }: Props) {
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 0) return;
 
@@ -14,7 +13,7 @@ export function UploadScreen({ setImage }: Props) {
     const objURL = URL.createObjectURL(file);
     const img = new Image();
     img.onload = () => {
-      setImage(img);
+      onUpload(img);
       URL.revokeObjectURL(objURL);
     };
     img.onerror = (e) => {
