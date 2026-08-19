@@ -29,7 +29,11 @@ export function CanvasArea({ image, stickers }: Props) {
         <Layer>
           <KonvaImage image={image} x={x} y={y} scaleX={scale} scaleY={scale} />
           {stickers.map((sticker) => (
-            <CanvasSticker key={sticker.id} sticker={sticker} />
+            <CanvasSticker
+              key={sticker.id}
+              sticker={sticker}
+              imageLayout={{ x, y, scale }}
+            />
           ))}
         </Layer>
       </Stage>
