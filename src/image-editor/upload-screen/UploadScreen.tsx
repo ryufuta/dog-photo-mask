@@ -1,20 +1,19 @@
-import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/cn.ts';
 
-export function UploadScreen({
-  setImage,
-}: {
-  setImage: React.Dispatch<React.SetStateAction<HTMLImageElement | null>>;
-}) {
-  const onDrop = (acceptedFiles: File[]) => {
+type Props = {
+  onUpload: (image: HTMLImageElement) => void;
+};
+
+export function UploadScreen({ onUpload }: Props) {
+  function handleDrop(acceptedFiles: File[]) {
     if (acceptedFiles.length === 0) return;
 
     const file = acceptedFiles[0];
     const objURL = URL.createObjectURL(file);
     const img = new Image();
     img.onload = () => {
-      setImage(img);
+      onUpload(img);
       URL.revokeObjectURL(objURL);
     };
     img.onerror = (e) => {
@@ -23,7 +22,7 @@ export function UploadScreen({
       console.error(e);
     };
     img.src = objURL;
-  };
+  }
 
   const {
     getRootProps,
@@ -38,7 +37,7 @@ export function UploadScreen({
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg'],
     },
-    onDrop,
+    onDrop: handleDrop,
   });
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (

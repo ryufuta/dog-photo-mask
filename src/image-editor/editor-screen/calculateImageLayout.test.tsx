@@ -1,4 +1,4 @@
-import { calculateImageLayout } from '@/calculateImageLayout.ts';
+import { calculateImageLayout } from './calculateImageLayout.ts';
 
 describe('calculating image layout within a canvas', () => {
   test('fits and centers a landscape image', () => {
