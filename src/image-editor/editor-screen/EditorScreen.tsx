@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Sticker } from '@/sticker/sticker.ts';
+import { createSticker, type Sticker } from '@/sticker/sticker.ts';
 import { AddStickerButton } from './AddStickerButton.tsx';
 import { CanvasArea } from './CanvasArea.tsx';
 import { Toolbar } from './Toolbar.tsx';
@@ -12,14 +12,12 @@ export function EditorScreen({ image }: Props) {
   const [stickers, setStickers] = useState<Sticker[]>([]);
 
   function handleAddSticker() {
-    const newSticker: Sticker = {
-      id: crypto.randomUUID(),
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      width: 100,
-      height: 100,
-    };
-    setStickers((stickers) => [...stickers, newSticker]);
+    const imageWidth = image.naturalWidth;
+    const imageHeight = image.naturalHeight;
+    setStickers((stickers) => [
+      ...stickers,
+      createSticker({ imageWidth, imageHeight }),
+    ]);
   }
 
   return (
