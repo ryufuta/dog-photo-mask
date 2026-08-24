@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/cn.ts';
 
@@ -13,7 +14,9 @@ export function UploadScreen({ onUpload }: Props) {
     const objURL = URL.createObjectURL(file);
     const img = new Image();
     img.onload = () => {
-      onUpload(img);
+      if (img === imgRef.current) {
+        onUpload(img);
+      }
       URL.revokeObjectURL(objURL);
     };
     img.onerror = (e) => {
@@ -22,8 +25,10 @@ export function UploadScreen({ onUpload }: Props) {
       console.error(e);
     };
     img.src = objURL;
+    imgRef.current = img;
   }
 
+  const imgRef = useRef<HTMLImageElement>(null);
   const {
     getRootProps,
     getInputProps,
