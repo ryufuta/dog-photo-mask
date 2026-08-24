@@ -7,27 +7,6 @@ type Props = {
 };
 
 export function UploadScreen({ onUpload }: Props) {
-  function handleDrop(acceptedFiles: File[]) {
-    if (acceptedFiles.length === 0) return;
-
-    const file = acceptedFiles[0];
-    const objURL = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      if (img === imgRef.current) {
-        onUpload(img);
-      }
-      URL.revokeObjectURL(objURL);
-    };
-    img.onerror = (e) => {
-      URL.revokeObjectURL(objURL);
-      // TODO: UIに表示するよう変更
-      console.error(e);
-    };
-    img.src = objURL;
-    imgRef.current = img;
-  }
-
   const imgRef = useRef<HTMLImageElement>(null);
   const {
     getRootProps,
@@ -50,6 +29,27 @@ export function UploadScreen({ onUpload }: Props) {
       {file.name}: {errors.map((e) => e.code).join(',')}
     </li>
   ));
+
+  function handleDrop(acceptedFiles: File[]) {
+    if (acceptedFiles.length === 0) return;
+
+    const file = acceptedFiles[0];
+    const objURL = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      if (img === imgRef.current) {
+        onUpload(img);
+      }
+      URL.revokeObjectURL(objURL);
+    };
+    img.onerror = (e) => {
+      URL.revokeObjectURL(objURL);
+      // TODO: UIに表示するよう変更
+      console.error(e);
+    };
+    img.src = objURL;
+    imgRef.current = img;
+  }
 
   return (
     <section className="min-h-svh p-5">
