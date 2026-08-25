@@ -28,7 +28,14 @@ export function CanvasSticker({ sticker, imageLayout }: Props) {
 
   return (
     image && (
-      <KonvaImage image={image} x={x} y={y} width={width} height={height} />
+      <KonvaImage
+        image={image}
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        draggable
+      />
     )
   );
 }
