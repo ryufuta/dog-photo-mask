@@ -20,12 +20,27 @@ export function EditorScreen({ image }: Props) {
     ]);
   }
 
+  function handleStickerDragEnd(
+    id: string,
+    position: { x: number; y: number },
+  ) {
+    setStickers((stickers) =>
+      stickers.map((sticker) =>
+        sticker.id === id ? { ...sticker, ...position } : sticker,
+      ),
+    );
+  }
+
   return (
     <section className="flex min-h-svh flex-col p-5">
       <Toolbar>
         <AddStickerButton onAddSticker={handleAddSticker} />
       </Toolbar>
-      <CanvasArea image={image} stickers={stickers} />
+      <CanvasArea
+        image={image}
+        stickers={stickers}
+        onStickerDragEnd={handleStickerDragEnd}
+      />
     </section>
   );
 }

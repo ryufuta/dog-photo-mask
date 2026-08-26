@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Image as KonvaImage } from 'react-konva';
 import smileImageUrl from '@/assets/stickers/smile.png';
-import { calculateStickerLayout } from './calculateStickerLayout.ts';
+import {
+  calculateStickerLayout,
+  toImageStickerPosition,
+} from './calculateStickerLayout.ts';
 import type { Sticker } from './sticker.ts';
 
 type Props = {
@@ -11,9 +14,14 @@ type Props = {
     y: number;
     scale: number;
   };
+  onStickerDragEnd: (position: { x: number; y: number }) => void;
 };
 
-export function CanvasSticker({ sticker, imageLayout }: Props) {
+export function CanvasSticker({
+  sticker,
+  imageLayout,
+  onStickerDragEnd,
+}: Props) {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
 
   useEffect(() => {
@@ -35,6 +43,11 @@ export function CanvasSticker({ sticker, imageLayout }: Props) {
         width={width}
         height={height}
         draggable
+        onDragEnd={(e) => {
+          onStickerDragEnd(
+            toImageStickerPosition(e.target.position(), imageLayout),
+          );
+        }}
       />
     )
   );

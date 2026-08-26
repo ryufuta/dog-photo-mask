@@ -17,3 +17,13 @@ export function calculateStickerLayout(
     height: sticker.height * imageLayout.scale,
   };
 }
+
+export function toImageStickerPosition(
+  canvasStickerPosition: { x: number; y: number },
+  imageLayout: ImageLayout,
+) {
+  return {
+    x: (canvasStickerPosition.x - imageLayout.x) / imageLayout.scale,
+    y: (canvasStickerPosition.y - imageLayout.y) / imageLayout.scale,
+  };
+}
