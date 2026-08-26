@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Image as KonvaImage } from 'react-konva';
 import smileImageUrl from '@/assets/stickers/smile.png';
 import {
-  calculateStickerLayout,
+  toCanvasStickerRect,
   toImageStickerPosition,
 } from './calculateStickerLayout.ts';
 import type { Sticker } from './sticker.ts';
@@ -32,7 +32,7 @@ export function CanvasSticker({
     img.src = smileImageUrl;
   }, []);
 
-  const { x, y, width, height } = calculateStickerLayout(sticker, imageLayout);
+  const { x, y, width, height } = toCanvasStickerRect(sticker, imageLayout);
 
   return (
     image && (

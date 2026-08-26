@@ -1,9 +1,9 @@
 import {
-  calculateStickerLayout,
+  toCanvasStickerRect,
   toImageStickerPosition,
 } from './calculateStickerLayout.ts';
 
-describe('calculateStickerLayout', () => {
+describe('toCanvasStickerRect', () => {
   const sticker = {
     id: 'id',
     width: 100,
@@ -31,7 +31,7 @@ describe('calculateStickerLayout', () => {
 
     test('keeps the sticker at the top-left corner when the image is enlarged', () => {
       expect(
-        calculateStickerLayout(stickerAtTopLeft, enlargedImageLayout),
+        toCanvasStickerRect(stickerAtTopLeft, enlargedImageLayout),
       ).toEqual({
         x: 50,
         y: 0,
@@ -41,14 +41,14 @@ describe('calculateStickerLayout', () => {
     });
 
     test('keeps the sticker at the top-left corner when the image is reduced', () => {
-      expect(
-        calculateStickerLayout(stickerAtTopLeft, reducedImageLayout),
-      ).toEqual({
-        x: 0,
-        y: 50,
-        width: 50,
-        height: 50,
-      });
+      expect(toCanvasStickerRect(stickerAtTopLeft, reducedImageLayout)).toEqual(
+        {
+          x: 0,
+          y: 50,
+          width: 50,
+          height: 50,
+        },
+      );
     });
   });
 
@@ -62,7 +62,7 @@ describe('calculateStickerLayout', () => {
 
     test('keeps the sticker at the bottom-right corner when the image is enlarged', () => {
       expect(
-        calculateStickerLayout(stickerAtBottomRight, enlargedImageLayout),
+        toCanvasStickerRect(stickerAtBottomRight, enlargedImageLayout),
       ).toEqual({
         x: 1450,
         y: 1000,
@@ -73,7 +73,7 @@ describe('calculateStickerLayout', () => {
 
     test('keeps the sticker at the bottom-right corner when the image is reduced', () => {
       expect(
-        calculateStickerLayout(stickerAtBottomRight, reducedImageLayout),
+        toCanvasStickerRect(stickerAtBottomRight, reducedImageLayout),
       ).toEqual({
         x: 350,
         y: 300,

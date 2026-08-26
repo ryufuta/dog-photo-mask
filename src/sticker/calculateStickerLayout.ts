@@ -6,7 +6,7 @@ type ImageLayout = {
   scale: number;
 };
 
-export function calculateStickerLayout(
+export function toCanvasStickerRect(
   sticker: Sticker,
   imageLayout: ImageLayout,
 ) {
