@@ -42,6 +42,7 @@ export function EditorScreen({ image }: Props) {
       <CanvasArea
         image={image}
         stickers={stickers}
+        selectedStickerId={selectedStickerId}
         onSelectSticker={setSelectedStickerId}
         onStickerDragEnd={handleStickerDragEnd}
       />
