@@ -14,12 +14,14 @@ type Props = {
     y: number;
     scale: number;
   };
+  onSelect: (id: string) => void;
   onStickerDragEnd: (position: { x: number; y: number }) => void;
 };
 
 export function CanvasSticker({
   sticker,
   imageLayout,
+  onSelect,
   onStickerDragEnd,
 }: Props) {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -43,6 +45,9 @@ export function CanvasSticker({
         width={width}
         height={height}
         draggable
+        onClick={() => {
+          onSelect(sticker.id);
+        }}
         onDragEnd={(e) => {
           onStickerDragEnd(
             toImageStickerPosition(e.target.position(), imageLayout),

@@ -10,6 +10,9 @@ type Props = {
 
 export function EditorScreen({ image }: Props) {
   const [stickers, setStickers] = useState<Sticker[]>([]);
+  const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
+    null,
+  );
 
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
@@ -39,6 +42,7 @@ export function EditorScreen({ image }: Props) {
       <CanvasArea
         image={image}
         stickers={stickers}
+        onSelectSticker={setSelectedStickerId}
         onStickerDragEnd={handleStickerDragEnd}
       />
     </section>

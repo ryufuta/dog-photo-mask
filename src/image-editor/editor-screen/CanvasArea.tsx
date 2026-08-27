@@ -7,10 +7,16 @@ import { useElementSize } from './useElementSize.ts';
 type Props = {
   image: HTMLImageElement;
   stickers: Sticker[];
+  onSelectSticker: (id: string) => void;
   onStickerDragEnd: (id: string, position: { x: number; y: number }) => void;
 };
 
-export function CanvasArea({ image, stickers, onStickerDragEnd }: Props) {
+export function CanvasArea({
+  image,
+  stickers,
+  onSelectSticker,
+  onStickerDragEnd,
+}: Props) {
   const [setRef, size] = useElementSize<HTMLDivElement>();
   const canvasWidth = size.width;
   const canvasHeight = size.height;
@@ -34,6 +40,7 @@ export function CanvasArea({ image, stickers, onStickerDragEnd }: Props) {
               key={sticker.id}
               sticker={sticker}
               imageLayout={{ x, y, scale }}
+              onSelect={onSelectSticker}
               onStickerDragEnd={(position) =>
                 onStickerDragEnd(sticker.id, position)
               }
