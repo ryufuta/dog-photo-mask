@@ -10,14 +10,16 @@ type Props = {
 
 export function EditorScreen({ image }: Props) {
   const [stickers, setStickers] = useState<Sticker[]>([]);
+  const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
+    null,
+  );
 
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
     const imageHeight = image.naturalHeight;
-    setStickers((stickers) => [
-      ...stickers,
-      createSticker({ imageWidth, imageHeight }),
-    ]);
+    const newSticker = createSticker({ imageWidth, imageHeight });
+    setStickers((stickers) => [...stickers, newSticker]);
+    setSelectedStickerId(newSticker.id);
   }
 
   function handleStickerDragEnd(
@@ -39,6 +41,8 @@ export function EditorScreen({ image }: Props) {
       <CanvasArea
         image={image}
         stickers={stickers}
+        selectedStickerId={selectedStickerId}
+        onSelectSticker={setSelectedStickerId}
         onStickerDragEnd={handleStickerDragEnd}
       />
     </section>
