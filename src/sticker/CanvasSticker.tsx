@@ -29,6 +29,8 @@ export function CanvasSticker({
 }: Props) {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
 
+  const { x, y, width, height } = toCanvasStickerRect(sticker, imageLayout);
+
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
@@ -36,8 +38,6 @@ export function CanvasSticker({
     };
     img.src = smileImageUrl;
   }, []);
-
-  const { x, y, width, height } = toCanvasStickerRect(sticker, imageLayout);
 
   return (
     image && (

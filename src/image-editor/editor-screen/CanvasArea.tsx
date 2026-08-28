@@ -24,6 +24,7 @@ export function CanvasArea({
   const transformerRef = useRef<Konva.Transformer>(null);
   const stickersRef = useRef<Map<string, Konva.Image>>(new Map());
   const [setRef, size] = useElementSize<HTMLDivElement>();
+
   const canvasWidth = size.width;
   const canvasHeight = size.height;
   const imageWidth = image.naturalWidth;
