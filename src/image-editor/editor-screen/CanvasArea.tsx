@@ -67,6 +67,10 @@ export function CanvasArea({
                 const map = stickersRef.current;
                 map.set(sticker.id, node);
 
+                if (sticker.id === selectedStickerId) {
+                  updateTransformer([node]);
+                }
+
                 return () => {
                   map.delete(sticker.id);
                 };

@@ -17,10 +17,9 @@ export function EditorScreen({ image }: Props) {
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
     const imageHeight = image.naturalHeight;
-    setStickers((stickers) => [
-      ...stickers,
-      createSticker({ imageWidth, imageHeight }),
-    ]);
+    const newSticker = createSticker({ imageWidth, imageHeight });
+    setStickers((stickers) => [...stickers, newSticker]);
+    setSelectedStickerId(newSticker.id);
   }
 
   function handleStickerDragEnd(
