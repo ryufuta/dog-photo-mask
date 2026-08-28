@@ -10,7 +10,7 @@ type Props = {
   image: HTMLImageElement;
   stickers: Sticker[];
   selectedStickerId: string | null;
-  onSelectSticker: (id: string) => void;
+  onSelectSticker: (id: string | null) => void;
   onStickerDragEnd: (id: string, position: { x: number; y: number }) => void;
 };
 
@@ -57,9 +57,28 @@ export function CanvasArea({
 
   return (
     <div ref={setRef} className="bg-surface flex-1 overflow-hidden">
-      <Stage width={canvasWidth} height={canvasHeight}>
+      <Stage
+        width={canvasWidth}
+        height={canvasHeight}
+        onClick={(e) => {
+          const target = e.target;
+          if (
+            target === target.getStage() ||
+            target.name() === 'background-image'
+          ) {
+            onSelectSticker(null);
+          }
+        }}
+      >
         <Layer>
-          <KonvaImage image={image} x={x} y={y} scaleX={scale} scaleY={scale} />
+          <KonvaImage
+            name="background-image"
+            image={image}
+            x={x}
+            y={y}
+            scaleX={scale}
+            scaleY={scale}
+          />
           {stickers.map((sticker) => (
             <CanvasSticker
               key={sticker.id}
