@@ -1,11 +1,11 @@
 import {
   toCanvasStickerRect,
   toImageStickerPosition,
+  toImageStickerRect,
 } from './calculateStickerLayout.ts';
 
 describe('toCanvasStickerRect', () => {
-  const sticker = {
-    id: 'id',
+  const stickerSize = {
     width: 100,
     height: 100,
   };
@@ -23,16 +23,14 @@ describe('toCanvasStickerRect', () => {
   };
 
   describe('when the sticker is at the top-left corner of the image', () => {
-    const stickerAtTopLeft = {
-      ...sticker,
+    const stickerRect = {
       x: 0,
       y: 0,
+      ...stickerSize,
     };
 
     test('keeps the sticker at the top-left corner when the image is enlarged', () => {
-      expect(
-        toCanvasStickerRect(stickerAtTopLeft, enlargedImageLayout),
-      ).toEqual({
+      expect(toCanvasStickerRect(stickerRect, enlargedImageLayout)).toEqual({
         x: 50,
         y: 0,
         width: 200,
@@ -41,29 +39,25 @@ describe('toCanvasStickerRect', () => {
     });
 
     test('keeps the sticker at the top-left corner when the image is reduced', () => {
-      expect(toCanvasStickerRect(stickerAtTopLeft, reducedImageLayout)).toEqual(
-        {
-          x: 0,
-          y: 50,
-          width: 50,
-          height: 50,
-        },
-      );
+      expect(toCanvasStickerRect(stickerRect, reducedImageLayout)).toEqual({
+        x: 0,
+        y: 50,
+        width: 50,
+        height: 50,
+      });
     });
   });
 
   describe('when the sticker is at the bottom-right corner of the image', () => {
     // 元画像は width: 800, height: 600 とする
-    const stickerAtBottomRight = {
-      ...sticker,
+    const stickerRect = {
       x: 700,
       y: 500,
+      ...stickerSize,
     };
 
     test('keeps the sticker at the bottom-right corner when the image is enlarged', () => {
-      expect(
-        toCanvasStickerRect(stickerAtBottomRight, enlargedImageLayout),
-      ).toEqual({
+      expect(toCanvasStickerRect(stickerRect, enlargedImageLayout)).toEqual({
         x: 1450,
         y: 1000,
         width: 200,
@@ -72,9 +66,7 @@ describe('toCanvasStickerRect', () => {
     });
 
     test('keeps the sticker at the bottom-right corner when the image is reduced', () => {
-      expect(
-        toCanvasStickerRect(stickerAtBottomRight, reducedImageLayout),
-      ).toEqual({
+      expect(toCanvasStickerRect(stickerRect, reducedImageLayout)).toEqual({
         x: 350,
         y: 300,
         width: 50,
@@ -164,6 +156,50 @@ describe('toImageStickerPosition', () => {
         x: 700,
         y: 500,
       });
+    });
+  });
+});
+
+describe('toImageStickerRect', () => {
+  test('keeps the relative position and size of the sticker to the image when the image is enlarged on the canvas', () => {
+    const imageLayout = {
+      x: 50,
+      y: 0,
+      scale: 2,
+    };
+    const canvasStickerRect = {
+      x: imageLayout.x,
+      y: imageLayout.y,
+      width: 200,
+      height: 200,
+    };
+
+    expect(toImageStickerRect(canvasStickerRect, imageLayout)).toEqual({
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+    });
+  });
+
+  test('keeps the relative position and size of the sticker to the image when the image is reduced on the canvas', () => {
+    const imageLayout = {
+      x: 0,
+      y: 50,
+      scale: 0.5,
+    };
+    const canvasStickerRect = {
+      x: imageLayout.x,
+      y: imageLayout.y,
+      width: 100,
+      height: 100,
+    };
+
+    expect(toImageStickerRect(canvasStickerRect, imageLayout)).toEqual({
+      x: 0,
+      y: 0,
+      width: 200,
+      height: 200,
     });
   });
 });

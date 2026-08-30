@@ -5,6 +5,7 @@ import smileImageUrl from '@/assets/stickers/smile.png';
 import {
   toCanvasStickerRect,
   toImageStickerPosition,
+  toImageStickerRect,
 } from './calculateStickerLayout.ts';
 import type { Sticker } from './sticker.ts';
 
@@ -17,7 +18,13 @@ type Props = {
     scale: number;
   };
   onSelect: (id: string) => void;
-  onStickerDragEnd: (position: { x: number; y: number }) => void;
+  onDragEnd: (position: { x: number; y: number }) => void;
+  onTransformEnd: (rect: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }) => void;
 };
 
 export function CanvasSticker({
@@ -25,11 +32,18 @@ export function CanvasSticker({
   sticker,
   imageLayout,
   onSelect,
-  onStickerDragEnd,
+  onDragEnd,
+  onTransformEnd,
 }: Props) {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
 
-  const { x, y, width, height } = toCanvasStickerRect(sticker, imageLayout);
+  const stickerRect = {
+    x: sticker.x,
+    y: sticker.y,
+    width: sticker.width,
+    height: sticker.height,
+  };
+  const { x, y, width, height } = toCanvasStickerRect(stickerRect, imageLayout);
 
   useEffect(() => {
     const img = new Image();
@@ -53,9 +67,20 @@ export function CanvasSticker({
           onSelect(sticker.id);
         }}
         onDragEnd={(e) => {
-          onStickerDragEnd(
-            toImageStickerPosition(e.target.position(), imageLayout),
-          );
+          onDragEnd(toImageStickerPosition(e.target.position(), imageLayout));
+        }}
+        onTransformEnd={(e) => {
+          const node = e.target;
+          const canvasStickerRect = {
+            x: node.x(),
+            y: node.y(),
+            width: node.width() * node.scaleX(),
+            height: node.height() * node.scaleY(),
+          };
+          onTransformEnd(toImageStickerRect(canvasStickerRect, imageLayout));
+
+          node.scaleX(1);
+          node.scaleY(1);
         }}
       />
     )
