@@ -27,3 +27,19 @@ export function toImageStickerPosition(
     y: (canvasStickerPosition.y - imageLayout.y) / imageLayout.scale,
   };
 }
+
+export function toImageStickerRect(
+  canvasStickerRect: { x: number; y: number; width: number; height: number },
+  imageLayout: ImageLayout,
+) {
+  const position = toImageStickerPosition(
+    { x: canvasStickerRect.x, y: canvasStickerRect.y },
+    imageLayout,
+  );
+
+  return {
+    ...position,
+    width: canvasStickerRect.width / imageLayout.scale,
+    height: canvasStickerRect.height / imageLayout.scale,
+  };
+}

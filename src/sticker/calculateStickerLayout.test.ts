@@ -1,6 +1,7 @@
 import {
   toCanvasStickerRect,
   toImageStickerPosition,
+  toImageStickerRect,
 } from './calculateStickerLayout.ts';
 
 describe('toCanvasStickerRect', () => {
@@ -164,6 +165,50 @@ describe('toImageStickerPosition', () => {
         x: 700,
         y: 500,
       });
+    });
+  });
+});
+
+describe('toImageStickerRect', () => {
+  test('keeps the relative position and size of the sticker to the image when the image is enlarged on the canvas', () => {
+    const imageLayout = {
+      x: 50,
+      y: 0,
+      scale: 2,
+    };
+    const canvasStickerRect = {
+      x: imageLayout.x,
+      y: imageLayout.y,
+      width: 200,
+      height: 200,
+    };
+
+    expect(toImageStickerRect(canvasStickerRect, imageLayout)).toEqual({
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+    });
+  });
+
+  test('keeps the relative position and size of the sticker to the image when the image is reduced on the canvas', () => {
+    const imageLayout = {
+      x: 0,
+      y: 50,
+      scale: 0.5,
+    };
+    const canvasStickerRect = {
+      x: imageLayout.x,
+      y: imageLayout.y,
+      width: 100,
+      height: 100,
+    };
+
+    expect(toImageStickerRect(canvasStickerRect, imageLayout)).toEqual({
+      x: 0,
+      y: 0,
+      width: 200,
+      height: 200,
     });
   });
 });

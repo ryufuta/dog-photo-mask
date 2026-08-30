@@ -12,6 +12,10 @@ type Props = {
   selectedStickerId: string | null;
   onSelectSticker: (id: string | null) => void;
   onStickerDragEnd: (id: string, position: { x: number; y: number }) => void;
+  onStickerTransformEnd: (
+    id: string,
+    rect: { x: number; y: number; width: number; height: number },
+  ) => void;
 };
 
 export function CanvasArea({
@@ -20,6 +24,7 @@ export function CanvasArea({
   selectedStickerId,
   onSelectSticker,
   onStickerDragEnd,
+  onStickerTransformEnd,
 }: Props) {
   const transformerRef = useRef<Konva.Transformer>(null);
   const stickersRef = useRef<Map<string, Konva.Image>>(new Map());
@@ -101,6 +106,9 @@ export function CanvasArea({
               onStickerDragEnd={(position) =>
                 onStickerDragEnd(sticker.id, position)
               }
+              onTransformEnd={(rect) => {
+                onStickerTransformEnd(sticker.id, rect);
+              }}
             />
           ))}
           <Transformer

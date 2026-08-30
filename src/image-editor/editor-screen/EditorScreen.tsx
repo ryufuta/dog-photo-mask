@@ -33,6 +33,17 @@ export function EditorScreen({ image }: Props) {
     );
   }
 
+  function handleStickerTransformEnd(
+    id: string,
+    rect: { x: number; y: number; width: number; height: number },
+  ) {
+    setStickers((stickers) =>
+      stickers.map((sticker) =>
+        sticker.id === id ? { ...sticker, ...rect } : sticker,
+      ),
+    );
+  }
+
   return (
     <section className="flex min-h-svh flex-col p-5">
       <Toolbar>
@@ -44,6 +55,7 @@ export function EditorScreen({ image }: Props) {
         selectedStickerId={selectedStickerId}
         onSelectSticker={setSelectedStickerId}
         onStickerDragEnd={handleStickerDragEnd}
+        onStickerTransformEnd={handleStickerTransformEnd}
       />
     </section>
   );
