@@ -5,8 +5,7 @@ import {
 } from './calculateStickerLayout.ts';
 
 describe('toCanvasStickerRect', () => {
-  const sticker = {
-    id: 'id',
+  const stickerSize = {
     width: 100,
     height: 100,
   };
@@ -24,16 +23,14 @@ describe('toCanvasStickerRect', () => {
   };
 
   describe('when the sticker is at the top-left corner of the image', () => {
-    const stickerAtTopLeft = {
-      ...sticker,
+    const stickerRect = {
       x: 0,
       y: 0,
+      ...stickerSize,
     };
 
     test('keeps the sticker at the top-left corner when the image is enlarged', () => {
-      expect(
-        toCanvasStickerRect(stickerAtTopLeft, enlargedImageLayout),
-      ).toEqual({
+      expect(toCanvasStickerRect(stickerRect, enlargedImageLayout)).toEqual({
         x: 50,
         y: 0,
         width: 200,
@@ -42,29 +39,25 @@ describe('toCanvasStickerRect', () => {
     });
 
     test('keeps the sticker at the top-left corner when the image is reduced', () => {
-      expect(toCanvasStickerRect(stickerAtTopLeft, reducedImageLayout)).toEqual(
-        {
-          x: 0,
-          y: 50,
-          width: 50,
-          height: 50,
-        },
-      );
+      expect(toCanvasStickerRect(stickerRect, reducedImageLayout)).toEqual({
+        x: 0,
+        y: 50,
+        width: 50,
+        height: 50,
+      });
     });
   });
 
   describe('when the sticker is at the bottom-right corner of the image', () => {
     // 元画像は width: 800, height: 600 とする
-    const stickerAtBottomRight = {
-      ...sticker,
+    const stickerRect = {
       x: 700,
       y: 500,
+      ...stickerSize,
     };
 
     test('keeps the sticker at the bottom-right corner when the image is enlarged', () => {
-      expect(
-        toCanvasStickerRect(stickerAtBottomRight, enlargedImageLayout),
-      ).toEqual({
+      expect(toCanvasStickerRect(stickerRect, enlargedImageLayout)).toEqual({
         x: 1450,
         y: 1000,
         width: 200,
@@ -73,9 +66,7 @@ describe('toCanvasStickerRect', () => {
     });
 
     test('keeps the sticker at the bottom-right corner when the image is reduced', () => {
-      expect(
-        toCanvasStickerRect(stickerAtBottomRight, reducedImageLayout),
-      ).toEqual({
+      expect(toCanvasStickerRect(stickerRect, reducedImageLayout)).toEqual({
         x: 350,
         y: 300,
         width: 50,

@@ -1,5 +1,9 @@
-import type { Sticker } from './sticker';
-
+type Rect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
 type ImageLayout = {
   x: number;
   y: number;
@@ -7,14 +11,14 @@ type ImageLayout = {
 };
 
 export function toCanvasStickerRect(
-  sticker: Sticker,
+  stickerRect: Rect,
   imageLayout: ImageLayout,
 ) {
   return {
-    x: imageLayout.x + sticker.x * imageLayout.scale,
-    y: imageLayout.y + sticker.y * imageLayout.scale,
-    width: sticker.width * imageLayout.scale,
-    height: sticker.height * imageLayout.scale,
+    x: imageLayout.x + stickerRect.x * imageLayout.scale,
+    y: imageLayout.y + stickerRect.y * imageLayout.scale,
+    width: stickerRect.width * imageLayout.scale,
+    height: stickerRect.height * imageLayout.scale,
   };
 }
 
@@ -29,7 +33,7 @@ export function toImageStickerPosition(
 }
 
 export function toImageStickerRect(
-  canvasStickerRect: { x: number; y: number; width: number; height: number },
+  canvasStickerRect: Rect,
   imageLayout: ImageLayout,
 ) {
   const position = toImageStickerPosition(

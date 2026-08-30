@@ -37,7 +37,13 @@ export function CanvasSticker({
 }: Props) {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
 
-  const { x, y, width, height } = toCanvasStickerRect(sticker, imageLayout);
+  const stickerRect = {
+    x: sticker.x,
+    y: sticker.y,
+    width: sticker.width,
+    height: sticker.height,
+  };
+  const { x, y, width, height } = toCanvasStickerRect(stickerRect, imageLayout);
 
   useEffect(() => {
     const img = new Image();
