@@ -103,9 +103,9 @@ export function CanvasArea({
               sticker={sticker}
               imageLayout={{ x, y, scale }}
               onSelect={onSelectSticker}
-              onStickerDragEnd={(position) =>
-                onStickerDragEnd(sticker.id, position)
-              }
+              onDragEnd={(position) => {
+                onStickerDragEnd(sticker.id, position);
+              }}
               onTransformEnd={(rect) => {
                 onStickerTransformEnd(sticker.id, rect);
               }}

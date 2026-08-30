@@ -18,7 +18,7 @@ type Props = {
     scale: number;
   };
   onSelect: (id: string) => void;
-  onStickerDragEnd: (position: { x: number; y: number }) => void;
+  onDragEnd: (position: { x: number; y: number }) => void;
   onTransformEnd: (rect: {
     x: number;
     y: number;
@@ -32,7 +32,7 @@ export function CanvasSticker({
   sticker,
   imageLayout,
   onSelect,
-  onStickerDragEnd,
+  onDragEnd,
   onTransformEnd,
 }: Props) {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -67,9 +67,7 @@ export function CanvasSticker({
           onSelect(sticker.id);
         }}
         onDragEnd={(e) => {
-          onStickerDragEnd(
-            toImageStickerPosition(e.target.position(), imageLayout),
-          );
+          onDragEnd(toImageStickerPosition(e.target.position(), imageLayout));
         }}
         onTransformEnd={(e) => {
           const node = e.target;
