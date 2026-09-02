@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 import { createSticker, type Sticker } from '@/sticker/sticker.ts';
 import { AddStickerButton } from './AddStickerButton.tsx';
 import { CanvasArea } from './CanvasArea.tsx';
@@ -43,6 +43,24 @@ export function EditorScreen({ image }: Props) {
       ),
     );
   }
+
+  const handleDeleteSticker = useEffectEvent((e: KeyboardEvent) => {
+    if (e.key !== 'Delete' && e.key !== 'Backspace') return;
+    if (selectedStickerId === null) return;
+
+    setStickers((stickers) =>
+      stickers.filter((sticker) => sticker.id !== selectedStickerId),
+    );
+    setSelectedStickerId(null);
+  });
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleDeleteSticker);
+
+    return () => {
+      window.removeEventListener('keydown', handleDeleteSticker);
+    };
+  }, []);
 
   return (
     <section className="flex min-h-svh flex-col p-5">
