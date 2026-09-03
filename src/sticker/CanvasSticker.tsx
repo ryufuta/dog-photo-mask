@@ -12,11 +12,7 @@ import type { Sticker } from './sticker.ts';
 type Props = {
   ref: (node: Konva.Image) => () => void;
   sticker: Sticker;
-  imageLayout: {
-    x: number;
-    y: number;
-    scale: number;
-  };
+  imageScale: number;
   onSelect: (id: string) => void;
   onDragEnd: (position: { x: number; y: number }) => void;
   onTransformEnd: (rect: {
@@ -30,7 +26,7 @@ type Props = {
 export function CanvasSticker({
   ref,
   sticker,
-  imageLayout,
+  imageScale,
   onSelect,
   onDragEnd,
   onTransformEnd,
@@ -43,7 +39,7 @@ export function CanvasSticker({
     width: sticker.width,
     height: sticker.height,
   };
-  const { x, y, width, height } = toCanvasStickerRect(stickerRect, imageLayout);
+  const { x, y, width, height } = toCanvasStickerRect(stickerRect, imageScale);
 
   useEffect(() => {
     const img = new Image();
@@ -67,7 +63,7 @@ export function CanvasSticker({
           onSelect(sticker.id);
         }}
         onDragEnd={(e) => {
-          onDragEnd(toImageStickerPosition(e.target.position(), imageLayout));
+          onDragEnd(toImageStickerPosition(e.target.position(), imageScale));
         }}
         onTransformEnd={(e) => {
           const node = e.target;
@@ -77,7 +73,7 @@ export function CanvasSticker({
             width: node.width() * node.scaleX(),
             height: node.height() * node.scaleY(),
           };
-          onTransformEnd(toImageStickerRect(canvasStickerRect, imageLayout));
+          onTransformEnd(toImageStickerRect(canvasStickerRect, imageScale));
 
           node.scaleX(1);
           node.scaleY(1);
