@@ -30,17 +30,20 @@ export function CanvasArea({
   const stickersRef = useRef<Map<string, Konva.Image>>(new Map());
   const [setRef, size] = useElementSize<HTMLDivElement>();
 
-  const canvasWidth = size.width;
-  const canvasHeight = size.height;
+  const containerWidth = size.width;
+  const containerHeight = size.height;
   const imageWidth = image.naturalWidth;
   const imageHeight = image.naturalHeight;
 
-  const { x, y, scale } = calculateImageLayout({
-    canvasWidth,
-    canvasHeight,
+  const imageLayout = calculateImageLayout({
+    containerWidth,
+    containerHeight,
     imageWidth,
     imageHeight,
   });
+  const displayImageWidth = imageLayout.width;
+  const displayImageHeight = imageLayout.height;
+  const imageScale = imageLayout.scale;
 
   function updateTransformer(nodes: Konva.Image[]) {
     const transformer = transformerRef.current;
@@ -62,10 +65,13 @@ export function CanvasArea({
   }, [selectedStickerId]);
 
   return (
-    <div ref={setRef} className="bg-surface flex-1 overflow-hidden">
+    <div
+      ref={setRef}
+      className="bg-surface flex flex-1 items-center justify-center overflow-hidden"
+    >
       <Stage
-        width={canvasWidth}
-        height={canvasHeight}
+        width={displayImageWidth}
+        height={displayImageHeight}
         onClick={(e) => {
           const target = e.target;
           if (
@@ -80,10 +86,10 @@ export function CanvasArea({
           <KonvaImage
             name="background-image"
             image={image}
-            x={x}
-            y={y}
-            scaleX={scale}
-            scaleY={scale}
+            x={0}
+            y={0}
+            width={displayImageWidth}
+            height={displayImageHeight}
           />
           {stickers.map((sticker) => (
             <CanvasSticker
@@ -101,7 +107,7 @@ export function CanvasArea({
                 };
               }}
               sticker={sticker}
-              imageLayout={{ x, y, scale }}
+              imageScale={imageScale}
               onSelect={onSelectSticker}
               onDragEnd={(position) => {
                 onStickerDragEnd(sticker.id, position);

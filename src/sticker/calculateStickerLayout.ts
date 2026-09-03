@@ -4,46 +4,38 @@ type Rect = {
   width: number;
   height: number;
 };
-type ImageLayout = {
-  x: number;
-  y: number;
-  scale: number;
-};
 
-export function toCanvasStickerRect(
-  stickerRect: Rect,
-  imageLayout: ImageLayout,
-) {
+export function toCanvasStickerRect(stickerRect: Rect, imageScale: number) {
   return {
-    x: imageLayout.x + stickerRect.x * imageLayout.scale,
-    y: imageLayout.y + stickerRect.y * imageLayout.scale,
-    width: stickerRect.width * imageLayout.scale,
-    height: stickerRect.height * imageLayout.scale,
+    x: stickerRect.x * imageScale,
+    y: stickerRect.y * imageScale,
+    width: stickerRect.width * imageScale,
+    height: stickerRect.height * imageScale,
   };
 }
 
 export function toImageStickerPosition(
   canvasStickerPosition: { x: number; y: number },
-  imageLayout: ImageLayout,
+  imageScale: number,
 ) {
   return {
-    x: (canvasStickerPosition.x - imageLayout.x) / imageLayout.scale,
-    y: (canvasStickerPosition.y - imageLayout.y) / imageLayout.scale,
+    x: canvasStickerPosition.x / imageScale,
+    y: canvasStickerPosition.y / imageScale,
   };
 }
 
 export function toImageStickerRect(
   canvasStickerRect: Rect,
-  imageLayout: ImageLayout,
+  imageScale: number,
 ) {
   const position = toImageStickerPosition(
     { x: canvasStickerRect.x, y: canvasStickerRect.y },
-    imageLayout,
+    imageScale,
   );
 
   return {
     ...position,
-    width: canvasStickerRect.width / imageLayout.scale,
-    height: canvasStickerRect.height / imageLayout.scale,
+    width: canvasStickerRect.width / imageScale,
+    height: canvasStickerRect.height / imageScale,
   };
 }

@@ -1,19 +1,20 @@
 type sizes = {
-  canvasWidth: number;
-  canvasHeight: number;
+  containerWidth: number;
+  containerHeight: number;
   imageWidth: number;
   imageHeight: number;
 };
 
 export function calculateImageLayout({
-  canvasWidth,
-  canvasHeight,
+  containerWidth,
+  containerHeight,
   imageWidth,
   imageHeight,
 }: sizes) {
-  const scale = Math.min(canvasWidth / imageWidth, canvasHeight / imageHeight);
-  const x = (canvasWidth - imageWidth * scale) / 2;
-  const y = (canvasHeight - imageHeight * scale) / 2;
+  const scale = Math.min(
+    containerWidth / imageWidth,
+    containerHeight / imageHeight,
+  );
 
-  return { x, y, scale };
+  return { width: imageWidth * scale, height: imageHeight * scale, scale };
 }
