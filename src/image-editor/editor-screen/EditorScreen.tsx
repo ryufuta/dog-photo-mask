@@ -4,6 +4,7 @@ import { createSticker, type Sticker } from '@/sticker/sticker.ts';
 import { AddStickerButton } from './AddStickerButton.tsx';
 import { CanvasArea } from './CanvasArea.tsx';
 import { CopyButton } from './CopyButton.tsx';
+import { DownloadButton } from './DownloadButton.tsx';
 import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
@@ -33,6 +34,24 @@ export function EditorScreen({ image }: Props) {
       const blob = (await canvasRef.current.toBlob()) as Blob;
       const data = [new ClipboardItem({ [blob.type]: blob })];
       await navigator.clipboard.write(data);
+    } catch (error) {
+      // TODO: UIに表示するよう変更
+      console.error(error);
+    }
+  }
+
+  async function handleDownload() {
+    if (!canvasRef.current) return;
+
+    try {
+      const blob = (await canvasRef.current.toBlob()) as Blob;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dog-photo-mask.png';
+      a.click();
+
+      URL.revokeObjectURL(url);
     } catch (error) {
       // TODO: UIに表示するよう変更
       console.error(error);
@@ -86,6 +105,11 @@ export function EditorScreen({ image }: Props) {
         <CopyButton
           onCopy={() => {
             void handleCopy();
+          }}
+        />
+        <DownloadButton
+          onDownload={() => {
+            void handleDownload();
           }}
         />
       </Toolbar>
