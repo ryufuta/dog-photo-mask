@@ -7,6 +7,7 @@ import { calculateImageLayout } from './calculateImageLayout.ts';
 import { useElementSize } from './useElementSize.ts';
 
 type Props = {
+  ref: React.RefObject<Konva.Stage | null>;
   image: HTMLImageElement;
   stickers: Sticker[];
   selectedStickerId: string | null;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export function CanvasArea({
+  ref,
   image,
   stickers,
   selectedStickerId,
@@ -70,6 +72,7 @@ export function CanvasArea({
       className="bg-surface flex flex-1 items-center justify-center overflow-hidden"
     >
       <Stage
+        ref={ref}
         width={displayImageWidth}
         height={displayImageHeight}
         onClick={(e) => {

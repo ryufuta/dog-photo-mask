@@ -1,7 +1,9 @@
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import Konva from 'konva';
 import { createSticker, type Sticker } from '@/sticker/sticker.ts';
 import { AddStickerButton } from './AddStickerButton.tsx';
 import { CanvasArea } from './CanvasArea.tsx';
+import { CopyButton } from './CopyButton.tsx';
 import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
@@ -13,6 +15,7 @@ export function EditorScreen({ image }: Props) {
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
     null,
   );
+  const canvasRef = useRef<Konva.Stage>(null);
 
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
@@ -20,6 +23,20 @@ export function EditorScreen({ image }: Props) {
     const newSticker = createSticker({ imageWidth, imageHeight });
     setStickers((stickers) => [...stickers, newSticker]);
     setSelectedStickerId(newSticker.id);
+  }
+
+  async function handleCopy() {
+    if (!canvasRef.current) return;
+
+    try {
+      // KonvaのNode#toBlobの型注釈の不備でunknownになっているようなので型アサーションを使用
+      const blob = (await canvasRef.current.toBlob()) as Blob;
+      const data = [new ClipboardItem({ [blob.type]: blob })];
+      await navigator.clipboard.write(data);
+    } catch (error) {
+      // TODO: UIに表示するよう変更
+      console.error(error);
+    }
   }
 
   function handleStickerDragEnd(
@@ -66,8 +83,14 @@ export function EditorScreen({ image }: Props) {
     <section className="flex min-h-svh flex-col p-5">
       <Toolbar>
         <AddStickerButton onAddSticker={handleAddSticker} />
+        <CopyButton
+          onCopy={() => {
+            void handleCopy();
+          }}
+        />
       </Toolbar>
       <CanvasArea
+        ref={canvasRef}
         image={image}
         stickers={stickers}
         selectedStickerId={selectedStickerId}
