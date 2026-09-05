@@ -1,10 +1,8 @@
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import Konva from 'konva';
+import { Button } from '@/components/Button.tsx';
 import { createSticker, type Sticker } from '@/sticker/sticker.ts';
-import { AddStickerButton } from './AddStickerButton.tsx';
 import { CanvasArea } from './CanvasArea.tsx';
-import { CopyButton } from './CopyButton.tsx';
-import { DownloadButton } from './DownloadButton.tsx';
 import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
@@ -101,17 +99,21 @@ export function EditorScreen({ image }: Props) {
   return (
     <section className="flex min-h-svh flex-col p-5">
       <Toolbar>
-        <AddStickerButton onAddSticker={handleAddSticker} />
-        <CopyButton
-          onCopy={() => {
+        <Button onClick={handleAddSticker}>スタンプ追加</Button>
+        <Button
+          onClick={() => {
             void handleCopy();
           }}
-        />
-        <DownloadButton
-          onDownload={() => {
+        >
+          コピー
+        </Button>
+        <Button
+          onClick={() => {
             void handleDownload();
           }}
-        />
+        >
+          ダウンロード
+        </Button>
       </Toolbar>
       <CanvasArea
         ref={canvasRef}
