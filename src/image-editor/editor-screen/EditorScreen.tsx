@@ -1,8 +1,7 @@
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
-import Konva from 'konva';
 import { Button } from '@/components/Button.tsx';
 import { createSticker, type Sticker } from '@/sticker/sticker.ts';
-import { CanvasArea } from './CanvasArea.tsx';
+import { CanvasArea, type CanvasAreaHandle } from './CanvasArea.tsx';
 import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
@@ -14,7 +13,7 @@ export function EditorScreen({ image }: Props) {
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
     null,
   );
-  const canvasRef = useRef<Konva.Stage>(null);
+  const canvasAreaRef = useRef<CanvasAreaHandle>(null);
 
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
@@ -25,11 +24,12 @@ export function EditorScreen({ image }: Props) {
   }
 
   async function handleCopy() {
-    if (!canvasRef.current) return;
+    if (!canvasAreaRef.current) return;
 
     try {
-      // KonvaのNode#toBlobの型注釈の不備でunknownになっているようなので型アサーションを使用
-      const blob = (await canvasRef.current.toBlob()) as Blob;
+      const blob = await canvasAreaRef.current.exportAsBlob();
+      if (!blob) return;
+
       const data = [new ClipboardItem({ [blob.type]: blob })];
       await navigator.clipboard.write(data);
     } catch (error) {
@@ -39,10 +39,12 @@ export function EditorScreen({ image }: Props) {
   }
 
   async function handleDownload() {
-    if (!canvasRef.current) return;
+    if (!canvasAreaRef.current) return;
 
     try {
-      const blob = (await canvasRef.current.toBlob()) as Blob;
+      const blob = await canvasAreaRef.current.exportAsBlob();
+      if (!blob) return;
+
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -116,7 +118,7 @@ export function EditorScreen({ image }: Props) {
         </Button>
       </Toolbar>
       <CanvasArea
-        ref={canvasRef}
+        ref={canvasAreaRef}
         image={image}
         stickers={stickers}
         selectedStickerId={selectedStickerId}
