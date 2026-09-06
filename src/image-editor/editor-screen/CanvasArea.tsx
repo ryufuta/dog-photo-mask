@@ -71,13 +71,13 @@ export function CanvasArea({
         try {
           transformer?.visible(false);
           // KonvaのNode#toBlobの型注釈の不備でunknownになっているようなので型アサーションを使用
-          return (await stage.toBlob()) as Blob;
+          return (await stage.toBlob({ pixelRatio: 1 / imageScale })) as Blob;
         } finally {
           transformer?.visible(true);
         }
       },
     }),
-    [],
+    [imageScale],
   );
 
   useEffect(() => {
