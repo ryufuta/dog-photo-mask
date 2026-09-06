@@ -66,8 +66,15 @@ export function CanvasArea({
         const stage = stageRef.current;
         if (!stage) return null;
 
-        // KonvaのNode#toBlobの型注釈の不備でunknownになっているようなので型アサーションを使用
-        return (await stage.toBlob()) as Blob;
+        const transformer = transformerRef.current;
+
+        try {
+          transformer?.visible(false);
+          // KonvaのNode#toBlobの型注釈の不備でunknownになっているようなので型アサーションを使用
+          return (await stage.toBlob()) as Blob;
+        } finally {
+          transformer?.visible(true);
+        }
       },
     }),
     [],
