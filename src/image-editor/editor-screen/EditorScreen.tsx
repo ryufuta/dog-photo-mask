@@ -1,7 +1,7 @@
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import { Button } from '@/components/Button.tsx';
 import { createSticker, type Sticker } from '@/sticker/sticker.ts';
-import { AddStickerButton } from './AddStickerButton.tsx';
-import { CanvasArea } from './CanvasArea.tsx';
+import { CanvasArea, type CanvasAreaHandle } from './CanvasArea.tsx';
 import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
@@ -13,6 +13,7 @@ export function EditorScreen({ image }: Props) {
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
     null,
   );
+  const canvasAreaRef = useRef<CanvasAreaHandle>(null);
 
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
@@ -20,6 +21,41 @@ export function EditorScreen({ image }: Props) {
     const newSticker = createSticker({ imageWidth, imageHeight });
     setStickers((stickers) => [...stickers, newSticker]);
     setSelectedStickerId(newSticker.id);
+  }
+
+  async function handleCopy() {
+    if (!canvasAreaRef.current) return;
+
+    try {
+      const blob = await canvasAreaRef.current.exportAsBlob();
+      if (!blob) return;
+
+      const data = [new ClipboardItem({ [blob.type]: blob })];
+      await navigator.clipboard.write(data);
+    } catch (error) {
+      // TODO: UIに表示するよう変更
+      console.error(error);
+    }
+  }
+
+  async function handleDownload() {
+    if (!canvasAreaRef.current) return;
+
+    try {
+      const blob = await canvasAreaRef.current.exportAsBlob();
+      if (!blob) return;
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dog-photo-mask.png';
+      a.click();
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      // TODO: UIに表示するよう変更
+      console.error(error);
+    }
   }
 
   function handleStickerDragEnd(
@@ -65,9 +101,24 @@ export function EditorScreen({ image }: Props) {
   return (
     <section className="flex min-h-svh flex-col p-5">
       <Toolbar>
-        <AddStickerButton onAddSticker={handleAddSticker} />
+        <Button onClick={handleAddSticker}>スタンプ追加</Button>
+        <Button
+          onClick={() => {
+            void handleCopy();
+          }}
+        >
+          コピー
+        </Button>
+        <Button
+          onClick={() => {
+            void handleDownload();
+          }}
+        >
+          ダウンロード
+        </Button>
       </Toolbar>
       <CanvasArea
+        ref={canvasAreaRef}
         image={image}
         stickers={stickers}
         selectedStickerId={selectedStickerId}

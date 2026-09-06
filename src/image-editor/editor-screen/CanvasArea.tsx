@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useImperativeHandle, useRef } from 'react';
 import { Image as KonvaImage, Layer, Stage, Transformer } from 'react-konva';
 import Konva from 'konva';
 import { CanvasSticker } from '@/sticker/CanvasSticker.tsx';
@@ -6,7 +6,12 @@ import type { Sticker } from '@/sticker/sticker.ts';
 import { calculateImageLayout } from './calculateImageLayout.ts';
 import { useElementSize } from './useElementSize.ts';
 
+export type CanvasAreaHandle = {
+  exportAsBlob: () => Promise<Blob | null>;
+};
+
 type Props = {
+  ref: React.Ref<CanvasAreaHandle>;
   image: HTMLImageElement;
   stickers: Sticker[];
   selectedStickerId: string | null;
@@ -19,6 +24,7 @@ type Props = {
 };
 
 export function CanvasArea({
+  ref,
   image,
   stickers,
   selectedStickerId,
@@ -26,6 +32,7 @@ export function CanvasArea({
   onStickerDragEnd,
   onStickerTransformEnd,
 }: Props) {
+  const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const stickersRef = useRef<Map<string, Konva.Image>>(new Map());
   const [setRef, size] = useElementSize<HTMLDivElement>();
@@ -52,6 +59,27 @@ export function CanvasArea({
     transformer.nodes(nodes);
   }
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      async exportAsBlob() {
+        const stage = stageRef.current;
+        if (!stage) return null;
+
+        const transformer = transformerRef.current;
+
+        try {
+          transformer?.visible(false);
+          // KonvaのNode#toBlobの型注釈の不備でunknownになっているようなので型アサーションを使用
+          return (await stage.toBlob({ pixelRatio: 1 / imageScale })) as Blob;
+        } finally {
+          transformer?.visible(true);
+        }
+      },
+    }),
+    [imageScale],
+  );
+
   useEffect(() => {
     const map = stickersRef.current;
     let nodes: Konva.Image[] = [];
@@ -70,6 +98,7 @@ export function CanvasArea({
       className="bg-surface flex flex-1 items-center justify-center overflow-hidden"
     >
       <Stage
+        ref={stageRef}
         width={displayImageWidth}
         height={displayImageHeight}
         onClick={(e) => {
