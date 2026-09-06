@@ -6,7 +6,12 @@ export function ImageEditor() {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
 
   return image ? (
-    <EditorScreen image={image} />
+    <EditorScreen
+      image={image}
+      onReset={() => {
+        setImage(null);
+      }}
+    />
   ) : (
     <UploadScreen onUpload={setImage} />
   );

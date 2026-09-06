@@ -6,9 +6,10 @@ import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
   image: HTMLImageElement;
+  onReset: () => void;
 };
 
-export function EditorScreen({ image }: Props) {
+export function EditorScreen({ image, onReset }: Props) {
   const [stickers, setStickers] = useState<Sticker[]>([]);
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
     null,
@@ -116,6 +117,7 @@ export function EditorScreen({ image }: Props) {
         >
           ダウンロード
         </Button>
+        <Button onClick={onReset}>リセット</Button>
       </Toolbar>
       <CanvasArea
         ref={canvasAreaRef}
