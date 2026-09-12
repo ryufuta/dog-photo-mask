@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { loadImage } from '@/lib/utils.ts';
 import { EditorScreen } from './editor-screen/EditorScreen.tsx';
 import { UploadScreen } from './upload-screen/UploadScreen.tsx';
 
@@ -10,27 +11,28 @@ type State =
 export function ImageEditor() {
   const [state, setState] = useState<State>({ type: 'upload' });
 
-  function handleUpload(file: File) {
+  async function handleUpload(file: File) {
     setState({ type: 'loading' });
 
-    const objURL = URL.createObjectURL(file);
-    const image = new Image();
-    image.onload = () => {
+    try {
+      const image = await loadImage(file);
       setState({ type: 'editing', image });
-      URL.revokeObjectURL(objURL);
-    };
-    image.onerror = (e) => {
+    } catch (error) {
       setState({ type: 'upload' });
-      URL.revokeObjectURL(objURL);
       // TODO: UIに表示するよう変更
-      console.error(e);
-    };
-    image.src = objURL;
+      console.error(error);
+    }
   }
 
   switch (state.type) {
     case 'upload':
-      return <UploadScreen onUpload={handleUpload} />;
+      return (
+        <UploadScreen
+          onUpload={(file: File) => {
+            void handleUpload(file);
+          }}
+        />
+      );
 
     case 'loading':
       return (
