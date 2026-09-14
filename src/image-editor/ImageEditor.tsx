@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { LoadingIndicator } from '@/components/LoadingIndicator.tsx';
 import { loadImage } from '@/lib/utils.ts';
 import { EditorScreen } from './editor-screen/EditorScreen.tsx';
 import { UploadScreen } from './upload-screen/UploadScreen.tsx';
@@ -37,7 +38,7 @@ export function ImageEditor() {
     case 'loading':
       return (
         <section className="min-h-svh p-5">
-          <p className="bg-surface p-10 text-center">画像読み込み中...</p>
+          <LoadingIndicator message="画像読み込み中..." />
         </section>
       );
 
