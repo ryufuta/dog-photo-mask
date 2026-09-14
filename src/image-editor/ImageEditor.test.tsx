@@ -69,6 +69,25 @@ test('returns to the upload screen when the reset button is clicked', async () =
     .toBeVisible();
 });
 
+test('returns to the upload screen when image loading fails', async () => {
+  mockedLoadImage.mockRejectedValue(new Error('Failed to load image'));
+
+  const screen = await render(<ImageEditor />);
+
+  const file = new File([], 'dummy.png', { type: 'image/png' });
+
+  await screen.getByRole('button').upload(file);
+
+  // TODO: エラーメッセージをUIに表示する機能を追加時にそのメッセージの表示も検証する
+  await expect
+    .element(
+      screen.getByText(
+        'ここにファイルをドラッグ&ドロップするか, クリックしてファイルを選択してください',
+      ),
+    )
+    .toBeVisible();
+});
+
 function createTestImage() {
   const image = new Image();
 
