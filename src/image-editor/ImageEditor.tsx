@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { LoadingIndicator } from '@/components/LoadingIndicator.tsx';
+import { detectFaces } from '@/face-detection/face-detector.ts';
 import { loadImage } from '@/lib/utils.ts';
 import { EditorScreen } from './editor-screen/EditorScreen.tsx';
 import { UploadScreen } from './upload-screen/UploadScreen.tsx';
@@ -17,6 +18,8 @@ export function ImageEditor() {
 
     try {
       const image = await loadImage(file);
+      const detectedFaces = await detectFaces(image);
+      console.log(detectedFaces);
       setState({ type: 'editing', image });
     } catch (error) {
       setState({ type: 'upload' });
