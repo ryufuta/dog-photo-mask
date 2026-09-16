@@ -24,4 +24,5 @@ export default defineConfig({
       provider: 'v8',
     },
   },
+  assetsInclude: ['**/*.tflite'],
 });
