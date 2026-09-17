@@ -8,6 +8,7 @@ import { UploadScreen } from './upload-screen/UploadScreen.tsx';
 type State =
   | { type: 'upload' }
   | { type: 'loading' }
+  | { type: 'detecting' }
   | { type: 'editing'; image: HTMLImageElement };
 
 export function ImageEditor() {
@@ -18,6 +19,7 @@ export function ImageEditor() {
 
     try {
       const image = await loadImage(file);
+      setState({ type: 'detecting' });
       const detectedFaces = await detectFaces(image);
       console.log(detectedFaces);
       setState({ type: 'editing', image });
@@ -42,6 +44,13 @@ export function ImageEditor() {
       return (
         <section className="min-h-svh p-5">
           <LoadingIndicator message="画像読み込み中..." />
+        </section>
+      );
+
+    case 'detecting':
+      return (
+        <section className="min-h-svh p-5">
+          <LoadingIndicator message="顔検出中..." />
         </section>
       );
 
