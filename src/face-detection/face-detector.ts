@@ -23,7 +23,10 @@ export async function detectFaces(image: HTMLImageElement) {
 
 async function getFaceDetector() {
   if (!faceDetectorPromise) {
-    faceDetectorPromise = createFaceDetector();
+    faceDetectorPromise = createFaceDetector().catch((error) => {
+      faceDetectorPromise = undefined;
+      throw error;
+    });
   }
 
   return faceDetectorPromise;
