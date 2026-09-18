@@ -19,9 +19,11 @@ export function ImageEditor() {
 
     try {
       const image = await loadImage(file);
-      setState({ type: 'detecting' });
-      const detectedFaces = await detectFaces(image);
-      console.log(detectedFaces);
+      if (import.meta.env.DEV) {
+        setState({ type: 'detecting' });
+        const detectedFaces = await detectFaces(image);
+        console.log(detectedFaces);
+      }
       setState({ type: 'editing', image });
     } catch (error) {
       setState({ type: 'upload' });
