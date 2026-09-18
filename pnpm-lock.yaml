@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@mediapipe/tasks-vision':
-        specifier: ^1.0.1
+        specifier: 1.0.1
         version: 1.0.1
       '@tailwindcss/vite':
         specifier: ^4.3.2

@@ -27,7 +27,7 @@
     "test:e2e:headed": "playwright test --headed"
   },
   "dependencies": {
-    "@mediapipe/tasks-vision": "^1.0.1",
+    "@mediapipe/tasks-vision": "1.0.1",
     "@tailwindcss/vite": "^4.3.2",
     "clsx": "^2.1.1",
     "konva": "^10.3.0",
