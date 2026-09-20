@@ -13,3 +13,26 @@ export function toCanvasRect(imageRect: Rect, imageScale: number): Rect {
     height: imageRect.height * imageScale,
   };
 }
+
+export function toImagePosition(
+  canvasPosition: { x: number; y: number },
+  imageScale: number,
+) {
+  return {
+    x: canvasPosition.x / imageScale,
+    y: canvasPosition.y / imageScale,
+  };
+}
+
+export function toImageRect(canvasRect: Rect, imageScale: number): Rect {
+  const position = toImagePosition(
+    { x: canvasRect.x, y: canvasRect.y },
+    imageScale,
+  );
+
+  return {
+    ...position,
+    width: canvasRect.width / imageScale,
+    height: canvasRect.height / imageScale,
+  };
+}

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Image as KonvaImage } from 'react-konva';
 import Konva from 'konva';
 import smileImageUrl from '@/assets/stickers/smile.png';
-import { toCanvasRect } from '@/lib/coordinate.ts';
 import {
-  toImageStickerPosition,
-  toImageStickerRect,
-} from './calculateStickerLayout.ts';
+  toCanvasRect,
+  toImagePosition,
+  toImageRect,
+} from '@/lib/coordinate.ts';
 import type { Sticker } from './sticker.ts';
 
 type Props = {
@@ -57,7 +57,7 @@ export function CanvasSticker({
           onSelect(sticker.id);
         }}
         onDragEnd={(e) => {
-          onDragEnd(toImageStickerPosition(e.target.position(), imageScale));
+          onDragEnd(toImagePosition(e.target.position(), imageScale));
         }}
         onTransformEnd={(e) => {
           const node = e.target;
@@ -67,7 +67,7 @@ export function CanvasSticker({
             width: node.width() * node.scaleX(),
             height: node.height() * node.scaleY(),
           };
-          onTransformEnd(toImageStickerRect(canvasStickerRect, imageScale));
+          onTransformEnd(toImageRect(canvasStickerRect, imageScale));
 
           node.scaleX(1);
           node.scaleY(1);
