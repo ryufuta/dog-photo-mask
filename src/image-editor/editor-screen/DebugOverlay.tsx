@@ -9,7 +9,7 @@ type Props = {
 
 export function DebugOverlay({ faces, imageScale }: Props) {
   return (
-    <Layer>
+    <Layer listening={false}>
       {faces.map((face) => (
         <CanvasFaceDetection
           key={`${face.x}-${face.y}-${face.width}-${face.height}-${face.score.toFixed(2)}`}
