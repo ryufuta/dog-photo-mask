@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LoadingIndicator } from '@/components/LoadingIndicator.tsx';
-import { detectFaces } from '@/face-detection/face-detector.ts';
+import { detectFaces, type Face } from '@/face-detection/face-detector.ts';
 import { loadImage } from '@/lib/utils.ts';
 import { EditorScreen } from './editor-screen/EditorScreen.tsx';
 import { UploadScreen } from './upload-screen/UploadScreen.tsx';
@@ -9,7 +9,7 @@ type State =
   | { type: 'upload' }
   | { type: 'loading' }
   | { type: 'detecting' }
-  | { type: 'editing'; image: HTMLImageElement };
+  | { type: 'editing'; image: HTMLImageElement; detectedFaces: Face[] };
 
 export function ImageEditor() {
   const [state, setState] = useState<State>({ type: 'upload' });
@@ -19,12 +19,13 @@ export function ImageEditor() {
 
     try {
       const image = await loadImage(file);
+      let detectedFaces: Face[] = [];
       if (import.meta.env.DEV) {
         setState({ type: 'detecting' });
-        const detectedFaces = await detectFaces(image);
+        detectedFaces = await detectFaces(image);
         console.log(detectedFaces);
       }
-      setState({ type: 'editing', image });
+      setState({ type: 'editing', image, detectedFaces });
     } catch (error) {
       setState({ type: 'upload' });
       // TODO: UIに表示するよう変更
@@ -60,6 +61,7 @@ export function ImageEditor() {
       return (
         <EditorScreen
           image={state.image}
+          detectedFaces={state.detectedFaces}
           onReset={() => {
             setState({ type: 'upload' });
           }}

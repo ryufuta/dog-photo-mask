@@ -1,9 +1,11 @@
 import { useEffect, useImperativeHandle, useRef } from 'react';
 import { Image as KonvaImage, Layer, Stage, Transformer } from 'react-konva';
 import Konva from 'konva';
+import type { Face } from '@/face-detection/face-detector.ts';
 import { CanvasSticker } from '@/sticker/CanvasSticker.tsx';
 import type { Sticker } from '@/sticker/sticker.ts';
 import { calculateImageLayout } from './calculateImageLayout.ts';
+import { DebugOverlay } from './DebugOverlay.tsx';
 import { useElementSize } from './useElementSize.ts';
 
 export type CanvasAreaHandle = {
@@ -13,6 +15,7 @@ export type CanvasAreaHandle = {
 type Props = {
   ref: React.Ref<CanvasAreaHandle>;
   image: HTMLImageElement;
+  faces: Face[];
   stickers: Sticker[];
   selectedStickerId: string | null;
   onSelectSticker: (id: string | null) => void;
@@ -26,6 +29,7 @@ type Props = {
 export function CanvasArea({
   ref,
   image,
+  faces,
   stickers,
   selectedStickerId,
   onSelectSticker,
@@ -155,6 +159,10 @@ export function CanvasArea({
             ]}
           />
         </Layer>
+
+        {import.meta.env.DEV && (
+          <DebugOverlay faces={faces} imageScale={imageScale} />
+        )}
       </Stage>
     </div>
   );

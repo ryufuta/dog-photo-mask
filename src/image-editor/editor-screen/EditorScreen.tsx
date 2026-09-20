@@ -1,15 +1,17 @@
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import { Button } from '@/components/Button.tsx';
+import type { Face } from '@/face-detection/face-detector.ts';
 import { createSticker, type Sticker } from '@/sticker/sticker.ts';
 import { CanvasArea, type CanvasAreaHandle } from './CanvasArea.tsx';
 import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
   image: HTMLImageElement;
+  detectedFaces: Face[];
   onReset: () => void;
 };
 
-export function EditorScreen({ image, onReset }: Props) {
+export function EditorScreen({ image, detectedFaces, onReset }: Props) {
   const [stickers, setStickers] = useState<Sticker[]>([]);
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
     null,
@@ -122,6 +124,7 @@ export function EditorScreen({ image, onReset }: Props) {
       <CanvasArea
         ref={canvasAreaRef}
         image={image}
+        faces={detectedFaces}
         stickers={stickers}
         selectedStickerId={selectedStickerId}
         onSelectSticker={setSelectedStickerId}
