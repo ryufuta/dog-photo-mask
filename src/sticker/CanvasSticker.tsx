@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Image as KonvaImage } from 'react-konva';
 import Konva from 'konva';
 import smileImageUrl from '@/assets/stickers/smile.png';
+import { toCanvasRect } from '@/lib/coordinate.ts';
 import {
-  toCanvasStickerRect,
   toImageStickerPosition,
   toImageStickerRect,
 } from './calculateStickerLayout.ts';
@@ -39,7 +39,7 @@ export function CanvasSticker({
     width: sticker.width,
     height: sticker.height,
   };
-  const { x, y, width, height } = toCanvasStickerRect(stickerRect, imageScale);
+  const { x, y, width, height } = toCanvasRect(stickerRect, imageScale);
 
   useEffect(() => {
     const img = new Image();

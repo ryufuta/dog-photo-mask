@@ -1,5 +1,6 @@
 import { Group, Rect, Text } from 'react-konva';
 import type { Face } from '@/face-detection/face-detector.ts';
+import { toCanvasRect } from '@/lib/coordinate.ts';
 
 type Props = {
   face: Face;
@@ -7,10 +8,7 @@ type Props = {
 };
 
 export function CanvasFaceDetection({ face, imageScale }: Props) {
-  const x = face.x * imageScale;
-  const y = face.y * imageScale;
-  const width = face.width * imageScale;
-  const height = face.height * imageScale;
+  const { x, y, width, height } = toCanvasRect(face, imageScale);
 
   return (
     <Group x={x} y={y}>

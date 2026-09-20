@@ -5,15 +5,6 @@ type Rect = {
   height: number;
 };
 
-export function toCanvasStickerRect(stickerRect: Rect, imageScale: number) {
-  return {
-    x: stickerRect.x * imageScale,
-    y: stickerRect.y * imageScale,
-    width: stickerRect.width * imageScale,
-    height: stickerRect.height * imageScale,
-  };
-}
-
 export function toImageStickerPosition(
   canvasStickerPosition: { x: number; y: number },
   imageScale: number,
