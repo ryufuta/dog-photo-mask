@@ -23,7 +23,6 @@ export function ImageEditor() {
       if (import.meta.env.DEV) {
         setState({ type: 'detecting' });
         detectedFaces = await detectFaces(image);
-        console.log(detectedFaces);
       }
       setState({ type: 'editing', image, detectedFaces });
     } catch (error) {
