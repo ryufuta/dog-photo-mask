@@ -92,6 +92,9 @@ test.todo(
 
 test('returns to the upload screen when the reset button is clicked', async () => {
   mockedLoadImage.mockResolvedValue(createTestImage());
+  mockedDetectFaces.mockResolvedValue([
+    { x: 0, y: 0, width: 10, height: 10, score: 0.9 },
+  ]);
 
   const screen = await render(<ImageEditor />);
 
