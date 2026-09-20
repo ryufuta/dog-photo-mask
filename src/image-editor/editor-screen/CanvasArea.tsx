@@ -2,6 +2,7 @@ import { useEffect, useImperativeHandle, useRef } from 'react';
 import { Image as KonvaImage, Layer, Stage, Transformer } from 'react-konva';
 import Konva from 'konva';
 import type { Face } from '@/face-detection/face-detector.ts';
+import type { Rect } from '@/lib/coordinate.ts';
 import { CanvasSticker } from '@/sticker/CanvasSticker.tsx';
 import type { Sticker } from '@/sticker/sticker.ts';
 import { calculateImageLayout } from './calculateImageLayout.ts';
@@ -20,10 +21,7 @@ type Props = {
   selectedStickerId: string | null;
   onSelectSticker: (id: string | null) => void;
   onStickerDragEnd: (id: string, position: { x: number; y: number }) => void;
-  onStickerTransformEnd: (
-    id: string,
-    rect: { x: number; y: number; width: number; height: number },
-  ) => void;
+  onStickerTransformEnd: (id: string, rect: Rect) => void;
 };
 
 export function CanvasArea({

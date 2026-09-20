@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import { Button } from '@/components/Button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
+import type { Rect } from '@/lib/coordinate.ts';
 import { createSticker, type Sticker } from '@/sticker/sticker.ts';
 import { CanvasArea, type CanvasAreaHandle } from './CanvasArea.tsx';
 import { Toolbar } from './Toolbar.tsx';
@@ -72,10 +73,7 @@ export function EditorScreen({ image, detectedFaces, onReset }: Props) {
     );
   }
 
-  function handleStickerTransformEnd(
-    id: string,
-    rect: { x: number; y: number; width: number; height: number },
-  ) {
+  function handleStickerTransformEnd(id: string, rect: Rect) {
     setStickers((stickers) =>
       stickers.map((sticker) =>
         sticker.id === id ? { ...sticker, ...rect } : sticker,
