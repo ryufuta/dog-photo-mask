@@ -5,7 +5,7 @@ import {
 } from '@mediapipe/tasks-vision';
 import modelUrl from '@/assets/models/blaze_face_full_range_sparse.tflite';
 
-type Face = {
+export type Face = {
   x: number;
   y: number;
   width: number;
