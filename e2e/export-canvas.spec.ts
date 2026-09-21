@@ -7,7 +7,7 @@ test('downloads the edited image when the download button is clicked', async ({
 
   await page
     .locator('input[type="file"]')
-    .setInputFiles('e2e/fixtures/dog.jpg');
+    .setInputFiles('src/test-fixtures/00_no_person_one_dog.jpg');
 
   await expect(
     page.getByRole('button', { name: 'ダウンロード' }),
@@ -30,7 +30,7 @@ test('copies the edited image to the clipboard when the copy button is clicked',
 
   await page
     .locator('input[type="file"]')
-    .setInputFiles('e2e/fixtures/dog.jpg');
+    .setInputFiles('src/test-fixtures/00_no_person_one_dog.jpg');
 
   await expect(page.getByRole('button', { name: 'コピー' })).toBeVisible();
 
