@@ -30,12 +30,12 @@ export function createFaceStickers(faceRects: Rect[]): Sticker[] {
     // - スタンプが顔の矩形に内接するよう配置されるためスタンプから顔がはみ出る
     // - 顔の矩形が長方形の場合にスタンプが楕円形に歪められる
     // 問題解決のためスタンプの座標を顔の矩形の外接円の座標にする
-    const stickerSize = Math.round(Math.hypot(width, height));
+    const stickerSize = Math.ceil(Math.hypot(width, height));
 
     return {
       id: crypto.randomUUID(),
-      x: x - Math.round((stickerSize - width) / 2),
-      y: y - Math.round((stickerSize - height) / 2),
+      x: x - (stickerSize - width) / 2,
+      y: y - (stickerSize - height) / 2,
       width: stickerSize,
       height: stickerSize,
     };

@@ -48,4 +48,32 @@ describe('createFaceStickers', () => {
   test('returns an empty array when there are no faces', () => {
     expect(createFaceStickers([])).toEqual([]);
   });
+
+  test('rounds up the sticker size to fully cover the face bounding box', () => {
+    const faces = [{ x: 0, y: 0, width: 100, height: 100 }];
+
+    const [sticker] = createFaceStickers(faces);
+
+    expect(sticker.width).toBe(142);
+    expect(sticker.height).toBe(142);
+  });
+
+  test('aligns the center of the sticker with the center of the face bounding box', () => {
+    const faces = [{ x: 0, y: 0, width: 30, height: 50 }];
+
+    const [sticker] = createFaceStickers(faces);
+
+    expect(sticker.x).toBeCloseTo(-14.5);
+    expect(sticker.y).toBeCloseTo(-4.5);
+    expect(sticker.width).toBe(59);
+    expect(sticker.height).toBe(59);
+
+    const centerOfFace = { x: 15, y: 25 };
+    const centerOfSticker = {
+      x: sticker.width / 2 + sticker.x,
+      y: sticker.height / 2 + sticker.y,
+    };
+
+    expect(centerOfSticker).toEqual(centerOfFace);
+  });
 });
