@@ -4,12 +4,9 @@ import {
   FilesetResolver,
 } from '@mediapipe/tasks-vision';
 import modelUrl from '@/assets/models/blaze_face_full_range_sparse.tflite';
+import type { Rect } from '@/lib/coordinate.ts';
 
-export type Face = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+export type Face = Rect & {
   score: number; // 検出した顔の確信度。デバッグに使用
 };
 

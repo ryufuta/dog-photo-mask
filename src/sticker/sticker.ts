@@ -1,12 +1,8 @@
 import type { Rect } from '@/lib/coordinate.ts';
 
 // アップロードされた元画像を基準とする座標
-export type Sticker = {
+export type Sticker = Rect & {
   id: string; // UUID
-  x: number;
-  y: number;
-  width: number;
-  height: number;
 };
 
 type ImageSize = {
