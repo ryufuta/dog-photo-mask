@@ -2,7 +2,11 @@ import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import { Button } from '@/components/Button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
 import type { Rect } from '@/lib/coordinate.ts';
-import { createSticker, type Sticker } from '@/sticker/sticker.ts';
+import {
+  createFaceStickers,
+  createSticker,
+  type Sticker,
+} from '@/sticker/sticker.ts';
 import { CanvasArea, type CanvasAreaHandle } from './CanvasArea.tsx';
 import { Toolbar } from './Toolbar.tsx';
 
@@ -13,7 +17,9 @@ type Props = {
 };
 
 export function EditorScreen({ image, detectedFaces, onReset }: Props) {
-  const [stickers, setStickers] = useState<Sticker[]>([]);
+  const [stickers, setStickers] = useState<Sticker[]>(() =>
+    createFaceStickers(detectedFaces),
+  );
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
     null,
   );
