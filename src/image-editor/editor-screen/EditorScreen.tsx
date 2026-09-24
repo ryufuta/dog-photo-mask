@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 import { Button } from '@/components/Button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
 import type { Rect } from '@/lib/coordinate.ts';
@@ -7,7 +7,8 @@ import {
   createSticker,
   type Sticker,
 } from '@/sticker/sticker.ts';
-import { CanvasArea, type CanvasAreaHandle } from './CanvasArea.tsx';
+import { CanvasArea } from './CanvasArea.tsx';
+import { copyCanvas, downloadCanvas } from './export-canvas.ts';
 import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
@@ -29,7 +30,6 @@ export function EditorScreen({
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
     null,
   );
-  const canvasAreaRef = useRef<CanvasAreaHandle>(null);
 
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
@@ -40,14 +40,9 @@ export function EditorScreen({
   }
 
   async function handleCopy() {
-    if (!canvasAreaRef.current) return;
-
     try {
-      const blob = await canvasAreaRef.current.exportAsBlob();
-      if (!blob) return;
-
-      const data = [new ClipboardItem({ [blob.type]: blob })];
-      await navigator.clipboard.write(data);
+      await copyCanvas(image, stickerImage, stickers);
+      // TODO: コピー成功をUIに表示
     } catch (error) {
       // TODO: UIに表示するよう変更
       console.error(error);
@@ -55,19 +50,8 @@ export function EditorScreen({
   }
 
   async function handleDownload() {
-    if (!canvasAreaRef.current) return;
-
     try {
-      const blob = await canvasAreaRef.current.exportAsBlob();
-      if (!blob) return;
-
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'dog-photo-mask.png';
-      a.click();
-
-      URL.revokeObjectURL(url);
+      await downloadCanvas(image, stickerImage, stickers);
     } catch (error) {
       // TODO: UIに表示するよう変更
       console.error(error);
@@ -132,7 +116,6 @@ export function EditorScreen({
         <Button onClick={onReset}>リセット</Button>
       </Toolbar>
       <CanvasArea
-        ref={canvasAreaRef}
         image={image}
         stickerImage={stickerImage}
         faces={detectedFaces}
