@@ -12,11 +12,17 @@ import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
   image: HTMLImageElement;
+  stickerImage: HTMLImageElement;
   detectedFaces: Face[];
   onReset: () => void;
 };
 
-export function EditorScreen({ image, detectedFaces, onReset }: Props) {
+export function EditorScreen({
+  image,
+  stickerImage,
+  detectedFaces,
+  onReset,
+}: Props) {
   const [stickers, setStickers] = useState<Sticker[]>(() =>
     createFaceStickers(detectedFaces),
   );
@@ -128,6 +134,7 @@ export function EditorScreen({ image, detectedFaces, onReset }: Props) {
       <CanvasArea
         ref={canvasAreaRef}
         image={image}
+        stickerImage={stickerImage}
         faces={detectedFaces}
         stickers={stickers}
         selectedStickerId={selectedStickerId}

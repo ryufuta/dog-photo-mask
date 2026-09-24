@@ -16,6 +16,7 @@ export type CanvasAreaHandle = {
 type Props = {
   ref: React.Ref<CanvasAreaHandle>;
   image: HTMLImageElement;
+  stickerImage: HTMLImageElement;
   faces: Face[];
   stickers: Sticker[];
   selectedStickerId: string | null;
@@ -27,6 +28,7 @@ type Props = {
 export function CanvasArea({
   ref,
   image,
+  stickerImage,
   faces,
   stickers,
   selectedStickerId,
@@ -125,14 +127,11 @@ export function CanvasArea({
                 const map = stickersRef.current;
                 map.set(sticker.id, node);
 
-                if (sticker.id === selectedStickerId) {
-                  updateTransformer([node]);
-                }
-
                 return () => {
                   map.delete(sticker.id);
                 };
               }}
+              image={stickerImage}
               sticker={sticker}
               imageScale={imageScale}
               onSelect={onSelectSticker}

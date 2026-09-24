@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { LoadingIndicator } from '@/components/LoadingIndicator.tsx';
 import { detectFaces, type Face } from '@/face-detection/face-detector.ts';
 import { loadImage } from '@/lib/utils.ts';
+import { loadStickerImage } from '@/sticker/sticker-image.ts';
 import { EditorScreen } from './editor-screen/EditorScreen.tsx';
 import { UploadScreen } from './upload-screen/UploadScreen.tsx';
 
@@ -9,7 +10,12 @@ type State =
   | { type: 'upload' }
   | { type: 'loading' }
   | { type: 'detecting' }
-  | { type: 'editing'; image: HTMLImageElement; detectedFaces: Face[] };
+  | {
+      type: 'editing';
+      image: HTMLImageElement;
+      stickerImage: HTMLImageElement;
+      detectedFaces: Face[];
+    };
 
 export function ImageEditor() {
   const [state, setState] = useState<State>({ type: 'upload' });
@@ -21,9 +27,12 @@ export function ImageEditor() {
       const image = await loadImage(file);
 
       setState({ type: 'detecting' });
-      const detectedFaces = await detectFaces(image);
+      const [stickerImage, detectedFaces] = await Promise.all([
+        loadStickerImage(),
+        detectFaces(image),
+      ]);
 
-      setState({ type: 'editing', image, detectedFaces });
+      setState({ type: 'editing', image, stickerImage, detectedFaces });
     } catch (error) {
       setState({ type: 'upload' });
       // TODO: UIに表示するよう変更
@@ -59,6 +68,7 @@ export function ImageEditor() {
       return (
         <EditorScreen
           image={state.image}
+          stickerImage={state.stickerImage}
           detectedFaces={state.detectedFaces}
           onReset={() => {
             setState({ type: 'upload' });
