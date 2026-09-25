@@ -8,15 +8,8 @@ type Props = {
 
 export function BackgroundLayer({ image, width, height }: Props) {
   return (
-    <Layer>
-      <KonvaImage
-        name="background-image"
-        image={image}
-        x={0}
-        y={0}
-        width={width}
-        height={height}
-      />
+    <Layer listening={false}>
+      <KonvaImage image={image} x={0} y={0} width={width} height={height} />
     </Layer>
   );
 }

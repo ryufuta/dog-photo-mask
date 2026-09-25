@@ -78,7 +78,7 @@ export function CanvasArea({
         width={displayImageWidth}
         height={displayImageHeight}
         onClick={(e) => {
-          if (e.target.name() === 'background-image') {
+          if (e.target === e.target.getStage()) {
             onSelectSticker(null);
           }
         }}
