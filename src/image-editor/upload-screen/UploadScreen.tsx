@@ -6,21 +6,14 @@ type Props = {
 };
 
 export function UploadScreen({ onUpload }: Props) {
-  const {
-    getRootProps,
-    getInputProps,
-    isDragGlobal,
-    isDragActive,
-    isDragAccept,
-    isDragReject,
-    fileRejections,
-  } = useDropzone({
-    maxFiles: 1,
-    accept: {
-      'image/*': ['.png', '.jpg', '.jpeg'],
-    },
-    onDrop: handleDrop,
-  });
+  const { getRootProps, getInputProps, isDragActive, fileRejections } =
+    useDropzone({
+      maxFiles: 1,
+      accept: {
+        'image/*': ['.png', '.jpg', '.jpeg'],
+      },
+      onDrop: handleDrop,
+    });
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
     <li key={file.name}>
@@ -42,43 +35,23 @@ export function UploadScreen({ onUpload }: Props) {
           className: cn(
             'rounded-lg border-2 border-dashed border-gray-300 p-10 text-center transition-colors',
             {
-              'bg-green-100': isDragAccept,
-              'bg-red-100': isDragReject,
-              'bg-surface': !isDragAccept && !isDragReject,
+              'bg-surface': !isDragActive,
             },
           ),
         })}
       >
         <input {...getInputProps()} />
 
-        {isDragGlobal && !isDragAccept && !isDragReject && (
-          <p>ここにファイルをドロップしてください</p>
-        )}
-
-        {isDragAccept && (
-          <p className="font-bold text-green-500">
-            ✅ ここにファイルをドロップしてください
-          </p>
-        )}
-
-        {isDragReject && (
-          <p className="font-bold text-red-600">
-            ❌ PNG形式またはJPEG形式のファイルを1つだけ選択してください
-          </p>
-        )}
-
-        {!isDragGlobal && !isDragActive && (
-          <p>
-            ここにファイルをドラッグ&ドロップするか,
-            クリックしてファイルを選択してください
-          </p>
-        )}
+        <p>
+          ここにファイルをドラッグ&ドロップするか,
+          クリックしてファイルを選択してください
+        </p>
       </div>
 
       {rejectedItems.length > 0 && (
         <div>
           <p className="font-bold text-red-600">
-            ファイルを読み込めませんでした
+            ファイルを読み込めませんでした。PNG形式またはJPEG形式のファイルを1つだけ選択してください。
           </p>
           <ul>{rejectedItems}</ul>
         </div>
