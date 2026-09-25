@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import { Layer, Transformer } from 'react-konva';
 import Konva from 'konva';
 import type { Rect } from '@/lib/coordinate.ts';
-import { CanvasSticker } from '@/sticker/CanvasSticker.tsx';
 import type { Sticker } from '@/sticker/sticker.ts';
+import { CanvasSticker } from './CanvasSticker.tsx';
 
 type Props = {
   image: HTMLImageElement;

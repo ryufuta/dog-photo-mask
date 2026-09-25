@@ -6,7 +6,7 @@ import {
   toImagePosition,
   toImageRect,
 } from '@/lib/coordinate.ts';
-import type { Sticker } from './sticker.ts';
+import type { Sticker } from '@/sticker/sticker.ts';
 
 type Props = {
   ref: (node: Konva.Image) => () => void;
