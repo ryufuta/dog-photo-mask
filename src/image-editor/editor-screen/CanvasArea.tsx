@@ -1,12 +1,11 @@
-import { useEffect, useRef } from 'react';
-import { Image as KonvaImage, Layer, Stage, Transformer } from 'react-konva';
-import Konva from 'konva';
+import { Stage } from 'react-konva';
 import type { Face } from '@/face-detection/face-detector.ts';
 import type { Rect } from '@/lib/coordinate.ts';
-import { CanvasSticker } from '@/sticker/CanvasSticker.tsx';
 import type { Sticker } from '@/sticker/sticker.ts';
+import { BackgroundLayer } from './BackgroundLayer.tsx';
 import { calculateImageLayout } from './calculateImageLayout.ts';
 import { DebugOverlay } from './DebugOverlay.tsx';
+import { StickersLayer } from './StickersLayer.tsx';
 import { useElementSize } from './useElementSize.ts';
 
 type Props = {
@@ -30,8 +29,6 @@ export function CanvasArea({
   onStickerDragEnd,
   onStickerTransformEnd,
 }: Props) {
-  const transformerRef = useRef<Konva.Transformer>(null);
-  const stickersRef = useRef<Map<string, Konva.Image>>(new Map());
   const [setRef, size] = useElementSize<HTMLDivElement>();
 
   const containerWidth = size.width;
@@ -49,25 +46,6 @@ export function CanvasArea({
   const displayImageHeight = imageLayout.height;
   const imageScale = imageLayout.scale;
 
-  function updateTransformer(nodes: Konva.Image[]) {
-    const transformer = transformerRef.current;
-    if (!transformer) return;
-
-    transformer.nodes(nodes);
-  }
-
-  useEffect(() => {
-    const map = stickersRef.current;
-    let nodes: Konva.Image[] = [];
-    if (selectedStickerId) {
-      const node = map.get(selectedStickerId);
-      if (node) {
-        nodes = [node];
-      }
-    }
-    updateTransformer(nodes);
-  }, [selectedStickerId]);
-
   return (
     <div
       ref={setRef}
@@ -77,56 +55,25 @@ export function CanvasArea({
         width={displayImageWidth}
         height={displayImageHeight}
         onClick={(e) => {
-          if (e.target.name() === 'background-image') {
+          if (e.target === e.target.getStage()) {
             onSelectSticker(null);
           }
         }}
       >
-        <Layer>
-          <KonvaImage
-            name="background-image"
-            image={image}
-            x={0}
-            y={0}
-            width={displayImageWidth}
-            height={displayImageHeight}
-          />
-          {stickers.map((sticker) => (
-            <CanvasSticker
-              key={sticker.id}
-              ref={(node: Konva.Image) => {
-                const map = stickersRef.current;
-                map.set(sticker.id, node);
-
-                return () => {
-                  map.delete(sticker.id);
-                };
-              }}
-              image={stickerImage}
-              sticker={sticker}
-              imageScale={imageScale}
-              onSelect={onSelectSticker}
-              onDragEnd={(position) => {
-                onStickerDragEnd(sticker.id, position);
-              }}
-              onTransformEnd={(rect) => {
-                onStickerTransformEnd(sticker.id, rect);
-              }}
-            />
-          ))}
-          <Transformer
-            ref={transformerRef}
-            rotateEnabled={false}
-            anchorSize={8}
-            keepRatio
-            enabledAnchors={[
-              'top-left',
-              'top-right',
-              'bottom-left',
-              'bottom-right',
-            ]}
-          />
-        </Layer>
+        <BackgroundLayer
+          image={image}
+          width={displayImageWidth}
+          height={displayImageHeight}
+        />
+        <StickersLayer
+          image={stickerImage}
+          stickers={stickers}
+          imageScale={imageScale}
+          selectedStickerId={selectedStickerId}
+          onSelectSticker={onSelectSticker}
+          onStickerDragEnd={onStickerDragEnd}
+          onStickerTransformEnd={onStickerTransformEnd}
+        />
 
         {import.meta.env.DEV && (
           <DebugOverlay faces={faces} imageScale={imageScale} />
