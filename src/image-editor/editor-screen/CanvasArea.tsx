@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { Image as KonvaImage, Layer, Stage, Transformer } from 'react-konva';
+import { Layer, Stage, Transformer } from 'react-konva';
 import Konva from 'konva';
 import type { Face } from '@/face-detection/face-detector.ts';
 import type { Rect } from '@/lib/coordinate.ts';
 import { CanvasSticker } from '@/sticker/CanvasSticker.tsx';
 import type { Sticker } from '@/sticker/sticker.ts';
+import { BackgroundLayer } from './BackgroundLayer.tsx';
 import { calculateImageLayout } from './calculateImageLayout.ts';
 import { DebugOverlay } from './DebugOverlay.tsx';
 import { useElementSize } from './useElementSize.ts';
@@ -82,15 +83,12 @@ export function CanvasArea({
           }
         }}
       >
+        <BackgroundLayer
+          image={image}
+          width={displayImageWidth}
+          height={displayImageHeight}
+        />
         <Layer>
-          <KonvaImage
-            name="background-image"
-            image={image}
-            x={0}
-            y={0}
-            width={displayImageWidth}
-            height={displayImageHeight}
-          />
           {stickers.map((sticker) => (
             <CanvasSticker
               key={sticker.id}
