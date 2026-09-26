@@ -15,7 +15,7 @@ export function UploadScreen({ onUpload }: Props) {
   } = useDropzone({
     maxFiles: 1,
     accept: {
-      'image/*': ['.png', '.jpg', '.jpeg'],
+      'image/*': [],
     },
     onDrop: handleDrop,
   });
@@ -59,7 +59,7 @@ export function UploadScreen({ onUpload }: Props) {
       {rejectedItems.length > 0 && (
         <div>
           <p className="font-bold text-red-600">
-            ファイルを読み込めませんでした。PNG形式またはJPEG形式のファイルを1つだけ選択してください。
+            ファイルを読み込めませんでした。画像ファイルを1つだけ選択してください。
           </p>
           <ul>{rejectedItems}</ul>
         </div>
