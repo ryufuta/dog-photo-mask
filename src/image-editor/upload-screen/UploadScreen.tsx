@@ -22,8 +22,8 @@ export function UploadScreen({ onUpload }: Props) {
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
     <li key={`${file.name}-${file.size}`}>
-      {file.name}
-      <ul>
+      <span className="font-medium">{file.name}</span>
+      <ul className="mt-1 list-inside list-disc">
         {errors.map((error) => (
           <li key={error.code}>{getRejectionMessage(error.code)}</li>
         ))}
@@ -62,11 +62,13 @@ export function UploadScreen({ onUpload }: Props) {
       </div>
 
       {rejectedItems.length > 0 && (
-        <div>
-          <p className="font-bold text-red-600">
-            ファイルをアップロードできませんでした。画像ファイルを1枚だけ選択してください。
-          </p>
-          <ul>{rejectedItems}</ul>
+        <div
+          aria-live="polite"
+          className="mt-4 rounded-lg border border-danger-border bg-danger-surface p-4 text-sm text-danger-foreground"
+        >
+          <p className="font-bold">ファイルをアップロードできませんでした</p>
+          <p className="mt-1">画像ファイルを1枚だけ選択してください。</p>
+          <ul className="mt-3 space-y-2">{rejectedItems}</ul>
         </div>
       )}
     </section>
