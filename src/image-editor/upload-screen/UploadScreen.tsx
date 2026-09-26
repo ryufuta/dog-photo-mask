@@ -22,7 +22,12 @@ export function UploadScreen({ onUpload }: Props) {
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
     <li key={file.name}>
-      {file.name}: {errors.map((e) => e.code).join(',')}
+      {file.name}
+      <ul>
+        {errors.map((error) => (
+          <li key={error.code}>{getRejectionMessage(error.code)}</li>
+        ))}
+      </ul>
     </li>
   ));
 
@@ -59,11 +64,22 @@ export function UploadScreen({ onUpload }: Props) {
       {rejectedItems.length > 0 && (
         <div>
           <p className="font-bold text-red-600">
-            ファイルを読み込めませんでした。画像ファイルを1つだけ選択してください。
+            ファイルをアップロードできませんでした。画像ファイルを1枚だけ選択してください。
           </p>
           <ul>{rejectedItems}</ul>
         </div>
       )}
     </section>
   );
+}
+
+function getRejectionMessage(code: string) {
+  switch (code) {
+    case 'file-invalid-type':
+      return '画像ファイルとして認識できませんでした。別の画像を選択してください。';
+    case 'too-many-files':
+      return '一度にアップロードできるファイルは1枚までです。';
+    default:
+      return 'このファイルは使用できません。';
+  }
 }
