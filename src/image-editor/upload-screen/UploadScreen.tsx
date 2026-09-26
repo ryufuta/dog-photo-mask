@@ -38,7 +38,7 @@ export function UploadScreen({ onUpload }: Props) {
       <div
         {...getRootProps({
           className: cn(
-            'rounded-lg border-2 border-dashed p-10 text-center transition-colors',
+            'cursor-pointer rounded-lg border-2 border-dashed p-10 text-center transition-colors',
             {
               'border-border-muted bg-surface hover:border-border-hover hover:bg-surface-hover':
                 !isFocused && !isDragActive,
