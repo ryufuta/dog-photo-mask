@@ -32,10 +32,9 @@ export function UploadScreen({ onUpload }: Props) {
   ));
 
   function handleDrop(acceptedFiles: File[]) {
-    if (acceptedFiles.length === 0) return;
-
-    const file = acceptedFiles[0];
-    onUpload(file);
+    if (acceptedFiles.length === 1) {
+      onUpload(acceptedFiles[0]);
+    }
   }
 
   return (
@@ -64,7 +63,7 @@ export function UploadScreen({ onUpload }: Props) {
       {rejectedItems.length > 0 && (
         <div
           aria-live="polite"
-          className="mt-4 rounded-lg border border-danger-border bg-danger-surface p-4 text-sm text-danger-foreground"
+          className="border-danger-border bg-danger-surface text-danger-foreground mt-4 rounded-lg border p-4 text-sm"
         >
           <p className="font-bold">ファイルをアップロードできませんでした</p>
           <p className="mt-1">画像ファイルを1枚だけ選択してください。</p>
