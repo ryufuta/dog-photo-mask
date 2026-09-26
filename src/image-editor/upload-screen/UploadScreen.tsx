@@ -1,4 +1,4 @@
-import { useDropzone } from 'react-dropzone';
+import { type FileRejection, useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/cn.ts';
 
 type Props = {
@@ -31,8 +31,8 @@ export function UploadScreen({ onUpload }: Props) {
     </li>
   ));
 
-  function handleDrop(acceptedFiles: File[]) {
-    if (acceptedFiles.length === 1) {
+  function handleDrop(acceptedFiles: File[], fileRejections: FileRejection[]) {
+    if (acceptedFiles.length === 1 && fileRejections.length === 0) {
       onUpload(acceptedFiles[0]);
     }
   }
