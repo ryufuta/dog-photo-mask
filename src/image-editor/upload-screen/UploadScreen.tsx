@@ -21,7 +21,7 @@ export function UploadScreen({ onUpload }: Props) {
   });
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
-    <li key={file.name}>
+    <li key={`${file.name}-${file.size}`}>
       {file.name}
       <ul>
         {errors.map((error) => (
