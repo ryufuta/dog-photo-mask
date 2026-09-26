@@ -6,14 +6,19 @@ type Props = {
 };
 
 export function UploadScreen({ onUpload }: Props) {
-  const { getRootProps, getInputProps, isDragActive, fileRejections } =
-    useDropzone({
-      maxFiles: 1,
-      accept: {
-        'image/*': ['.png', '.jpg', '.jpeg'],
-      },
-      onDrop: handleDrop,
-    });
+  const {
+    getRootProps,
+    getInputProps,
+    isFocused,
+    isDragActive,
+    fileRejections,
+  } = useDropzone({
+    maxFiles: 1,
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg'],
+    },
+    onDrop: handleDrop,
+  });
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
     <li key={file.name}>
@@ -33,9 +38,12 @@ export function UploadScreen({ onUpload }: Props) {
       <div
         {...getRootProps({
           className: cn(
-            'rounded-lg border-2 border-dashed border-gray-300 p-10 text-center transition-colors',
+            'rounded-lg border-2 border-dashed p-10 text-center transition-colors',
             {
-              'bg-surface': !isDragActive,
+              'border-border-muted bg-surface hover:border-border-hover hover:bg-surface-hover':
+                !isFocused && !isDragActive,
+              'border-border-active bg-surface-active shadow-inner ring-4 ring-ring':
+                isFocused || isDragActive,
             },
           ),
         })}
