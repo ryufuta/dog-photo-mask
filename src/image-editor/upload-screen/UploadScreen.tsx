@@ -15,7 +15,8 @@ export function UploadScreen({ onUpload }: Props) {
   } = useDropzone({
     maxFiles: 1,
     accept: {
-      'image/*': [],
+      'image/png': [],
+      'image/jpeg': [],
     },
     onDrop: handleDrop,
   });
@@ -67,7 +68,9 @@ export function UploadScreen({ onUpload }: Props) {
           className="border-danger-border bg-danger-surface text-danger-foreground mt-4 rounded-lg border p-4 text-sm"
         >
           <p className="font-bold">ファイルをアップロードできませんでした</p>
-          <p className="mt-1">画像ファイルを1枚だけ選択してください。</p>
+          <p className="mt-1">
+            PNG形式またはJPEG形式のファイルを1枚だけ選択してください。
+          </p>
           <ul className="mt-3 space-y-2">{rejectedItems}</ul>
         </div>
       )}
@@ -78,7 +81,7 @@ export function UploadScreen({ onUpload }: Props) {
 function getRejectionMessage(code: string) {
   switch (code) {
     case 'file-invalid-type':
-      return '画像ファイルとして認識できませんでした。別の画像を選択してください。';
+      return 'PNG形式またはJPEG形式のファイルとして認識できませんでした。別の画像を選択してください。';
     case 'too-many-files':
       return '一度にアップロードできるファイルは1枚までです。';
     default:

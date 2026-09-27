@@ -1,7 +1,7 @@
 import { render } from 'vitest-browser-react';
 import { UploadScreen } from './UploadScreen.tsx';
 
-test('accepts an image file', async () => {
+test('accepts a PNG file', async () => {
   const onUpload = vi.fn();
 
   const screen = await render(<UploadScreen onUpload={onUpload} />);
@@ -15,14 +15,25 @@ test('accepts an image file', async () => {
   // expect(onUpload).toHaveBeenCalledWith(file);
 });
 
-test('rejects multiple image files', async () => {
+test('accepts a JPEG file', async () => {
+  const onUpload = vi.fn();
+
+  const screen = await render(<UploadScreen onUpload={onUpload} />);
+
+  const imageFile = createTestFile('dummy.jpg', 'image/jpeg');
+  await screen.getByRole('button').upload(imageFile);
+
+  expect(onUpload).toHaveBeenCalledOnce();
+});
+
+test('rejects multiple PNG/JPEG files', async () => {
   const onUpload = vi.fn();
 
   const screen = await render(<UploadScreen onUpload={onUpload} />);
 
   const imageFiles = [
-    createTestFile('dummy1.png'),
-    createTestFile('dummy2.png'),
+    createTestFile(),
+    createTestFile('dummy.jpg', 'image/jpeg'),
   ];
   await screen.getByRole('button').upload(imageFiles);
 
@@ -36,25 +47,25 @@ test('rejects multiple image files', async () => {
   expect(onUpload).not.toHaveBeenCalled();
 });
 
-test('rejects a non-image file', async () => {
+test('rejects a non-PNG/JPEG file', async () => {
   const onUpload = vi.fn();
 
   const screen = await render(<UploadScreen onUpload={onUpload} />);
 
-  const file = createTestFile('dummy.txt', 'text/plain');
+  const file = createTestFile('dummy.tiff', 'image/tiff');
   await screen.getByRole('button').upload(file);
 
   await expect
     .element(
       screen.getByText(
-        '画像ファイルとして認識できませんでした。別の画像を選択してください。',
+        'PNG形式またはJPEG形式のファイルとして認識できませんでした。別の画像を選択してください。',
       ),
     )
     .toBeVisible();
   expect(onUpload).not.toHaveBeenCalled();
 });
 
-test('rejects an image file and a non-image file when they are selected at the same time', async () => {
+test('rejects a PNG file and a non-PNG/JPEG file when they are selected at the same time', async () => {
   const onUpload = vi.fn();
 
   const screen = await render(<UploadScreen onUpload={onUpload} />);
@@ -65,14 +76,14 @@ test('rejects an image file and a non-image file when they are selected at the s
   await expect
     .element(
       screen.getByText(
-        '画像ファイルとして認識できませんでした。別の画像を選択してください。',
+        'PNG形式またはJPEG形式のファイルとして認識できませんでした。別の画像を選択してください。',
       ),
     )
     .toBeVisible();
   expect(onUpload).not.toHaveBeenCalled();
 });
 
-test('accepts an image file when it is dropped', async () => {
+test('accepts a PNG or JPEG file when it is dropped', async () => {
   const onUpload = vi.fn();
 
   const screen = await render(<UploadScreen onUpload={onUpload} />);
