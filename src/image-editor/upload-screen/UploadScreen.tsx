@@ -41,6 +41,7 @@ export function UploadScreen({ onUpload }: Props) {
     <section className="min-h-svh p-5">
       <div
         {...getRootProps({
+          'aria-label': 'ファイルのドロップエリア',
           className: cn(
             'cursor-pointer rounded-lg border-2 border-dashed p-10 text-center transition-colors',
             {

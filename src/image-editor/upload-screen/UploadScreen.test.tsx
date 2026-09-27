@@ -72,6 +72,29 @@ test('rejects an image file and a non-image file when they are selected at the s
   expect(onUpload).not.toHaveBeenCalled();
 });
 
+test('accepts an image file when it is dropped', async () => {
+  const onUpload = vi.fn();
+
+  const screen = await render(<UploadScreen onUpload={onUpload} />);
+
+  const file = createTestFile();
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+
+  const dropzone = screen.getByLabelText('ファイルのドロップエリア').element();
+  dropzone.dispatchEvent(
+    new DragEvent('drop', {
+      bubbles: true,
+      cancelable: true,
+      dataTransfer,
+    }),
+  );
+
+  await vi.waitFor(() => {
+    expect(onUpload).toHaveBeenCalledExactlyOnceWith(file);
+  });
+});
+
 function createTestFile(
   fileName: string = 'dummy.png',
   type: string = 'image/png',
