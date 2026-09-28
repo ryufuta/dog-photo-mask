@@ -4,6 +4,15 @@
   --color-background: var(--color-zinc-100);
   --color-surface: var(--color-white);
   --color-foreground: var(--color-zinc-900);
+  --color-border-muted: var(--color-zinc-300);
+  --color-border-hover: var(--color-zinc-400);
+  --color-border-active: var(--color-zinc-500);
+  --color-surface-hover: var(--color-zinc-50);
+  --color-surface-active: var(--color-zinc-100);
+  --color-ring: var(--color-zinc-500);
+  --color-danger-border: var(--color-red-200);
+  --color-danger-surface: var(--color-red-50);
+  --color-danger-foreground: var(--color-red-900);
 }
 
 :root {
@@ -17,5 +26,14 @@
     --color-background: var(--color-zinc-950);
     --color-surface: var(--color-zinc-900);
     --color-foreground: var(--color-zinc-100);
+    --color-border-muted: var(--color-zinc-700);
+    --color-border-hover: var(--color-zinc-600);
+    --color-border-active: var(--color-zinc-400);
+    --color-surface-hover: var(--color-zinc-800);
+    --color-surface-active: var(--color-zinc-800);
+    --color-ring: var(--color-zinc-400);
+    --color-danger-border: var(--color-red-900);
+    --color-danger-surface: var(--color-red-950);
+    --color-danger-foreground: var(--color-red-100);
   }
 }

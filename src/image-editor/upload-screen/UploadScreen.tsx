@@ -1,4 +1,4 @@
-import { useDropzone } from 'react-dropzone';
+import { type FileRejection, useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/cn.ts';
 
 type Props = {
@@ -9,80 +9,81 @@ export function UploadScreen({ onUpload }: Props) {
   const {
     getRootProps,
     getInputProps,
-    isDragGlobal,
+    isFocused,
     isDragActive,
-    isDragAccept,
-    isDragReject,
     fileRejections,
   } = useDropzone({
     maxFiles: 1,
     accept: {
-      'image/*': ['.png', '.jpg', '.jpeg'],
+      'image/png': [],
+      'image/jpeg': [],
     },
     onDrop: handleDrop,
   });
 
   const rejectedItems = fileRejections.map(({ file, errors }) => (
-    <li key={file.name}>
-      {file.name}: {errors.map((e) => e.code).join(',')}
+    <li key={`${file.name}-${file.size}`}>
+      <span className="font-medium">{file.name}</span>
+      <ul className="mt-1 list-inside list-disc">
+        {errors.map((error) => (
+          <li key={error.code}>{getRejectionMessage(error.code)}</li>
+        ))}
+      </ul>
     </li>
   ));
 
-  function handleDrop(acceptedFiles: File[]) {
-    if (acceptedFiles.length === 0) return;
-
-    const file = acceptedFiles[0];
-    onUpload(file);
+  function handleDrop(acceptedFiles: File[], fileRejections: FileRejection[]) {
+    if (acceptedFiles.length === 1 && fileRejections.length === 0) {
+      onUpload(acceptedFiles[0]);
+    }
   }
 
   return (
     <section className="min-h-svh p-5">
       <div
         {...getRootProps({
+          'aria-label': 'ファイルのドロップエリア',
           className: cn(
-            'rounded-lg border-2 border-dashed border-gray-300 p-10 text-center transition-colors',
+            'cursor-pointer rounded-lg border-2 border-dashed p-10 text-center transition-colors',
             {
-              'bg-green-100': isDragAccept,
-              'bg-red-100': isDragReject,
-              'bg-surface': !isDragAccept && !isDragReject,
+              'border-border-muted bg-surface hover:border-border-hover hover:bg-surface-hover':
+                !isFocused && !isDragActive,
+              'border-border-active bg-surface-active shadow-inner ring-4 ring-ring':
+                isFocused || isDragActive,
             },
           ),
         })}
       >
         <input {...getInputProps()} />
 
-        {isDragGlobal && !isDragAccept && !isDragReject && (
-          <p>ここにファイルをドロップしてください</p>
-        )}
-
-        {isDragAccept && (
-          <p className="font-bold text-green-500">
-            ✅ ここにファイルをドロップしてください
-          </p>
-        )}
-
-        {isDragReject && (
-          <p className="font-bold text-red-600">
-            ❌ PNG形式またはJPEG形式のファイルを1つだけ選択してください
-          </p>
-        )}
-
-        {!isDragGlobal && !isDragActive && (
-          <p>
-            ここにファイルをドラッグ&ドロップするか,
-            クリックしてファイルを選択してください
-          </p>
-        )}
+        <p>
+          ここにファイルをドラッグ&ドロップするか,
+          クリックしてファイルを選択してください
+        </p>
       </div>
 
-      {rejectedItems.length > 0 && (
-        <div>
-          <p className="font-bold text-red-600">
-            ファイルを読み込めませんでした
-          </p>
-          <ul>{rejectedItems}</ul>
-        </div>
-      )}
+      <div aria-live="polite">
+        {rejectedItems.length > 0 && (
+          <div className="border-danger-border bg-danger-surface text-danger-foreground mt-4 rounded-lg border p-4 text-sm">
+            <p className="font-bold">ファイルをアップロードできませんでした</p>
+            <p className="mt-1">
+              PNG形式またはJPEG形式のファイルを1枚だけ選択してください。
+            </p>
+            <ul className="mt-3 space-y-2">{rejectedItems}</ul>
+          </div>
+        )}
+      </div>
     </section>
   );
+}
+
+function getRejectionMessage(code: string) {
+  switch (code) {
+    case 'file-invalid-type':
+      return 'PNG形式またはJPEG形式のファイルとして認識できませんでした。別の画像を選択してください。';
+    case 'too-many-files':
+      return '一度にアップロードできるファイルは1枚までです。';
+    default:
+      return 'このファイルは使用できません。';
+  }
 }
