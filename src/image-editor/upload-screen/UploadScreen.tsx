@@ -62,18 +62,17 @@ export function UploadScreen({ onUpload }: Props) {
         </p>
       </div>
 
-      {rejectedItems.length > 0 && (
-        <div
-          aria-live="polite"
-          className="border-danger-border bg-danger-surface text-danger-foreground mt-4 rounded-lg border p-4 text-sm"
-        >
-          <p className="font-bold">ファイルをアップロードできませんでした</p>
-          <p className="mt-1">
-            PNG形式またはJPEG形式のファイルを1枚だけ選択してください。
-          </p>
-          <ul className="mt-3 space-y-2">{rejectedItems}</ul>
-        </div>
-      )}
+      <div aria-live="polite">
+        {rejectedItems.length > 0 && (
+          <div className="border-danger-border bg-danger-surface text-danger-foreground mt-4 rounded-lg border p-4 text-sm">
+            <p className="font-bold">ファイルをアップロードできませんでした</p>
+            <p className="mt-1">
+              PNG形式またはJPEG形式のファイルを1枚だけ選択してください。
+            </p>
+            <ul className="mt-3 space-y-2">{rejectedItems}</ul>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
