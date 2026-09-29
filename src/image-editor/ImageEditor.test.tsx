@@ -1,3 +1,4 @@
+import { toast, Toaster } from 'sonner';
 import { render } from 'vitest-browser-react';
 import { detectFaces } from '@/face-detection/face-detector.ts';
 import { loadImage } from '@/lib/utils.ts';
@@ -58,32 +59,47 @@ test('shows the editor screen after face detection is completed', async () => {
     { x: 0, y: 0, width: 10, height: 10, score: 0.9 },
   ]);
 
-  const screen = await render(<ImageEditor />);
+  const screen = await render(
+    <>
+      <Toaster position="top-right" />
+      <ImageEditor />
+    </>,
+  );
 
   const file = new File([], 'dummy.png', { type: 'image/png' });
 
   await screen.getByRole('button').upload(file);
 
   await expect.element(screen.getByText('スタンプ追加')).toBeVisible();
+  await expect
+    .element(screen.getByText('顔を検出できませんでした'))
+    .not.toBeInTheDocument();
+
+  toast.dismiss();
 });
 
-// TODO: 顔未検出の警告メッセージを表示する機能を追加時にこのテストを修正
-test.todo(
-  'shows the editor screen with a warning message when no face is detected',
-  async () => {
-    mockedLoadImage.mockResolvedValue(createTestImage());
-    mockedDetectFaces.mockResolvedValue([]);
+test('shows the editor screen with a warning message when no face is detected', async () => {
+  mockedLoadImage.mockResolvedValue(createTestImage());
+  mockedDetectFaces.mockResolvedValue([]);
 
-    const screen = await render(<ImageEditor />);
+  const screen = await render(
+    <>
+      <Toaster position="top-right" />
+      <ImageEditor />
+    </>,
+  );
 
-    const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = new File([], 'dummy.png', { type: 'image/png' });
 
-    await screen.getByRole('button').upload(file);
+  await screen.getByRole('button').upload(file);
 
-    await expect.element(screen.getByText('スタンプ追加')).toBeVisible();
-    // TODO: 警告メッセージの表示を検証
-  },
-);
+  await expect.element(screen.getByText('スタンプ追加')).toBeVisible();
+  await expect
+    .element(screen.getByText('顔を検出できませんでした'))
+    .toBeVisible();
+
+  toast.dismiss();
+});
 
 test('returns to the upload screen when the reset button is clicked', async () => {
   mockedLoadImage.mockResolvedValue(createTestImage());

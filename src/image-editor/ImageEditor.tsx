@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { LoadingIndicator } from '@/components/LoadingIndicator.tsx';
 import { detectFaces, type Face } from '@/face-detection/face-detector.ts';
 import { loadImage } from '@/lib/utils.ts';
@@ -33,6 +34,9 @@ export function ImageEditor() {
       ]);
 
       setState({ type: 'editing', image, stickerImage, detectedFaces });
+      if (detectedFaces.length === 0) {
+        toast.warning('顔を検出できませんでした');
+      }
     } catch (error) {
       setState({ type: 'upload' });
       // TODO: UIに表示するよう変更
