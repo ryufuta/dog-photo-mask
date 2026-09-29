@@ -44,9 +44,8 @@ export function EditorScreen({
     try {
       await copyCanvas(image, stickerImage, stickers);
       toast.success('画像をコピーしました');
-    } catch (error) {
-      // TODO: UIに表示するよう変更
-      console.error(error);
+    } catch {
+      toast.error('画像のコピーに失敗しました');
     }
   }
 
