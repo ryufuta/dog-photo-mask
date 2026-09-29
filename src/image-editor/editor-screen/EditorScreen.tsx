@@ -52,9 +52,8 @@ export function EditorScreen({
   async function handleDownload() {
     try {
       await downloadCanvas(image, stickerImage, stickers);
-    } catch (error) {
-      // TODO: UIに表示するよう変更
-      console.error(error);
+    } catch {
+      toast.error('画像のダウンロードに失敗しました');
     }
   }
 
