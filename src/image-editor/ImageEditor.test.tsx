@@ -13,11 +13,6 @@ vi.mock(import('@/face-detection/face-detector.ts'), () => ({
 const mockedLoadImage = vi.mocked(loadImage);
 const mockedDetectFaces = vi.mocked(detectFaces);
 
-beforeEach(() => {
-  mockedLoadImage.mockReset();
-  mockedDetectFaces.mockReset();
-});
-
 test('shows the upload screen initially', async () => {
   const screen = await render(<ImageEditor />);
 
