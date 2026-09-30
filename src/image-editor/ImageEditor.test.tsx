@@ -4,14 +4,14 @@ import { detectFaces } from '@/face-detection/face-detector.ts';
 import { ImageLoadError, loadImage } from '@/lib/utils.ts';
 import { ImageEditor } from './ImageEditor.tsx';
 
-vi.mock(import('@/lib/utils.ts'), async (importOriginal) => {
+vi.mock(import('../lib/utils.ts'), async (importOriginal) => {
   const mod = await importOriginal();
   return {
     ...mod,
     loadImage: vi.fn(),
   };
 });
-vi.mock(import('@/face-detection/face-detector.ts'), () => ({
+vi.mock(import('../face-detection/face-detector.ts'), () => ({
   detectFaces: vi.fn(),
 }));
 
