@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { LoadingIndicator } from '@/components/LoadingIndicator.tsx';
 import { detectFaces, type Face } from '@/face-detection/face-detector.ts';
-import { loadImage } from '@/lib/utils.ts';
+import { ImageLoadError, loadImage } from '@/lib/utils.ts';
 import { loadStickerImage } from '@/sticker/sticker-image.ts';
 import { EditorScreen } from './editor-screen/EditorScreen.tsx';
 import { UploadScreen } from './upload-screen/UploadScreen.tsx';
@@ -39,8 +39,14 @@ export function ImageEditor() {
       }
     } catch (error) {
       setState({ type: 'upload' });
-      // TODO: UIに表示するよう変更
-      console.error(error);
+      if (error instanceof ImageLoadError) {
+        toast.error('画像を読み込めませんでした', {
+          description:
+            'ファイルが壊れている可能性があります。もう一度お試しいただくか、別の画像を選択してください。',
+        });
+      } else {
+        console.error(error);
+      }
     }
   }
 

@@ -1,12 +1,16 @@
 import { toast, Toaster } from 'sonner';
 import { render } from 'vitest-browser-react';
 import { detectFaces } from '@/face-detection/face-detector.ts';
-import { loadImage } from '@/lib/utils.ts';
+import { ImageLoadError, loadImage } from '@/lib/utils.ts';
 import { ImageEditor } from './ImageEditor.tsx';
 
-vi.mock(import('@/lib/utils.ts'), () => ({
-  loadImage: vi.fn(),
-}));
+vi.mock(import('@/lib/utils.ts'), async (importOriginal) => {
+  const mod = await importOriginal();
+  return {
+    ...mod,
+    loadImage: vi.fn(),
+  };
+});
 vi.mock(import('@/face-detection/face-detector.ts'), () => ({
   detectFaces: vi.fn(),
 }));
@@ -124,15 +128,19 @@ test('returns to the upload screen when the reset button is clicked', async () =
 });
 
 test('returns to the upload screen when image loading fails', async () => {
-  mockedLoadImage.mockRejectedValue(new Error('Failed to load image'));
+  mockedLoadImage.mockRejectedValue(new ImageLoadError('dummy.png'));
 
-  const screen = await render(<ImageEditor />);
+  const screen = await render(
+    <>
+      <Toaster position="top-right" />
+      <ImageEditor />
+    </>,
+  );
 
   const file = new File([], 'dummy.png', { type: 'image/png' });
 
   await screen.getByRole('button').upload(file);
 
-  // TODO: エラーメッセージをUIに表示する機能を追加時にそのメッセージの表示も検証する
   await expect
     .element(
       screen.getByText(
@@ -140,6 +148,11 @@ test('returns to the upload screen when image loading fails', async () => {
       ),
     )
     .toBeVisible();
+  await expect
+    .element(screen.getByText('画像を読み込めませんでした'))
+    .toBeVisible();
+
+  toast.dismiss();
 });
 
 function createTestImage() {
