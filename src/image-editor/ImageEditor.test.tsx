@@ -37,7 +37,7 @@ test('shows the loading screen after an image is uploaded', async () => {
 
   const screen = await render(<ImageEditor />);
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
@@ -50,7 +50,7 @@ test('shows the face detection screen after the image is loaded', async () => {
 
   const screen = await render(<ImageEditor />);
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
@@ -70,7 +70,7 @@ test('shows the editor screen after face detection is completed', async () => {
     </>,
   );
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
@@ -93,7 +93,7 @@ test('shows the editor screen with a warning message when no face is detected', 
     </>,
   );
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
@@ -113,7 +113,7 @@ test('returns to the upload screen when the reset button is clicked', async () =
 
   const screen = await render(<ImageEditor />);
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
   await screen.getByRole('button', { name: 'リセット' }).click();
@@ -137,7 +137,7 @@ test('returns to the upload screen when image loading fails', async () => {
     </>,
   );
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
@@ -168,7 +168,7 @@ test('returns to the upload screen when face detection fails', async () => {
     </>,
   );
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
@@ -195,4 +195,8 @@ function createTestImage() {
   });
 
   return image;
+}
+
+function createTestImageFile() {
+  return new File([], 'dummy.png', { type: 'image/png' });
 }
