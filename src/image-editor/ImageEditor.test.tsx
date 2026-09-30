@@ -3,6 +3,7 @@ import { render } from 'vitest-browser-react';
 import { detectFaces } from '@/face-detection/face-detector.ts';
 import { ImageLoadError, loadImage } from '@/lib/utils.ts';
 import { ImageEditor } from './ImageEditor.tsx';
+import { createTestImage } from './test-utils.ts';
 
 vi.mock(import('../lib/utils.ts'), async (importOriginal) => {
   const mod = await importOriginal();
@@ -185,17 +186,6 @@ test('returns to the upload screen when face detection fails', async () => {
 
   toast.dismiss();
 });
-
-function createTestImage() {
-  const image = new Image();
-
-  Object.defineProperties(image, {
-    naturalWidth: { value: 100 },
-    naturalHeight: { value: 100 },
-  });
-
-  return image;
-}
 
 function createTestImageFile() {
   return new File([], 'dummy.png', { type: 'image/png' });

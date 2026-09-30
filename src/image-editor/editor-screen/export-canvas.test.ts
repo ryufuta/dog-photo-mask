@@ -1,3 +1,4 @@
+import { createTestImage } from '@/image-editor/test-utils.ts';
 import { exportCanvasAsBlob } from './export-canvas.ts';
 
 test('generates a Blob with the same dimensions as the original image', async () => {
@@ -14,17 +15,6 @@ test('generates a Blob with the same dimensions as the original image', async ()
   expect(outputImage.naturalWidth).toBe(image.naturalWidth);
   expect(outputImage.naturalHeight).toBe(image.naturalHeight);
 });
-
-function createTestImage(width: number, height: number) {
-  const image = new Image();
-
-  Object.defineProperties(image, {
-    naturalWidth: { value: width },
-    naturalHeight: { value: height },
-  });
-
-  return image;
-}
 
 async function loadImageFromBlob(blob: Blob) {
   const image = new Image();

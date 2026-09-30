@@ -1,5 +1,6 @@
 import { toast, Toaster } from 'sonner';
 import { render } from 'vitest-browser-react';
+import { createTestImage } from '@/image-editor/test-utils.ts';
 import { EditorScreen } from './EditorScreen.tsx';
 import { copyCanvas, downloadCanvas } from './export-canvas.ts';
 
@@ -66,14 +67,3 @@ test('shows an error message when the canvas download fails', async () => {
 
   toast.dismiss();
 });
-
-function createTestImage() {
-  const image = new Image();
-
-  Object.defineProperties(image, {
-    naturalWidth: { value: 100 },
-    naturalHeight: { value: 100 },
-  });
-
-  return image;
-}
