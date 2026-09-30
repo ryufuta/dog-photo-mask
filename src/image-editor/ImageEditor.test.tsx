@@ -155,6 +155,37 @@ test('returns to the upload screen when image loading fails', async () => {
   toast.dismiss();
 });
 
+test('returns to the upload screen when face detection fails', async () => {
+  mockedLoadImage.mockResolvedValue(createTestImage());
+  mockedDetectFaces.mockRejectedValue(
+    new Error('Failed to initialize FaceDetector'),
+  );
+
+  const screen = await render(
+    <>
+      <Toaster position="top-right" />
+      <ImageEditor />
+    </>,
+  );
+
+  const file = new File([], 'dummy.png', { type: 'image/png' });
+
+  await screen.getByRole('button').upload(file);
+
+  await expect
+    .element(
+      screen.getByText(
+        'ここにファイルをドラッグ&ドロップするか, クリックしてファイルを選択してください',
+      ),
+    )
+    .toBeVisible();
+  await expect
+    .element(screen.getByText('アプリに問題が発生しました'))
+    .toBeVisible();
+
+  toast.dismiss();
+});
+
 function createTestImage() {
   const image = new Image();
 

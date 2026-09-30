@@ -45,7 +45,7 @@ export function ImageEditor() {
             'ファイルが壊れている可能性があります。もう一度お試しいただくか、別の画像を選択してください。',
         });
       } else {
-        console.error(error);
+        toast.error('アプリに問題が発生しました');
       }
     }
   }
