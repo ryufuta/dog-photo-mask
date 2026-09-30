@@ -11,9 +11,9 @@ export function createStickerLoader() {
           image.src = smileImageUrl;
           await image.decode();
           return image;
-        } catch {
+        } catch (error) {
           imagePromise = undefined;
-          throw new Error('Failed to load sticker image');
+          throw new Error('Failed to load sticker image', { cause: error });
         }
       })();
     }
