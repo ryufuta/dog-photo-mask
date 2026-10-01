@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/Button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
 import type { Rect } from '@/lib/coordinate.ts';
@@ -42,19 +43,17 @@ export function EditorScreen({
   async function handleCopy() {
     try {
       await copyCanvas(image, stickerImage, stickers);
-      // TODO: コピー成功をUIに表示
-    } catch (error) {
-      // TODO: UIに表示するよう変更
-      console.error(error);
+      toast.success('画像をコピーしました');
+    } catch {
+      toast.error('画像のコピーに失敗しました');
     }
   }
 
   async function handleDownload() {
     try {
       await downloadCanvas(image, stickerImage, stickers);
-    } catch (error) {
-      // TODO: UIに表示するよう変更
-      console.error(error);
+    } catch {
+      toast.error('画像のダウンロードに失敗しました');
     }
   }
 

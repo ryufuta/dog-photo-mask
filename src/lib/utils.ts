@@ -1,17 +1,20 @@
+export class ImageLoadError extends Error {
+  constructor(fileName: string, options?: ErrorOptions) {
+    super(`Failed to load image: ${fileName}`, options);
+    this.name = 'ImageLoadError';
+  }
+}
+
 export async function loadImage(file: File) {
   const objURL = URL.createObjectURL(file);
 
   try {
-    return await new Promise<HTMLImageElement>((resolve, reject) => {
-      const image = new Image();
-      image.onload = () => {
-        resolve(image);
-      };
-      image.onerror = () => {
-        reject(new Error(`Failed to load image: ${file.name}`));
-      };
-      image.src = objURL;
-    });
+    const image = new Image();
+    image.src = objURL;
+    await image.decode();
+    return image;
+  } catch (error) {
+    throw new ImageLoadError(file.name, { cause: error });
   } finally {
     URL.revokeObjectURL(objURL);
   }

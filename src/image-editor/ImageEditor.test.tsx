@@ -1,22 +1,23 @@
+import { toast, Toaster } from 'sonner';
 import { render } from 'vitest-browser-react';
 import { detectFaces } from '@/face-detection/face-detector.ts';
-import { loadImage } from '@/lib/utils.ts';
+import { ImageLoadError, loadImage } from '@/lib/utils.ts';
 import { ImageEditor } from './ImageEditor.tsx';
+import { createTestImage } from './test-utils.ts';
 
-vi.mock(import('@/lib/utils.ts'), () => ({
-  loadImage: vi.fn(),
-}));
-vi.mock(import('@/face-detection/face-detector.ts'), () => ({
+vi.mock(import('../lib/utils.ts'), async (importOriginal) => {
+  const mod = await importOriginal();
+  return {
+    ...mod,
+    loadImage: vi.fn(),
+  };
+});
+vi.mock(import('../face-detection/face-detector.ts'), () => ({
   detectFaces: vi.fn(),
 }));
 
 const mockedLoadImage = vi.mocked(loadImage);
 const mockedDetectFaces = vi.mocked(detectFaces);
-
-beforeEach(() => {
-  mockedLoadImage.mockReset();
-  mockedDetectFaces.mockReset();
-});
 
 test('shows the upload screen initially', async () => {
   const screen = await render(<ImageEditor />);
@@ -37,7 +38,7 @@ test('shows the loading screen after an image is uploaded', async () => {
 
   const screen = await render(<ImageEditor />);
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
@@ -50,7 +51,7 @@ test('shows the face detection screen after the image is loaded', async () => {
 
   const screen = await render(<ImageEditor />);
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
@@ -63,32 +64,47 @@ test('shows the editor screen after face detection is completed', async () => {
     { x: 0, y: 0, width: 10, height: 10, score: 0.9 },
   ]);
 
-  const screen = await render(<ImageEditor />);
+  const screen = await render(
+    <>
+      <Toaster position="top-right" />
+      <ImageEditor />
+    </>,
+  );
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
   await expect.element(screen.getByText('スタンプ追加')).toBeVisible();
+  await expect
+    .element(screen.getByText('顔を検出できませんでした'))
+    .not.toBeInTheDocument();
+
+  toast.dismiss();
 });
 
-// TODO: 顔未検出の警告メッセージを表示する機能を追加時にこのテストを修正
-test.todo(
-  'shows the editor screen with a warning message when no face is detected',
-  async () => {
-    mockedLoadImage.mockResolvedValue(createTestImage());
-    mockedDetectFaces.mockResolvedValue([]);
+test('shows the editor screen with a warning message when no face is detected', async () => {
+  mockedLoadImage.mockResolvedValue(createTestImage());
+  mockedDetectFaces.mockResolvedValue([]);
 
-    const screen = await render(<ImageEditor />);
+  const screen = await render(
+    <>
+      <Toaster position="top-right" />
+      <ImageEditor />
+    </>,
+  );
 
-    const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
-    await screen.getByRole('button').upload(file);
+  await screen.getByRole('button').upload(file);
 
-    await expect.element(screen.getByText('スタンプ追加')).toBeVisible();
-    // TODO: 警告メッセージの表示を検証
-  },
-);
+  await expect.element(screen.getByText('スタンプ追加')).toBeVisible();
+  await expect
+    .element(screen.getByText('顔を検出できませんでした'))
+    .toBeVisible();
+
+  toast.dismiss();
+});
 
 test('returns to the upload screen when the reset button is clicked', async () => {
   mockedLoadImage.mockResolvedValue(createTestImage());
@@ -98,7 +114,7 @@ test('returns to the upload screen when the reset button is clicked', async () =
 
   const screen = await render(<ImageEditor />);
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
   await screen.getByRole('button', { name: 'リセット' }).click();
@@ -113,15 +129,19 @@ test('returns to the upload screen when the reset button is clicked', async () =
 });
 
 test('returns to the upload screen when image loading fails', async () => {
-  mockedLoadImage.mockRejectedValue(new Error('Failed to load image'));
+  mockedLoadImage.mockRejectedValue(new ImageLoadError('dummy.png'));
 
-  const screen = await render(<ImageEditor />);
+  const screen = await render(
+    <>
+      <Toaster position="top-right" />
+      <ImageEditor />
+    </>,
+  );
 
-  const file = new File([], 'dummy.png', { type: 'image/png' });
+  const file = createTestImageFile();
 
   await screen.getByRole('button').upload(file);
 
-  // TODO: エラーメッセージをUIに表示する機能を追加時にそのメッセージの表示も検証する
   await expect
     .element(
       screen.getByText(
@@ -129,15 +149,44 @@ test('returns to the upload screen when image loading fails', async () => {
       ),
     )
     .toBeVisible();
+  await expect
+    .element(screen.getByText('画像を読み込めませんでした'))
+    .toBeVisible();
+
+  toast.dismiss();
 });
 
-function createTestImage() {
-  const image = new Image();
+test('returns to the upload screen when face detection fails', async () => {
+  mockedLoadImage.mockResolvedValue(createTestImage());
+  mockedDetectFaces.mockRejectedValue(
+    new Error('Failed to initialize FaceDetector'),
+  );
 
-  Object.defineProperties(image, {
-    naturalWidth: { value: 100 },
-    naturalHeight: { value: 100 },
-  });
+  const screen = await render(
+    <>
+      <Toaster position="top-right" />
+      <ImageEditor />
+    </>,
+  );
 
-  return image;
+  const file = createTestImageFile();
+
+  await screen.getByRole('button').upload(file);
+
+  await expect
+    .element(
+      screen.getByText(
+        'ここにファイルをドラッグ&ドロップするか, クリックしてファイルを選択してください',
+      ),
+    )
+    .toBeVisible();
+  await expect
+    .element(screen.getByText('アプリに問題が発生しました'))
+    .toBeVisible();
+
+  toast.dismiss();
+});
+
+function createTestImageFile() {
+  return new File([], 'dummy.png', { type: 'image/png' });
 }
