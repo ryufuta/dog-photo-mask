@@ -34,3 +34,7 @@ coverage/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Cloudflare
+.wrangler
+.dev.vars*
