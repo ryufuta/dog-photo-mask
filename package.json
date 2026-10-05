@@ -8,6 +8,11 @@
       "name": "node",
       "version": "^24.16.0",
       "onFail": "error"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.5.2",
+      "onFail": "error"
     }
   },
   "scripts": {
