@@ -8,17 +8,24 @@
       "name": "node",
       "version": "^24.16.0",
       "onFail": "error"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.5.2",
+      "onFail": "error"
     }
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "deploy": "pnpm wrangler deploy",
+    "cloudflare:preview": "pnpm wrangler preview",
     "fix": "pnpm run format && pnpm run lint:fix",
     "format": "prettier --write --log-level=warn .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "preview": "vite preview",
     "test": "vitest run",
     "test:ui": "vitest --ui --coverage",
     "coverage": "vitest run --coverage",
