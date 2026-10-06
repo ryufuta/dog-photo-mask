@@ -96,6 +96,12 @@ export function EditorScreen({
 
   return (
     <section className="flex min-h-svh flex-col p-5">
+      <div className="mb-6 text-center">
+        <p className="text-lg font-medium">
+          スタンプをドラッグして位置やサイズを調整できます。
+        </p>
+      </div>
+
       <Toolbar>
         <Button onClick={handleAddSticker}>スタンプ追加</Button>
         <Button

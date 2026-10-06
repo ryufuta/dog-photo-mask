@@ -40,6 +40,15 @@ export function UploadScreen({ onUpload }: Props) {
 
   return (
     <section className="min-h-svh p-5">
+      <div className="mb-6 space-y-2 text-center">
+        <p className="text-lg font-medium">
+          画像をアップロードすると人の顔を自動でスタンプで隠します。
+        </p>
+        <p className="text-sm text-zinc-500">
+          🔒 画像はサーバーに送信されません。
+        </p>
+      </div>
+
       <div
         {...getRootProps({
           'aria-label': 'ファイルのドロップエリア',
