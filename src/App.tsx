@@ -13,6 +13,18 @@ function App() {
         </h1>
       </header>
       <ImageEditor />
+      <footer className="flex items-center justify-center gap-4 py-6 text-sm">
+        {/* TODO: 利用規約とプライバシーポリシーはモーダルで表示する */}
+        <button type="button">利用規約</button>
+        <button type="button">プライバシーポリシー</button>
+        <a
+          href="https://github.com/ryufuta/dog-photo-mask"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+      </footer>
     </>
   );
 }
