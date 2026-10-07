@@ -1,6 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
-  <title id="title">favicon</title>
+  <title id="title">logo</title>
   <desc id="desc">A rounded camera with a circular lens and a smiling yellow sticker overlapping the lower-right corner.</desc>
+
+  <style>
+    :root {
+      --camera: #26313d;
+      --outline: #ffffff;
+      --photo-sky: #67c3ee;
+      --sticker: #ffd23f;
+      --face: #26313d;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --camera: #e8edf2;
+        --outline: #26313d;
+        --face: #26313d;
+      }
+    }
+  </style>
 
   <!-- Camera body: rounded overall silhouette, including the upper housing -->
   <path
@@ -22,8 +40,8 @@
        V98
        C24 83 35 72 48 72
        Z"
-    fill="#26313d"
-    stroke="#ffffff"
+    fill="var(--camera)"
+    stroke="var(--outline)"
     stroke-width="12"
     stroke-linejoin="round"
   />
@@ -33,8 +51,8 @@
     cx="122"
     cy="137"
     r="50"
-    fill="#67c3ee"
-    stroke="#ffffff"
+    fill="var(--photo-sky)"
+    stroke="var(--outline)"
     stroke-width="12"
   />
 
@@ -51,8 +69,8 @@
     cx="184"
     cy="181"
     r="49"
-    fill="#ffd23f"
-    stroke="#ffffff"
+    fill="var(--sticker)"
+    stroke="var(--outline)"
     stroke-width="10"
   />
 
@@ -61,21 +79,21 @@
     cy="171"
     rx="6"
     ry="10"
-    fill="#26313d"
+    fill="var(--face)"
   />
   <ellipse
     cx="198"
     cy="171"
     rx="6"
     ry="10"
-    fill="#26313d"
+    fill="var(--face)"
   />
 
   <path
     d="M163 187
        C170 201 193 204 205 187"
     fill="none"
-    stroke="#26313d"
+    stroke="var(--face)"
     stroke-width="9"
     stroke-linecap="round"
   />
