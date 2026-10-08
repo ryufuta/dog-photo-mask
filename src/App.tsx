@@ -14,7 +14,9 @@ function App() {
           Dog Photo Mask
         </h1>
       </header>
-      <ImageEditor />
+      <main>
+        <ImageEditor />
+      </main>
       <footer className="flex items-center justify-center gap-4 py-6 text-sm">
         {/* TODO: 利用規約とプライバシーポリシーはモーダルで表示する */}
         <button type="button">利用規約</button>
