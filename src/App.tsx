@@ -1,4 +1,6 @@
 import { Toaster } from 'sonner';
+import githubLogoBlack from '@/assets/github-logo-black.svg';
+import githubLogoWhite from '@/assets/github-logo-white.svg';
 import logo from '@/assets/logo.svg';
 import { ImageEditor } from '@/image-editor/ImageEditor.tsx';
 
@@ -21,8 +23,15 @@ function App() {
           href="https://github.com/ryufuta/dog-photo-mask"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="GitHubリポジトリ"
         >
-          GitHub
+          <picture>
+            <source
+              media="(prefers-color-scheme: dark)"
+              srcSet={githubLogoWhite}
+            />
+            <img src={githubLogoBlack} alt="" className="size-6" />
+          </picture>
         </a>
       </footer>
     </>
