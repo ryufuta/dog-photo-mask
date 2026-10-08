@@ -6,7 +6,7 @@ import { ImageEditor } from '@/image-editor/ImageEditor.tsx';
 
 function App() {
   return (
-    <>
+    <div className="flex min-h-svh flex-col">
       <Toaster position="top-right" />
       <header className="flex items-center justify-center gap-3">
         <img className="size-9 shrink-0 lg:size-14" src={logo} alt="" />
@@ -14,7 +14,7 @@ function App() {
           Dog Photo Mask
         </h1>
       </header>
-      <main>
+      <main className="flex flex-1 flex-col">
         <ImageEditor />
       </main>
       <footer className="flex items-center justify-center gap-4 py-6 text-sm">
@@ -36,7 +36,7 @@ function App() {
           </picture>
         </a>
       </footer>
-    </>
+    </div>
   );
 }
 

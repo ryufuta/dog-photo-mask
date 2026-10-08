@@ -62,14 +62,14 @@ export function ImageEditor() {
 
     case 'loading':
       return (
-        <section className="min-h-svh p-5">
+        <section className="p-5">
           <LoadingIndicator message="画像読み込み中..." />
         </section>
       );
 
     case 'detecting':
       return (
-        <section className="min-h-svh p-5">
+        <section className="p-5">
           <LoadingIndicator message="顔検出中..." />
         </section>
       );
