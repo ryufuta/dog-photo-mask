@@ -103,8 +103,11 @@ export function EditorScreen({
       </div>
 
       <Toolbar>
-        <Button onClick={handleAddSticker}>スタンプ追加</Button>
+        <Button type="button" onClick={handleAddSticker}>
+          スタンプ追加
+        </Button>
         <Button
+          type="button"
           onClick={() => {
             void handleCopy();
           }}
@@ -112,13 +115,16 @@ export function EditorScreen({
           コピー
         </Button>
         <Button
+          type="button"
           onClick={() => {
             void handleDownload();
           }}
         >
           ダウンロード
         </Button>
-        <Button onClick={onReset}>リセット</Button>
+        <Button type="button" onClick={onReset}>
+          リセット
+        </Button>
       </Toolbar>
       <CanvasArea
         image={image}
