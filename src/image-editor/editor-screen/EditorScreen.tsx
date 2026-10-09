@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useState } from 'react';
 import { toast } from 'sonner';
-import { Button } from '@/components/Button.tsx';
+import { Button } from '@/components/ui/button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
 import type { Rect } from '@/lib/coordinate.ts';
 import {
