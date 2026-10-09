@@ -1,5 +1,5 @@
 import { type FileRejection, useDropzone } from 'react-dropzone';
-import { cn } from '@/lib/cn.ts';
+import { cn } from 'cn';
 
 type Props = {
   onUpload: (file: File) => void;
