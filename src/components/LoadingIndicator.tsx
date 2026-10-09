@@ -4,9 +4,12 @@ type Props = {
 
 export function LoadingIndicator({ message }: Props) {
   return (
-    <div className="bg-surface flex flex-col items-center gap-4 p-10">
+    <div
+      className="flex min-h-80 items-center justify-center gap-4"
+      role="status"
+    >
       <div
-        className="size-8 animate-spin rounded-full border-4 border-zinc-300 border-t-zinc-900"
+        className="size-6 animate-spin rounded-full border-4 border-zinc-300 border-t-zinc-900 motion-reduce:animate-none"
         aria-hidden="true"
       />
       <p>{message}</p>
