@@ -39,7 +39,7 @@ export function UploadScreen({ onUpload }: Props) {
   }
 
   return (
-    <section className="min-h-svh p-5">
+    <div>
       <div className="mb-6 space-y-2 text-center">
         <p className="text-lg font-medium">
           画像をアップロードすると人の顔を自動でスタンプで隠します。
@@ -53,7 +53,7 @@ export function UploadScreen({ onUpload }: Props) {
         {...getRootProps({
           'aria-label': 'ファイルのドロップエリア',
           className: cn(
-            'cursor-pointer rounded-lg border-2 border-dashed p-10 text-center transition-colors',
+            'flex items-center justify-center min-h-60 cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors',
             {
               'border-border-muted bg-surface hover:border-border-hover hover:bg-surface-hover':
                 !isFocused && !isDragActive,
@@ -82,7 +82,7 @@ export function UploadScreen({ onUpload }: Props) {
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
 
