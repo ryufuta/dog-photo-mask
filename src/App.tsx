@@ -14,7 +14,7 @@ function App() {
           Dog Photo Mask
         </h1>
       </header>
-      <main className="flex flex-1 flex-col">
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col p-5">
         <ImageEditor />
       </main>
       <footer className="flex items-center justify-center gap-4 py-6 text-sm">
