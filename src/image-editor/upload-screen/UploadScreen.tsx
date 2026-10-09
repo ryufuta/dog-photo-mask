@@ -53,7 +53,7 @@ export function UploadScreen({ onUpload }: Props) {
         {...getRootProps({
           'aria-label': 'ファイルのドロップエリア',
           className: cn(
-            'cursor-pointer rounded-lg border-2 border-dashed p-10 text-center transition-colors',
+            'flex items-center justify-center min-h-60 cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors',
             {
               'border-border-muted bg-surface hover:border-border-hover hover:bg-surface-hover':
                 !isFocused && !isDragActive,
