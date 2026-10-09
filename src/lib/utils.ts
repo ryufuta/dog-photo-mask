@@ -1,3 +1,5 @@
+export { cn } from 'cn';
+
 export class ImageLoadError extends Error {
   constructor(fileName: string, options?: ErrorOptions) {
     super(`Failed to load image: ${fileName}`, options);
