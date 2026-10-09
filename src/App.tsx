@@ -1,8 +1,8 @@
-import { Toaster } from 'sonner';
 import githubLogoBlack from '@/assets/github-logo-black.svg';
 import githubLogoWhite from '@/assets/github-logo-white.svg';
 import logo from '@/assets/logo.svg';
 import { Button } from '@/components/ui/button.tsx';
+import { Toaster } from '@/components/ui/sonner';
 import { ImageEditor } from '@/image-editor/ImageEditor.tsx';
 
 function App() {
