@@ -7,12 +7,6 @@
   color-scheme: light dark;
 
   --surface: var(--color-white);
-  --border-muted: var(--color-zinc-300);
-  --border-hover: var(--color-zinc-400);
-  --border-active: var(--color-zinc-500);
-  --surface-hover: var(--color-zinc-50);
-  --surface-active: var(--color-zinc-100);
-  --app-ring: var(--color-zinc-500);
   --danger-border: var(--color-red-200);
   --danger-surface: var(--color-red-50);
   --danger-foreground: var(--color-red-900);
@@ -55,12 +49,6 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --surface: var(--color-zinc-900);
-    --border-muted: var(--color-zinc-700);
-    --border-hover: var(--color-zinc-600);
-    --border-active: var(--color-zinc-400);
-    --surface-hover: var(--color-zinc-800);
-    --surface-active: var(--color-zinc-800);
-    --app-ring: var(--color-zinc-400);
     --danger-border: var(--color-red-900);
     --danger-surface: var(--color-red-950);
     --danger-foreground: var(--color-red-100);
@@ -102,12 +90,6 @@
 
 @theme inline {
   --color-surface: var(--surface);
-  --color-border-muted: var(--border-muted);
-  --color-border-hover: var(--border-hover);
-  --color-border-active: var(--border-active);
-  --color-surface-hover: var(--surface-hover);
-  --color-surface-active: var(--surface-active);
-  --color-app-ring: var(--app-ring);
   --color-danger-border: var(--danger-border);
   --color-danger-surface: var(--danger-surface);
   --color-danger-foreground: var(--danger-foreground);

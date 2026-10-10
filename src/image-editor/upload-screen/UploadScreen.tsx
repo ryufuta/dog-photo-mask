@@ -55,9 +55,9 @@ export function UploadScreen({ onUpload }: Props) {
           className: cn(
             'flex items-center justify-center min-h-60 cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors',
             {
-              'border-border-muted bg-surface hover:border-border-hover hover:bg-surface-hover':
+              'border-border bg-card hover:bg-muted':
                 !isFocused && !isDragActive,
-              'border-border-active bg-surface-active shadow-inner ring-4 ring-app-ring':
+              'border-ring bg-muted shadow-inner ring-4 ring-ring/50':
                 isFocused || isDragActive,
             },
           ),
