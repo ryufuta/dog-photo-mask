@@ -20,10 +20,10 @@ function App() {
       </main>
       <footer className="flex items-center justify-center gap-4 py-6 text-sm">
         {/* TODO: 利用規約とプライバシーポリシーはモーダルで表示する */}
-        <Button type="button" variant="link" className="text-app-foreground">
+        <Button type="button" variant="link">
           利用規約
         </Button>
-        <Button type="button" variant="link" className="text-app-foreground">
+        <Button type="button" variant="link">
           プライバシーポリシー
         </Button>
         <a
