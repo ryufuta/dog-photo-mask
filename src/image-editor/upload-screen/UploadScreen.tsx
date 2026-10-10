@@ -1,5 +1,5 @@
 import { type FileRejection, useDropzone } from 'react-dropzone';
-import { cn } from '@/lib/cn.ts';
+import { cn } from 'cn';
 
 type Props = {
   onUpload: (file: File) => void;
@@ -44,7 +44,7 @@ export function UploadScreen({ onUpload }: Props) {
         <p className="text-lg font-medium">
           画像をアップロードすると人の顔を自動でスタンプで隠します。
         </p>
-        <p className="text-sm text-zinc-500">
+        <p className="text-muted-foreground text-sm">
           🔒 画像はサーバーに送信されません。
         </p>
       </div>
@@ -55,9 +55,9 @@ export function UploadScreen({ onUpload }: Props) {
           className: cn(
             'flex items-center justify-center min-h-60 cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors',
             {
-              'border-border-muted bg-surface hover:border-border-hover hover:bg-surface-hover':
+              'border-border bg-card hover:bg-muted':
                 !isFocused && !isDragActive,
-              'border-border-active bg-surface-active shadow-inner ring-4 ring-ring':
+              'border-ring bg-muted shadow-inner ring-4 ring-ring/50':
                 isFocused || isDragActive,
             },
           ),
@@ -73,7 +73,7 @@ export function UploadScreen({ onUpload }: Props) {
 
       <div aria-live="polite">
         {rejectedItems.length > 0 && (
-          <div className="border-danger-border bg-danger-surface text-danger-foreground mt-4 rounded-lg border p-4 text-sm">
+          <div className="border-destructive/20 bg-destructive/10 text-destructive mt-4 rounded-lg border p-4 text-sm">
             <p className="font-bold">ファイルをアップロードできませんでした</p>
             <p className="mt-1">
               PNG形式またはJPEG形式のファイルを1枚だけ選択してください。

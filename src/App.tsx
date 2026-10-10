@@ -1,7 +1,8 @@
-import { Toaster } from 'sonner';
 import githubLogoBlack from '@/assets/github-logo-black.svg';
 import githubLogoWhite from '@/assets/github-logo-white.svg';
 import logo from '@/assets/logo.svg';
+import { Button } from '@/components/ui/button.tsx';
+import { Toaster } from '@/components/ui/sonner';
 import { ImageEditor } from '@/image-editor/ImageEditor.tsx';
 
 function App() {
@@ -19,8 +20,12 @@ function App() {
       </main>
       <footer className="flex items-center justify-center gap-4 py-6 text-sm">
         {/* TODO: 利用規約とプライバシーポリシーはモーダルで表示する */}
-        <button type="button">利用規約</button>
-        <button type="button">プライバシーポリシー</button>
+        <Button type="button" variant="link">
+          利用規約
+        </Button>
+        <Button type="button" variant="link">
+          プライバシーポリシー
+        </Button>
         <a
           href="https://github.com/ryufuta/dog-photo-mask"
           target="_blank"

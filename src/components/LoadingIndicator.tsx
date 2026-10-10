@@ -9,7 +9,7 @@ export function LoadingIndicator({ message }: Props) {
       role="status"
     >
       <div
-        className="size-6 animate-spin rounded-full border-4 border-zinc-300 border-t-zinc-900 motion-reduce:animate-none"
+        className="border-muted border-t-primary size-6 animate-spin rounded-full border-4 motion-reduce:animate-none"
         aria-hidden="true"
       />
       <p>{message}</p>
