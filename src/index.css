@@ -6,7 +6,6 @@
 :root {
   color-scheme: light dark;
 
-  --surface: var(--color-white);
   --danger-border: var(--color-red-200);
   --danger-surface: var(--color-red-50);
   --danger-foreground: var(--color-red-900);
@@ -48,7 +47,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --surface: var(--color-zinc-900);
     --danger-border: var(--color-red-900);
     --danger-surface: var(--color-red-950);
     --danger-foreground: var(--color-red-100);
@@ -89,7 +87,6 @@
 }
 
 @theme inline {
-  --color-surface: var(--surface);
   --color-danger-border: var(--danger-border);
   --color-danger-surface: var(--danger-surface);
   --color-danger-foreground: var(--danger-foreground);
