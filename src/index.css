@@ -6,9 +6,7 @@
 :root {
   color-scheme: light dark;
 
-  --app-background: var(--color-zinc-100);
   --surface: var(--color-white);
-  --app-foreground: var(--color-zinc-900);
   --border-muted: var(--color-zinc-300);
   --border-hover: var(--color-zinc-400);
   --border-active: var(--color-zinc-500);
@@ -56,9 +54,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --app-background: var(--color-zinc-950);
     --surface: var(--color-zinc-900);
-    --app-foreground: var(--color-zinc-100);
     --border-muted: var(--color-zinc-700);
     --border-hover: var(--color-zinc-600);
     --border-active: var(--color-zinc-400);
@@ -105,9 +101,7 @@
 }
 
 @theme inline {
-  --color-app-background: var(--app-background);
   --color-surface: var(--surface);
-  --color-app-foreground: var(--app-foreground);
   --color-border-muted: var(--border-muted);
   --color-border-hover: var(--border-hover);
   --color-border-active: var(--border-active);
@@ -166,7 +160,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-app-background text-app-foreground;
+    @apply bg-background text-foreground;
   }
   html {
     @apply font-sans;
