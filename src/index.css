@@ -6,11 +6,6 @@
 :root {
   color-scheme: light dark;
 
-  --danger-border: var(--color-red-200);
-  --danger-surface: var(--color-red-50);
-  --danger-foreground: var(--color-red-900);
-
-  /* shadcn/ui */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -47,11 +42,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --danger-border: var(--color-red-900);
-    --danger-surface: var(--color-red-950);
-    --danger-foreground: var(--color-red-100);
-
-    /* shadcn/ui */
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -87,11 +77,6 @@
 }
 
 @theme inline {
-  --color-danger-border: var(--danger-border);
-  --color-danger-surface: var(--danger-surface);
-  --color-danger-foreground: var(--danger-foreground);
-
-  /* shadcn/ui */
   --font-heading: var(--font-sans);
   --font-sans: 'Geist Variable', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);

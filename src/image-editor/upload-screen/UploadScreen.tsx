@@ -73,7 +73,7 @@ export function UploadScreen({ onUpload }: Props) {
 
       <div aria-live="polite">
         {rejectedItems.length > 0 && (
-          <div className="border-danger-border bg-danger-surface text-danger-foreground mt-4 rounded-lg border p-4 text-sm">
+          <div className="border-destructive/20 bg-destructive/10 text-destructive mt-4 rounded-lg border p-4 text-sm">
             <p className="font-bold">ファイルをアップロードできませんでした</p>
             <p className="mt-1">
               PNG形式またはJPEG形式のファイルを1枚だけ選択してください。
