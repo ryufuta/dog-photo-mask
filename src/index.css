@@ -5,23 +5,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --color-app-background: var(--color-zinc-100);
-  --color-surface: var(--color-white);
-  --color-app-foreground: var(--color-zinc-900);
-  --color-border-muted: var(--color-zinc-300);
-  --color-border-hover: var(--color-zinc-400);
-  --color-border-active: var(--color-zinc-500);
-  --color-surface-hover: var(--color-zinc-50);
-  --color-surface-active: var(--color-zinc-100);
-  --color-ring: var(--color-zinc-500);
-  --color-danger-border: var(--color-red-200);
-  --color-danger-surface: var(--color-red-50);
-  --color-danger-foreground: var(--color-red-900);
-}
-
 :root {
   color-scheme: light dark;
+
+  --app-background: var(--color-zinc-100);
+  --surface: var(--color-white);
+  --app-foreground: var(--color-zinc-900);
+  --border-muted: var(--color-zinc-300);
+  --border-hover: var(--color-zinc-400);
+  --border-active: var(--color-zinc-500);
+  --surface-hover: var(--color-zinc-50);
+  --surface-active: var(--color-zinc-100);
+  --app-ring: var(--color-zinc-500);
+  --danger-border: var(--color-red-200);
+  --danger-surface: var(--color-red-50);
+  --danger-foreground: var(--color-red-900);
+
+  /* shadcn/ui */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -58,22 +58,36 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-app-background: var(--color-zinc-950);
-    --color-surface: var(--color-zinc-900);
-    --color-app-foreground: var(--color-zinc-100);
-    --color-border-muted: var(--color-zinc-700);
-    --color-border-hover: var(--color-zinc-600);
-    --color-border-active: var(--color-zinc-400);
-    --color-surface-hover: var(--color-zinc-800);
-    --color-surface-active: var(--color-zinc-800);
-    --color-ring: var(--color-zinc-400);
-    --color-danger-border: var(--color-red-900);
-    --color-danger-surface: var(--color-red-950);
-    --color-danger-foreground: var(--color-red-100);
+    --app-background: var(--color-zinc-950);
+    --surface: var(--color-zinc-900);
+    --app-foreground: var(--color-zinc-100);
+    --border-muted: var(--color-zinc-700);
+    --border-hover: var(--color-zinc-600);
+    --border-active: var(--color-zinc-400);
+    --surface-hover: var(--color-zinc-800);
+    --surface-active: var(--color-zinc-800);
+    --app-ring: var(--color-zinc-400);
+    --danger-border: var(--color-red-900);
+    --danger-surface: var(--color-red-950);
+    --danger-foreground: var(--color-red-100);
   }
 }
 
 @theme inline {
+  --color-app-background: var(--app-background);
+  --color-surface: var(--surface);
+  --color-app-foreground: var(--app-foreground);
+  --color-border-muted: var(--border-muted);
+  --color-border-hover: var(--border-hover);
+  --color-border-active: var(--border-active);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-active: var(--surface-active);
+  --color-app-ring: var(--app-ring);
+  --color-danger-border: var(--danger-border);
+  --color-danger-surface: var(--danger-surface);
+  --color-danger-foreground: var(--danger-foreground);
+
+  /* shadcn/ui */
   --font-heading: var(--font-sans);
   --font-sans: 'Geist Variable', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);

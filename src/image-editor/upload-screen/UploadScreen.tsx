@@ -57,7 +57,7 @@ export function UploadScreen({ onUpload }: Props) {
             {
               'border-border-muted bg-surface hover:border-border-hover hover:bg-surface-hover':
                 !isFocused && !isDragActive,
-              'border-border-active bg-surface-active shadow-inner ring-4 ring-ring':
+              'border-border-active bg-surface-active shadow-inner ring-4 ring-app-ring':
                 isFocused || isDragActive,
             },
           ),
