@@ -122,7 +122,7 @@
 }
 
 .dog-pattern-face {
-  background-image: url('./assets/dog-faces-pattern-small.png');
+  background-image: url('./assets/dog-faces-pattern-small.webp');
   background-size: 164px 246px;
   background-repeat: no-repeat;
 }

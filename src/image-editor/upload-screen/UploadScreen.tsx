@@ -1,7 +1,7 @@
 import { type FileRejection, useDropzone } from 'react-dropzone';
 import { cn } from 'cn';
 import { ArrowUp, Camera, ImageIcon } from 'lucide-react';
-import shareExample from '@/assets/share-example.jpg';
+import shareExample from '@/assets/share-example.webp';
 import smileSticker from '@/assets/stickers/smile.png';
 import { ImagePrivacyDialog } from '@/components/ImagePrivacyDialog';
 import { Button } from '@/components/ui/button';
@@ -135,8 +135,8 @@ export function UploadScreen({ onUpload }: Props) {
             >
               <img
                 src={shareExample}
-                width={675}
-                height={900}
+                width={360}
+                height={480}
                 alt=""
                 className="block w-full"
               />
