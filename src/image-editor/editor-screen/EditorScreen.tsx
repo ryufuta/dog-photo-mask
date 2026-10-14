@@ -1,5 +1,6 @@
 import { useEffect, useEffectEvent, useState } from 'react';
-import { toast } from 'sonner';
+import { Copy, CornerDownLeft, Download, Smile, X } from 'lucide-react';
+import { notify as toast } from '@/components/notify';
 import { Button } from '@/components/ui/button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
 import type { Rect } from '@/lib/coordinate.ts';
@@ -19,6 +20,9 @@ type Props = {
   onReset: () => void;
 };
 
+const secondaryButtonClassName =
+  'border-[#d7c3a5] bg-[#f5e6cc] text-[#513b2c] hover:bg-[#ecd6b3] hover:text-[#513b2c]';
+
 export function EditorScreen({
   image,
   stickerImage,
@@ -31,6 +35,7 @@ export function EditorScreen({
   const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
     null,
   );
+  const [isHelpDismissed, setIsHelpDismissed] = useState(false);
 
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
@@ -76,54 +81,49 @@ export function EditorScreen({
     );
   }
 
-  const handleDeleteSticker = useEffectEvent((e: KeyboardEvent) => {
-    if (e.key !== 'Delete' && e.key !== 'Backspace') return;
+  function handleDeleteSticker() {
     if (selectedStickerId === null) return;
 
     setStickers((stickers) =>
       stickers.filter((sticker) => sticker.id !== selectedStickerId),
     );
     setSelectedStickerId(null);
+  }
+
+  const handleDeleteKey = useEffectEvent((e: KeyboardEvent) => {
+    if (e.key !== 'Delete' && e.key !== 'Backspace') return;
+    handleDeleteSticker();
   });
 
   useEffect(() => {
-    window.addEventListener('keydown', handleDeleteSticker);
+    window.addEventListener('keydown', handleDeleteKey);
 
     return () => {
-      window.removeEventListener('keydown', handleDeleteSticker);
+      window.removeEventListener('keydown', handleDeleteKey);
     };
   }, []);
 
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="mb-6 text-center">
-        <p className="text-base font-medium md:text-lg">
-          スタンプをドラッグして位置やサイズを調整できます。
-        </p>
-      </div>
-
-      <Toolbar>
-        <Button type="button" onClick={handleAddSticker}>
-          スタンプ追加
+    <div className="-mt-6 flex flex-1 flex-col">
+      <Toolbar label="スタンプの編集">
+        <Button
+          type="button"
+          variant="outline"
+          className={secondaryButtonClassName}
+          onClick={handleAddSticker}
+        >
+          <Smile aria-hidden="true" />
+          スタンプを追加
         </Button>
         <Button
           type="button"
-          onClick={() => {
-            void handleCopy();
-          }}
+          variant="outline"
+          className={secondaryButtonClassName}
+          onClick={handleDeleteSticker}
+          disabled={selectedStickerId === null}
         >
-          コピー
-        </Button>
-        <Button
-          type="button"
-          onClick={() => {
-            void handleDownload();
-          }}
-        >
-          ダウンロード
-        </Button>
-        <Button type="button" onClick={onReset}>
-          リセット
+          <X aria-hidden="true" />
+          スタンプを削除
         </Button>
       </Toolbar>
       <CanvasArea
@@ -135,7 +135,40 @@ export function EditorScreen({
         onSelectSticker={setSelectedStickerId}
         onStickerDragEnd={handleStickerDragEnd}
         onStickerTransformEnd={handleStickerTransformEnd}
+        showHelp={stickers.length > 0 && !isHelpDismissed}
+        onDismissHelp={() => setIsHelpDismissed(true)}
       />
+      <div>
+        <Toolbar label="画像の保存">
+          <Button
+            type="button"
+            variant="outline"
+            className={secondaryButtonClassName}
+            onClick={() => {
+              void handleCopy();
+            }}
+          >
+            <Copy aria-hidden="true" />
+            画像をコピー
+          </Button>
+          <Button
+            type="button"
+            className="bg-[#513b2c] hover:bg-[#6a4e39]"
+            onClick={() => {
+              void handleDownload();
+            }}
+          >
+            <Download aria-hidden="true" />
+            画像を保存
+          </Button>
+        </Toolbar>
+      </div>
+      <div className="mt-5 text-center">
+        <Button type="button" variant="link" onClick={onReset}>
+          <CornerDownLeft aria-hidden="true" />
+          別の写真を選ぶ
+        </Button>
+      </div>
     </div>
   );
 }

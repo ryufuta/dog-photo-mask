@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { toast } from 'sonner';
 import { LoadingIndicator } from '@/components/LoadingIndicator.tsx';
+import { notify as toast } from '@/components/notify';
 import { detectFaces, type Face } from '@/face-detection/face-detector.ts';
 import { ImageLoadError, loadImage } from '@/lib/utils.ts';
 import { loadStickerImage } from '@/sticker/sticker-image.ts';

@@ -1,6 +1,6 @@
 export function TermsContent() {
   return (
-    <div className="no-scrollbar -mx-4 max-h-[50vh] overflow-y-auto px-4 text-sm leading-7 md:text-base">
+    <div className="modal-scroll -mx-4 max-h-[50vh] overflow-y-auto px-4 text-sm leading-7 md:text-base">
       <p className="mb-5">
         この利用規約（以下「本規約」といいます。）は、Dog Photo
         Mask（以下「本サービス」といいます。）の利用条件を定めるものです。本サービスを利用する方（以下「利用者」といいます。）は、本規約に同意のうえ、本サービスをご利用ください。

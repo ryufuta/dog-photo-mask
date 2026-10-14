@@ -10,11 +10,11 @@ test('downloads the edited image when the download button is clicked', async ({
     .setInputFiles('src/test-fixtures/00_no_person_one_dog.jpg');
 
   await expect(
-    page.getByRole('button', { name: 'ダウンロード' }),
+    page.getByRole('button', { name: '画像を保存' }),
   ).toBeVisible();
 
   const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'ダウンロード' }).click();
+  await page.getByRole('button', { name: '画像を保存' }).click();
   const download = await downloadPromise;
 
   expect(download.suggestedFilename()).toBe('dog-photo-mask.png');
@@ -32,9 +32,9 @@ test('copies the edited image to the clipboard when the copy button is clicked',
     .locator('input[type="file"]')
     .setInputFiles('src/test-fixtures/00_no_person_one_dog.jpg');
 
-  await expect(page.getByRole('button', { name: 'コピー' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '画像をコピー' })).toBeVisible();
 
-  await page.getByRole('button', { name: 'コピー' }).click();
+  await page.getByRole('button', { name: '画像をコピー' }).click();
 
   await expect(page.getByText('画像をコピーしました')).toBeVisible();
 

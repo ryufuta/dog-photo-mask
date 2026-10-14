@@ -23,11 +23,7 @@ test('shows the upload screen initially', async () => {
   const screen = await render(<ImageEditor />);
 
   await expect
-    .element(
-      screen.getByText(
-        'ここにファイルをドラッグ&ドロップするか, クリックしてファイルを選択してください',
-      ),
-    )
+    .element(screen.getByText('ファイルを選択してください。'))
     .toBeVisible();
 });
 
@@ -40,7 +36,7 @@ test('shows the loading screen after an image is uploaded', async () => {
 
   const file = createTestImageFile();
 
-  await screen.getByRole('button').upload(file);
+  await screen.getByLabelText('写真を選択').upload(file);
 
   await expect.element(screen.getByText('画像読み込み中...')).toBeVisible();
 });
@@ -53,7 +49,7 @@ test('shows the face detection screen after the image is loaded', async () => {
 
   const file = createTestImageFile();
 
-  await screen.getByRole('button').upload(file);
+  await screen.getByLabelText('写真を選択').upload(file);
 
   await expect.element(screen.getByText('顔検出中...')).toBeVisible();
 });
@@ -73,9 +69,9 @@ test('shows the editor screen after face detection is completed', async () => {
 
   const file = createTestImageFile();
 
-  await screen.getByRole('button').upload(file);
+  await screen.getByLabelText('写真を選択').upload(file);
 
-  await expect.element(screen.getByText('スタンプ追加')).toBeVisible();
+  await expect.element(screen.getByText('スタンプを追加')).toBeVisible();
   await expect
     .element(screen.getByText('顔を検出できませんでした'))
     .not.toBeInTheDocument();
@@ -96,9 +92,9 @@ test('shows the editor screen with a warning message when no face is detected', 
 
   const file = createTestImageFile();
 
-  await screen.getByRole('button').upload(file);
+  await screen.getByLabelText('写真を選択').upload(file);
 
-  await expect.element(screen.getByText('スタンプ追加')).toBeVisible();
+  await expect.element(screen.getByText('スタンプを追加')).toBeVisible();
   await expect
     .element(screen.getByText('顔を検出できませんでした'))
     .toBeVisible();
@@ -116,15 +112,11 @@ test('returns to the upload screen when the reset button is clicked', async () =
 
   const file = createTestImageFile();
 
-  await screen.getByRole('button').upload(file);
-  await screen.getByRole('button', { name: 'リセット' }).click();
+  await screen.getByLabelText('写真を選択').upload(file);
+  await screen.getByRole('button', { name: '別の写真を選ぶ' }).click();
 
   await expect
-    .element(
-      screen.getByText(
-        'ここにファイルをドラッグ&ドロップするか, クリックしてファイルを選択してください',
-      ),
-    )
+    .element(screen.getByText('ファイルを選択してください。'))
     .toBeVisible();
 });
 
@@ -140,14 +132,10 @@ test('returns to the upload screen when image loading fails', async () => {
 
   const file = createTestImageFile();
 
-  await screen.getByRole('button').upload(file);
+  await screen.getByLabelText('写真を選択').upload(file);
 
   await expect
-    .element(
-      screen.getByText(
-        'ここにファイルをドラッグ&ドロップするか, クリックしてファイルを選択してください',
-      ),
-    )
+    .element(screen.getByText('ファイルを選択してください。'))
     .toBeVisible();
   await expect
     .element(screen.getByText('画像を読み込めませんでした'))
@@ -171,14 +159,10 @@ test('returns to the upload screen when face detection fails', async () => {
 
   const file = createTestImageFile();
 
-  await screen.getByRole('button').upload(file);
+  await screen.getByLabelText('写真を選択').upload(file);
 
   await expect
-    .element(
-      screen.getByText(
-        'ここにファイルをドラッグ&ドロップするか, クリックしてファイルを選択してください',
-      ),
-    )
+    .element(screen.getByText('ファイルを選択してください。'))
     .toBeVisible();
   await expect
     .element(screen.getByText('アプリに問題が発生しました'))

@@ -41,6 +41,9 @@ export function CanvasSticker({
       onClick={() => {
         onSelect(sticker.id);
       }}
+      onTap={() => {
+        onSelect(sticker.id);
+      }}
       onDragEnd={(e) => {
         onDragEnd(toImagePosition(e.target.position(), imageScale));
       }}

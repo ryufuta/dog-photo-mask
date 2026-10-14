@@ -4,20 +4,13 @@
 
   <style>
     :root {
-      --camera: #26313d;
+      --camera: #513b2c;
       --outline: #ffffff;
       --photo-sky: #67c3ee;
       --sticker: #ffd23f;
-      --face: #26313d;
+      --face: #513b2c;
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --camera: #e8edf2;
-        --outline: #26313d;
-        --face: #26313d;
-      }
-    }
   </style>
 
   <!-- Camera body: rounded overall silhouette, including the upper housing -->
