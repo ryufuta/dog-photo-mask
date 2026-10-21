@@ -1,0 +1,7 @@
+Generated with the built-in image_gen tool; transparent_background: true.
+
+Layout edit:
+Use case: precise-object-edit. Edit this transparent pixel-art dog wallpaper. Preserve the SAME six dog breeds, faces, pixel-art style and colors. Change ONLY scale and layout: arrange exactly six SMALL heads in a perfectly regular TWO COLUMN by THREE ROW grid on a transparent 1024x1536 portrait canvas. The six grid cells are each 512x512. Place the center of each dog head EXACTLY at cell centers (256,256), (768,256), (256,768), (768,768), (256,1280), (768,1280). Give every head the SAME visual size, around 220px wide and 220px high maximum, with ample transparent space all around. The faces must align vertically and horizontally, no stagger, no tilts, no uneven gaps, no shadows. This tile will repeat at 192x288 CSS pixels, giving approximately 42px dog heads in a 96px square grid. Keep genuinely transparent alpha background. No labels, no grid lines, no new objects.
+
+Cleanup edit:
+Remove ALL the fuzzy glow, shadows, colored haze and background from this image. Keep ONLY the six crisp pixel-art dog heads with clean hard pixel edges on completely transparent background. Keep the exact current 2 column 3 row positions and size of heads. Absolutely no shadow, no glow, no haze, no blur. This is a clean transparent sprite sheet for a website. Pixels outside the head silhouettes must be fully transparent (alpha zero).

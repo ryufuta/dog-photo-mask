@@ -3,8 +3,17 @@
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/geist';
 
+/* Google Fonts DynaPuff, subset to the logo text. License: assets/fonts/DynaPuff-OFL.txt. */
+@font-face {
+  font-family: 'DynaPuff';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/fonts/dynapuff-logo.ttf') format('truetype');
+}
+
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -33,37 +42,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-  }
 }
 
 @theme inline {
@@ -110,6 +88,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #e4eddf;
   }
   html {
     @apply font-sans;
@@ -118,4 +97,43 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+}
+
+.site-column {
+  box-shadow: 0 0 0 1px rgb(50 70 45 / 8%);
+}
+
+.modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #b49a78 #f5ebd6;
+  scrollbar-gutter: stable;
+}
+
+.dog-pattern {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dog-pattern-grid {
+  display: grid;
+  grid-auto-rows: 82px;
+}
+
+.dog-pattern-face {
+  background-image: url('./assets/dog-faces-pattern-small.webp');
+  background-size: 164px 246px;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 640px) {
+  .dog-pattern {
+    display: none;
+  }
+}
+
+.site-logo {
+  font-family: 'DynaPuff', sans-serif;
+  color: #513b2c;
 }

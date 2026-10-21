@@ -1,4 +1,5 @@
 import { Stage } from 'react-konva';
+import { X } from 'lucide-react';
 import type { Face } from '@/face-detection/face-detector.ts';
 import type { Rect } from '@/lib/coordinate.ts';
 import type { Sticker } from '@/sticker/sticker.ts';
@@ -17,6 +18,8 @@ type Props = {
   onSelectSticker: (id: string | null) => void;
   onStickerDragEnd: (id: string, position: { x: number; y: number }) => void;
   onStickerTransformEnd: (id: string, rect: Rect) => void;
+  showHelp: boolean;
+  onDismissHelp: () => void;
 };
 
 export function CanvasArea({
@@ -28,6 +31,8 @@ export function CanvasArea({
   onSelectSticker,
   onStickerDragEnd,
   onStickerTransformEnd,
+  showHelp,
+  onDismissHelp,
 }: Props) {
   const [setRef, size] = useElementSize<HTMLDivElement>();
 
@@ -49,36 +54,63 @@ export function CanvasArea({
   return (
     <div
       ref={setRef}
-      className="bg-card flex flex-1 items-center justify-center"
+      className="mt-2 mb-1 flex w-full shrink-0 items-center justify-center"
+      style={{
+        aspectRatio: `${imageWidth} / ${imageHeight}`,
+        maxHeight: 'min(56svh, 560px)',
+      }}
     >
-      <Stage
-        width={displayImageWidth}
-        height={displayImageHeight}
-        onClick={(e) => {
-          if (e.target === e.target.getStage()) {
-            onSelectSticker(null);
-          }
-        }}
+      <div
+        className="relative"
+        style={{ width: displayImageWidth, height: displayImageHeight }}
       >
-        <BackgroundLayer
-          image={image}
+        <Stage
           width={displayImageWidth}
           height={displayImageHeight}
-        />
-        <StickersLayer
-          image={stickerImage}
-          stickers={stickers}
-          imageScale={imageScale}
-          selectedStickerId={selectedStickerId}
-          onSelectSticker={onSelectSticker}
-          onStickerDragEnd={onStickerDragEnd}
-          onStickerTransformEnd={onStickerTransformEnd}
-        />
+          onClick={(e) => {
+            if (e.target === e.target.getStage()) {
+              onSelectSticker(null);
+            }
+          }}
+        >
+          <BackgroundLayer
+            image={image}
+            width={displayImageWidth}
+            height={displayImageHeight}
+          />
+          <StickersLayer
+            image={stickerImage}
+            stickers={stickers}
+            imageScale={imageScale}
+            selectedStickerId={selectedStickerId}
+            onSelectSticker={onSelectSticker}
+            onStickerDragEnd={onStickerDragEnd}
+            onStickerTransformEnd={onStickerTransformEnd}
+          />
 
-        {import.meta.env.DEV && (
-          <DebugOverlay faces={faces} imageScale={imageScale} />
+          {import.meta.env.DEV && (
+            <DebugOverlay faces={faces} imageScale={imageScale} />
+          )}
+        </Stage>
+        {showHelp && (
+          <div className="pointer-events-none absolute right-2 bottom-2 left-2 rounded-lg border border-[#d7c3a5] bg-[#fffaf0]/80 px-9 py-2 text-center text-xs leading-5 text-[#513b2c] shadow-sm">
+            <p>
+              <span className="inline-block">
+                スタンプを選んでドラッグで移動、
+              </span>
+              <span className="inline-block">四隅でサイズを調整できます。</span>
+            </p>
+            <button
+              type="button"
+              aria-label="スタンプの操作説明を閉じる"
+              onClick={onDismissHelp}
+              className="pointer-events-auto absolute top-1 right-1 flex size-8 items-center justify-center rounded-md hover:bg-[#f5e6cc] focus-visible:outline-2 focus-visible:outline-[#513b2c]"
+            >
+              <X className="size-4" aria-hidden="true" />
+            </button>
+          </div>
         )}
-      </Stage>
+      </div>
     </div>
   );
 }

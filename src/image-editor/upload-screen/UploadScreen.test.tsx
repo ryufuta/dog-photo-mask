@@ -7,7 +7,7 @@ test('accepts a PNG file', async () => {
   const screen = await render(<UploadScreen onUpload={onUpload} />);
 
   const imageFile = createTestFile();
-  await screen.getByRole('button').upload(imageFile);
+  await screen.getByRole('button', { name: '写真を選択' }).upload(imageFile);
 
   expect(onUpload).toHaveBeenCalledOnce();
   // fileに`path`などの情報を付与したオブジェクトがonDrop内部でonUploadに渡される
@@ -21,7 +21,7 @@ test('accepts a JPEG file', async () => {
   const screen = await render(<UploadScreen onUpload={onUpload} />);
 
   const imageFile = createTestFile('dummy.jpg', 'image/jpeg');
-  await screen.getByRole('button').upload(imageFile);
+  await screen.getByRole('button', { name: '写真を選択' }).upload(imageFile);
 
   expect(onUpload).toHaveBeenCalledOnce();
 });
@@ -35,7 +35,7 @@ test('rejects multiple PNG/JPEG files', async () => {
     createTestFile(),
     createTestFile('dummy.jpg', 'image/jpeg'),
   ];
-  await screen.getByRole('button').upload(imageFiles);
+  await screen.getByRole('button', { name: '写真を選択' }).upload(imageFiles);
 
   await expect
     .element(
@@ -53,7 +53,7 @@ test('rejects a non-PNG/JPEG file', async () => {
   const screen = await render(<UploadScreen onUpload={onUpload} />);
 
   const file = createTestFile('dummy.tiff', 'image/tiff');
-  await screen.getByRole('button').upload(file);
+  await screen.getByRole('button', { name: '写真を選択' }).upload(file);
 
   await expect
     .element(
@@ -71,7 +71,7 @@ test('rejects a PNG file and a non-PNG/JPEG file when they are selected at the s
   const screen = await render(<UploadScreen onUpload={onUpload} />);
 
   const files = [createTestFile(), createTestFile('dummy.txt', 'text/plain')];
-  await screen.getByRole('button').upload(files);
+  await screen.getByRole('button', { name: '写真を選択' }).upload(files);
 
   await expect
     .element(

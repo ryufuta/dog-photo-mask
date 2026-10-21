@@ -8,6 +8,6 @@ test('opens the editor when an image is uploaded', async ({ page }) => {
     .setInputFiles('src/test-fixtures/00_no_person_one_dog.jpg');
 
   await expect(
-    page.getByRole('button', { name: 'スタンプ追加' }),
+    page.getByRole('button', { name: 'スタンプを追加' }),
   ).toBeVisible();
 });

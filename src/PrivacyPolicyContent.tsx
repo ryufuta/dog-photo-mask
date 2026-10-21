@@ -1,6 +1,6 @@
 export function PrivacyPolicyContent() {
   return (
-    <div className="no-scrollbar -mx-4 max-h-[50vh] overflow-y-auto px-4 text-sm leading-7 md:text-base">
+    <div className="modal-scroll -mx-4 max-h-[50vh] overflow-y-auto px-4 text-sm leading-7 md:text-base">
       <p className="mb-5">
         Dog Photo Mask（以下「本サービス」といいます。）は、
         利用者のプライバシーに配慮し、必要最小限の情報を取り扱います。

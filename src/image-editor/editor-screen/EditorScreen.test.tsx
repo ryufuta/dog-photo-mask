@@ -9,6 +9,31 @@ vi.mock(import('./export-canvas.ts'), () => ({
   downloadCanvas: vi.fn(),
 }));
 
+test('dismissed sticker instructions stay closed when another sticker is added', async () => {
+  const screen = await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[{ x: 0, y: 0, width: 10, height: 10, score: 0.9 }]}
+      onReset={() => {}}
+    />,
+  );
+
+  await expect
+    .element(screen.getByText('スタンプを選んでドラッグで移動、'))
+    .toBeVisible();
+  await screen
+    .getByRole('button', { name: 'スタンプの操作説明を閉じる' })
+    .click();
+  await expect
+    .element(screen.getByText('スタンプを選んでドラッグで移動、'))
+    .not.toBeInTheDocument();
+  await screen.getByRole('button', { name: 'スタンプを追加' }).click();
+  await expect
+    .element(screen.getByText('スタンプを選んでドラッグで移動、'))
+    .not.toBeInTheDocument();
+});
+
 test('shows an error message when copying the canvas to the clipboard fails', async () => {
   vi.mocked(copyCanvas).mockRejectedValue(
     new Error('Konva: toBlob() failed, the canvas was not encoded'),
@@ -29,7 +54,7 @@ test('shows an error message when copying the canvas to the clipboard fails', as
     </>,
   );
 
-  await screen.getByRole('button', { name: 'コピー' }).click();
+  await screen.getByRole('button', { name: '画像をコピー' }).click();
 
   await expect
     .element(screen.getByText('画像のコピーに失敗しました'))
@@ -59,7 +84,7 @@ test('shows an error message when the canvas download fails', async () => {
     </>,
   );
 
-  await screen.getByRole('button', { name: 'ダウンロード' }).click();
+  await screen.getByRole('button', { name: '画像を保存' }).click();
 
   await expect
     .element(screen.getByText('画像のダウンロードに失敗しました'))

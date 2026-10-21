@@ -1,10 +1,15 @@
 type Props = {
   children: React.ReactNode;
+  label: string;
 };
 
-export function Toolbar({ children }: Props) {
+export function Toolbar({ children, label }: Props) {
   return (
-    <div className="mb-2 flex min-h-14 shrink-0 flex-wrap items-center justify-center gap-2 px-1 py-2 md:px-4">
+    <div
+      role="group"
+      aria-label={label}
+      className="mx-auto grid w-full max-w-sm shrink-0 grid-cols-2 gap-3 py-2 [&_button]:h-12 [&_button]:w-full"
+    >
       {children}
     </div>
   );

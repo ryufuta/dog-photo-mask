@@ -75,7 +75,12 @@ export function StickersLayer({
         ref={transformerRef}
         rotateEnabled={false}
         flipEnabled={false}
-        anchorSize={8}
+        anchorSize={16}
+        anchorCornerRadius={4}
+        anchorStyleFunc={(anchor) => {
+          // Enlarge the invisible hit area to 44px.
+          anchor.hitStrokeWidth(28);
+        }}
         keepRatio
         enabledAnchors={[
           'top-left',
