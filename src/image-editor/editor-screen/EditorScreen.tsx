@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useState } from 'react';
+import * as Sentry from '@sentry/react';
 import { Copy, CornerDownLeft, Download, Smile, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button.tsx';
@@ -49,7 +50,9 @@ export function EditorScreen({
     try {
       await copyCanvas(image, stickerImage, stickers);
       toast.success('画像をコピーしました');
-    } catch {
+    } catch (error) {
+      Sentry.captureException(error);
+
       toast.error('画像のコピーに失敗しました');
     }
   }
@@ -57,7 +60,9 @@ export function EditorScreen({
   async function handleDownload() {
     try {
       await downloadCanvas(image, stickerImage, stickers);
-    } catch {
+    } catch (error) {
+      Sentry.captureException(error);
+
       toast.error('画像のダウンロードに失敗しました');
     }
   }
