@@ -30,30 +30,10 @@ export function PrivacyPolicyContent() {
         これらの情報は、サービスの安定した運用および改善のために利用します。
       </p>
       <p className="mb-5">
-        各サービスにおける情報の取り扱いについては、以下をご確認ください。
+        Sentry
+        に送信する情報には、画像データおよび画像ファイル名は含まれません。
+        また、IP アドレスの収集を無効にしています。
       </p>
-      <ul className="marker:text-muted-foreground mb-5 list-outside list-disc space-y-2 pl-6">
-        <li>
-          <a
-            href="https://www.cloudflare.com/privacypolicy/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary underline underline-offset-4"
-          >
-            Cloudflare プライバシーポリシー
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://sentry.io/privacy/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary underline underline-offset-4"
-          >
-            Sentry プライバシーポリシー
-          </a>
-        </li>
-      </ul>
 
       <h3 className="mt-7 mb-3 text-lg leading-snug font-semibold">
         第3条（プライバシーポリシーの変更）
