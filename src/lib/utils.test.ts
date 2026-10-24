@@ -12,7 +12,9 @@ describe('loadImage', () => {
   test('rejects when image loading fails', async () => {
     const file = new File([], 'invalid.png', { type: 'image/png' });
 
-    await expect(loadImage(file)).rejects.toThrow('Failed to load image');
+    await expect(loadImage(file)).rejects.toMatchObject({
+      message: 'Failed to load image',
+    });
   });
 });
 
