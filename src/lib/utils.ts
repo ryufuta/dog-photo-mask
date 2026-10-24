@@ -1,8 +1,8 @@
 export { cn } from 'cn';
 
 export class ImageLoadError extends Error {
-  constructor(fileName: string, options?: ErrorOptions) {
-    super(`Failed to load image: ${fileName}`, options);
+  constructor(options?: ErrorOptions) {
+    super('Failed to load image', options);
     this.name = 'ImageLoadError';
   }
 }
@@ -16,7 +16,7 @@ export async function loadImage(file: File) {
     await image.decode();
     return image;
   } catch (error) {
-    throw new ImageLoadError(file.name, { cause: error });
+    throw new ImageLoadError({ cause: error });
   } finally {
     URL.revokeObjectURL(objURL);
   }

@@ -16,29 +16,23 @@ export function PrivacyPolicyContent() {
       </p>
 
       <h3 className="mt-7 mb-3 text-lg leading-snug font-semibold">
-        第2条（アクセス情報の取り扱い）
+        第2条（アクセス情報およびエラー情報の取り扱い）
       </h3>
       <p className="mb-5">
-        本サービスでは、稼働状況やページの読み込み性能を把握し、
-        安定した運用に役立てるため、Cloudflare Web Analytics を利用しています。
-        同サービスを通じて、ページの閲覧状況や読み込み性能などの情報が収集されます。
-        Cloudflare Web Analytics は、分析のために Cookie や localStorage
-        を使用しません。
+        本サービスでは、稼働状況やページの読み込み性能を把握し、不具合の調査およびサービスの改善を行うため、
+        Cloudflare Web Analytics および Sentry を利用しています。
       </p>
       <p className="mb-5">
-        また、本サービスの提供にあたり、ホスティング基盤である Cloudflare
-        において、
-        通信の処理やセキュリティの確保などに必要な情報が取り扱われる場合があります。
-        詳細は
-        <a
-          href="https://www.cloudflare.com/privacypolicy/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary underline underline-offset-4"
-        >
-          Cloudflare プライバシーポリシー
-        </a>
-        をご確認ください。
+        Cloudflare Web Analytics
+        を通じて、ページの閲覧状況や読み込み性能などの情報が収集されます。
+        また、Sentry を通じて、エラー情報、エラー発生時のブラウザや
+        環境に関する情報などが収集されます。
+        これらの情報は、サービスの安定した運用および改善のために利用します。
+      </p>
+      <p className="mb-5">
+        Sentry
+        に送信する情報には、画像データおよび画像ファイル名は含まれません。
+        また、IP アドレスの収集を無効にしています。
       </p>
 
       <h3 className="mt-7 mb-3 text-lg leading-snug font-semibold">

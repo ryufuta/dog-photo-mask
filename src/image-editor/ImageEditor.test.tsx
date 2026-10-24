@@ -121,7 +121,7 @@ test('returns to the upload screen when the reset button is clicked', async () =
 });
 
 test('returns to the upload screen when image loading fails', async () => {
-  mockedLoadImage.mockRejectedValue(new ImageLoadError('dummy.png'));
+  mockedLoadImage.mockRejectedValue(new ImageLoadError());
 
   const screen = await render(
     <>

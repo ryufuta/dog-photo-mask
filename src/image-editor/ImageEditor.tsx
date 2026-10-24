@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import * as Sentry from '@sentry/react';
 import { toast } from 'sonner';
 import { LoadingIndicator } from '@/components/LoadingIndicator.tsx';
 import { detectFaces, type Face } from '@/face-detection/face-detector.ts';
@@ -38,6 +39,8 @@ export function ImageEditor() {
         toast.warning('顔を検出できませんでした');
       }
     } catch (error) {
+      Sentry.captureException(error);
+
       setState({ type: 'upload' });
       if (error instanceof ImageLoadError) {
         toast.error('画像を読み込めませんでした', {
