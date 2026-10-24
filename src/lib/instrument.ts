@@ -7,5 +7,6 @@ Sentry.init({
   enabled: import.meta.env.PROD && Boolean(dsn),
   dataCollection: {
     userInfo: false,
+    urlQueryParams: false,
   },
 });
