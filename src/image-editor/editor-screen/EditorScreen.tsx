@@ -1,17 +1,16 @@
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useEffectEvent, useReducer, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import { Copy, CornerDownLeft, Download, Smile, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
-import type { Rect } from '@/lib/coordinate.ts';
-import {
-  createFaceStickers,
-  createSticker,
-  type Sticker,
-} from '@/sticker/sticker.ts';
+import { createSticker } from '@/sticker/sticker.ts';
 import { CanvasArea } from './CanvasArea.tsx';
 import { copyCanvas, downloadCanvas } from './export-canvas.ts';
+import {
+  createInitialStickerEditorState,
+  stickerEditorReducer,
+} from './sticker-editor-state.ts';
 import { Toolbar } from './Toolbar.tsx';
 
 type Props = {
@@ -30,20 +29,20 @@ export function EditorScreen({
   detectedFaces,
   onReset,
 }: Props) {
-  const [stickers, setStickers] = useState<Sticker[]>(() =>
-    createFaceStickers(detectedFaces),
-  );
-  const [selectedStickerId, setSelectedStickerId] = useState<string | null>(
-    null,
+  const [stickerEditor, dispatch] = useReducer(
+    stickerEditorReducer,
+    detectedFaces,
+    createInitialStickerEditorState,
   );
   const [isHelpDismissed, setIsHelpDismissed] = useState(false);
+
+  const { stickers, selectedStickerId } = stickerEditor;
 
   function handleAddSticker() {
     const imageWidth = image.naturalWidth;
     const imageHeight = image.naturalHeight;
     const newSticker = createSticker({ imageWidth, imageHeight });
-    setStickers((stickers) => [...stickers, newSticker]);
-    setSelectedStickerId(newSticker.id);
+    dispatch({ type: 'added', sticker: newSticker });
   }
 
   async function handleCopy() {
@@ -67,32 +66,8 @@ export function EditorScreen({
     }
   }
 
-  function handleStickerDragEnd(
-    id: string,
-    position: { x: number; y: number },
-  ) {
-    setStickers((stickers) =>
-      stickers.map((sticker) =>
-        sticker.id === id ? { ...sticker, ...position } : sticker,
-      ),
-    );
-  }
-
-  function handleStickerTransformEnd(id: string, rect: Rect) {
-    setStickers((stickers) =>
-      stickers.map((sticker) =>
-        sticker.id === id ? { ...sticker, ...rect } : sticker,
-      ),
-    );
-  }
-
   function handleDeleteSticker() {
-    if (selectedStickerId === null) return;
-
-    setStickers((stickers) =>
-      stickers.filter((sticker) => sticker.id !== selectedStickerId),
-    );
-    setSelectedStickerId(null);
+    dispatch({ type: 'deleted' });
   }
 
   const handleDeleteKey = useEffectEvent((e: KeyboardEvent) => {
@@ -137,9 +112,13 @@ export function EditorScreen({
         faces={detectedFaces}
         stickers={stickers}
         selectedStickerId={selectedStickerId}
-        onSelectSticker={setSelectedStickerId}
-        onStickerDragEnd={handleStickerDragEnd}
-        onStickerTransformEnd={handleStickerTransformEnd}
+        onSelectSticker={(id) => dispatch({ type: 'selected', id })}
+        onStickerDragEnd={(id, position) =>
+          dispatch({ type: 'moved', id, position })
+        }
+        onStickerTransformEnd={(id, rect) =>
+          dispatch({ type: 'transformed', id, rect })
+        }
         showHelp={stickers.length > 0 && !isHelpDismissed}
         onDismissHelp={() => setIsHelpDismissed(true)}
       />
