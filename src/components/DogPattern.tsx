@@ -1,4 +1,4 @@
-import { useElementSize } from '@/image-editor/editor-screen/useElementSize.ts';
+import { useElementSize } from '@/hooks/useElementSize.ts';
 
 const CELL_SIZE = 82;
 // Align each face independently within its cell in the existing sprite sheet.
