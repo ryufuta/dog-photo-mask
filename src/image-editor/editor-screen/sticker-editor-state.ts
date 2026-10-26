@@ -1,4 +1,4 @@
-import type { Rect } from '@/lib/coordinate.ts';
+import type { Position, Rect } from '@/lib/coordinate.ts';
 import { createFaceStickers, type Sticker } from '@/sticker/sticker.ts';
 
 type StickerEditorState = {
@@ -9,7 +9,7 @@ type StickerEditorState = {
 type StickerEditorAction =
   | { type: 'added'; sticker: Sticker }
   | { type: 'selected'; id: string | null }
-  | { type: 'moved'; id: string; position: Pick<Rect, 'x' | 'y'> }
+  | { type: 'moved'; id: string; position: Position }
   | { type: 'transformed'; id: string; rect: Rect }
   | { type: 'deleted' };
 
