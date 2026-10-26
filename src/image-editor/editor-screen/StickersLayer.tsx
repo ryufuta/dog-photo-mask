@@ -25,25 +25,17 @@ export function StickersLayer({
   onStickerTransformEnd,
 }: Props) {
   const transformerRef = useRef<Konva.Transformer>(null);
-  const stickersRef = useRef<Map<string, Konva.Image>>(new Map());
+  const stickerNodesRef = useRef<Map<string, Konva.Image>>(new Map());
 
-  function updateTransformer(nodes: Konva.Image[]) {
+  useEffect(() => {
     const transformer = transformerRef.current;
     if (!transformer) return;
 
-    transformer.nodes(nodes);
-  }
-
-  useEffect(() => {
-    const map = stickersRef.current;
-    let nodes: Konva.Image[] = [];
-    if (selectedStickerId) {
-      const node = map.get(selectedStickerId);
-      if (node) {
-        nodes = [node];
-      }
-    }
-    updateTransformer(nodes);
+    const selectedNode =
+      selectedStickerId === null
+        ? undefined
+        : stickerNodesRef.current.get(selectedStickerId);
+    transformer.nodes(selectedNode ? [selectedNode] : []);
   }, [selectedStickerId]);
 
   return (
@@ -52,7 +44,7 @@ export function StickersLayer({
         <CanvasSticker
           key={sticker.id}
           ref={(node: Konva.Image) => {
-            const map = stickersRef.current;
+            const map = stickerNodesRef.current;
             map.set(sticker.id, node);
 
             return () => {
