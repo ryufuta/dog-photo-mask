@@ -1,7 +1,7 @@
 import { Stage } from 'react-konva';
 import { X } from 'lucide-react';
 import type { Face } from '@/face-detection/face-detector.ts';
-import type { Rect } from '@/lib/coordinate.ts';
+import type { Position, Rect } from '@/lib/coordinate.ts';
 import type { Sticker } from '@/sticker/sticker.ts';
 import { BackgroundLayer } from './BackgroundLayer.tsx';
 import { calculateImageLayout } from './calculateImageLayout.ts';
@@ -16,7 +16,7 @@ type Props = {
   stickers: Sticker[];
   selectedStickerId: string | null;
   onSelectSticker: (id: string | null) => void;
-  onStickerDragEnd: (id: string, position: { x: number; y: number }) => void;
+  onStickerDragEnd: (id: string, position: Position) => void;
   onStickerTransformEnd: (id: string, rect: Rect) => void;
   showHelp: boolean;
   onDismissHelp: () => void;

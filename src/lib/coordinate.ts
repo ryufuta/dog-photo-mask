@@ -5,6 +5,8 @@ export type Rect = {
   height: number;
 };
 
+export type Position = Pick<Rect, 'x' | 'y'>;
+
 export function toCanvasRect(imageRect: Rect, imageScale: number): Rect {
   return {
     x: imageRect.x * imageScale,
@@ -15,9 +17,9 @@ export function toCanvasRect(imageRect: Rect, imageScale: number): Rect {
 }
 
 export function toImagePosition(
-  canvasPosition: { x: number; y: number },
+  canvasPosition: Position,
   imageScale: number,
-) {
+): Position {
   return {
     x: canvasPosition.x / imageScale,
     y: canvasPosition.y / imageScale,

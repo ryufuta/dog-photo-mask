@@ -1,6 +1,7 @@
 import { Image as KonvaImage } from 'react-konva';
 import Konva from 'konva';
 import {
+  type Position,
   type Rect,
   toCanvasRect,
   toImagePosition,
@@ -14,7 +15,7 @@ type Props = {
   sticker: Sticker;
   imageScale: number;
   onSelect: (id: string) => void;
-  onDragEnd: (position: { x: number; y: number }) => void;
+  onDragEnd: (position: Position) => void;
   onTransformEnd: (rect: Rect) => void;
 };
 

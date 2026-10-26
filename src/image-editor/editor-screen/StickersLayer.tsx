@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Layer, Transformer } from 'react-konva';
 import Konva from 'konva';
-import type { Rect } from '@/lib/coordinate.ts';
+import type { Position, Rect } from '@/lib/coordinate.ts';
 import type { Sticker } from '@/sticker/sticker.ts';
 import { CanvasSticker } from './CanvasSticker.tsx';
 
@@ -11,7 +11,7 @@ type Props = {
   imageScale: number;
   selectedStickerId: string | null;
   onSelectSticker: (id: string | null) => void;
-  onStickerDragEnd: (id: string, position: { x: number; y: number }) => void;
+  onStickerDragEnd: (id: string, position: Position) => void;
   onStickerTransformEnd: (id: string, rect: Rect) => void;
 };
 
