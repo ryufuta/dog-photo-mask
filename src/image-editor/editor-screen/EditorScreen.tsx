@@ -123,31 +123,29 @@ export function EditorScreen({
         showHelp={stickers.length > 0 && !isHelpDismissed}
         onDismissHelp={() => setIsHelpDismissed(true)}
       />
-      <div>
-        <Toolbar label="画像の保存">
-          <Button
-            type="button"
-            variant="outline"
-            className={secondaryButtonClassName}
-            onClick={() => {
-              void handleCopy();
-            }}
-          >
-            <Copy aria-hidden="true" />
-            画像をコピー
-          </Button>
-          <Button
-            type="button"
-            className="bg-[#513b2c] hover:bg-[#6a4e39]"
-            onClick={() => {
-              void handleDownload();
-            }}
-          >
-            <Download aria-hidden="true" />
-            画像を保存
-          </Button>
-        </Toolbar>
-      </div>
+      <Toolbar label="画像の保存">
+        <Button
+          type="button"
+          variant="outline"
+          className={secondaryButtonClassName}
+          onClick={() => {
+            void handleCopy();
+          }}
+        >
+          <Copy aria-hidden="true" />
+          画像をコピー
+        </Button>
+        <Button
+          type="button"
+          className="bg-[#513b2c] hover:bg-[#6a4e39]"
+          onClick={() => {
+            void handleDownload();
+          }}
+        >
+          <Download aria-hidden="true" />
+          画像を保存
+        </Button>
+      </Toolbar>
       <div className="mt-5 text-center">
         <Button type="button" variant="link" onClick={onReset}>
           <CornerDownLeft aria-hidden="true" />
