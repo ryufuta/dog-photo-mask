@@ -71,8 +71,9 @@ export function EditorScreen({
   }
 
   const handleDeleteKey = useEffectEvent((e: KeyboardEvent) => {
-    if (e.key !== 'Delete' && e.key !== 'Backspace') return;
-    handleDeleteSticker();
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      handleDeleteSticker();
+    }
   });
 
   useEffect(() => {
