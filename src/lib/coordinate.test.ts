@@ -1,4 +1,8 @@
-import { toCanvasRect, toImagePosition, toImageRect } from './coordinate.ts';
+import {
+  toCanvasRect,
+  toImagePosition,
+  toImageTransformedRect,
+} from './coordinate.ts';
 
 describe('toCanvasRect', () => {
   const stickerSize = {
@@ -107,34 +111,30 @@ describe('toImagePosition', () => {
   });
 });
 
-describe('toImageRect', () => {
-  test('keeps the relative position and size of the sticker to the image when the image is enlarged on the canvas', () => {
-    const canvasStickerRect = {
-      x: 0,
-      y: 0,
-      width: 200,
-      height: 200,
-    };
+describe('toImageTransformedRect', () => {
+  // アスペクト比を固定しているため"width = height かつ scaleX = scaleY"
+  const transform = {
+    x: 100,
+    y: 100,
+    width: 50,
+    height: 50,
+    scaleX: 2,
+    scaleY: 2,
+  };
 
-    expect(toImageRect(canvasStickerRect, 2)).toEqual({
-      x: 0,
-      y: 0,
-      width: 100,
-      height: 100,
+  test('converts the transformed rectangle from an enlarged canvas to image coordinates', () => {
+    expect(toImageTransformedRect(transform, 2)).toEqual({
+      x: 50,
+      y: 50,
+      width: 50,
+      height: 50,
     });
   });
 
-  test('keeps the relative position and size of the sticker to the image when the image is reduced on the canvas', () => {
-    const canvasStickerRect = {
-      x: 0,
-      y: 0,
-      width: 100,
-      height: 100,
-    };
-
-    expect(toImageRect(canvasStickerRect, 0.5)).toEqual({
-      x: 0,
-      y: 0,
+  test('converts the transformed rectangle from a reduced canvas to image coordinates', () => {
+    expect(toImageTransformedRect(transform, 0.5)).toEqual({
+      x: 200,
+      y: 200,
       width: 200,
       height: 200,
     });
