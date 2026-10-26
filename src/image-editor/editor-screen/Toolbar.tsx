@@ -1,9 +1,9 @@
 type Props = {
-  children: React.ReactNode;
   label: string;
+  children: React.ReactNode;
 };
 
-export function Toolbar({ children, label }: Props) {
+export function Toolbar({ label, children }: Props) {
   return (
     <div
       role="group"
