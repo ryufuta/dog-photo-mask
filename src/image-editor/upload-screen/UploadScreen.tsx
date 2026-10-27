@@ -2,8 +2,8 @@ import { type FileRejection, useDropzone } from 'react-dropzone';
 import { cn } from 'cn';
 import { ArrowUp, Camera, ImageIcon } from 'lucide-react';
 import shareExample from '@/assets/share-example.webp';
-import { ImagePrivacyDialog } from '@/components/ImagePrivacyDialog.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { ImagePrivacyDialog } from './ImagePrivacyDialog.tsx';
 
 type Props = {
   onUpload: (file: File) => void;
