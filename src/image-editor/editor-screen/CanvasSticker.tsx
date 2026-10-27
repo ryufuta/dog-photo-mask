@@ -5,7 +5,7 @@ import {
   type Rect,
   toCanvasRect,
   toImagePosition,
-  toImageRect,
+  toImageTransformedRect,
 } from '@/lib/coordinate.ts';
 import type { Sticker } from '@/sticker/sticker.ts';
 
@@ -55,13 +55,19 @@ export function CanvasSticker({
       }}
       onTransformEnd={(e) => {
         const node = e.target;
-        const canvasStickerRect = {
-          x: node.x(),
-          y: node.y(),
-          width: node.width() * node.scaleX(),
-          height: node.height() * node.scaleY(),
-        };
-        onTransformEnd(toImageRect(canvasStickerRect, imageScale));
+        onTransformEnd(
+          toImageTransformedRect(
+            {
+              x: node.x(),
+              y: node.y(),
+              width: node.width(),
+              height: node.height(),
+              scaleX: node.scaleX(),
+              scaleY: node.scaleY(),
+            },
+            imageScale,
+          ),
+        );
 
         node.scaleX(1);
         node.scaleY(1);

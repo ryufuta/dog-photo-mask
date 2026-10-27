@@ -1,13 +1,13 @@
 import { Stage } from 'react-konva';
 import { X } from 'lucide-react';
 import type { Face } from '@/face-detection/face-detector.ts';
+import { useElementSize } from '@/hooks/useElementSize.ts';
 import type { Position, Rect } from '@/lib/coordinate.ts';
 import type { Sticker } from '@/sticker/sticker.ts';
 import { BackgroundLayer } from './BackgroundLayer.tsx';
 import { calculateImageLayout } from './calculateImageLayout.ts';
 import { DebugOverlay } from './DebugOverlay.tsx';
 import { StickersLayer } from './StickersLayer.tsx';
-import { useElementSize } from './useElementSize.ts';
 
 type Props = {
   image: HTMLImageElement;
