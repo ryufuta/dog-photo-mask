@@ -106,6 +106,22 @@ test('accepts a PNG or JPEG file when it is dropped', async () => {
   });
 });
 
+test('shows the image privacy explanation when its button is clicked', async () => {
+  const screen = await render(<UploadScreen onUpload={() => {}} />);
+
+  await screen
+    .getByRole('button', { name: '写真はサーバーに送信されません。' })
+    .click();
+
+  await expect
+    .element(
+      screen.getByRole('dialog', {
+        name: 'なぜ、写真がサーバーに送られないの？',
+      }),
+    )
+    .toBeVisible();
+});
+
 function createTestFile(
   fileName: string = 'dummy.png',
   type: string = 'image/png',

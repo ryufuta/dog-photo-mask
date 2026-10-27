@@ -2,9 +2,8 @@ import { type FileRejection, useDropzone } from 'react-dropzone';
 import { cn } from 'cn';
 import { ArrowUp, Camera, ImageIcon } from 'lucide-react';
 import shareExample from '@/assets/share-example.webp';
-import smileSticker from '@/assets/stickers/smile.png';
-import { ImagePrivacyDialog } from '@/components/ImagePrivacyDialog.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { ImagePrivacyDialog } from './ImagePrivacyDialog.tsx';
 
 type Props = {
   onUpload: (file: File) => void;
@@ -129,29 +128,13 @@ export function UploadScreen({ onUpload }: Props) {
             <ImagePrivacyDialog />
           </div>
           <figure className="mx-auto w-45 space-y-2 sm:col-start-1 sm:row-start-1">
-            <div
-              className="relative overflow-hidden rounded-xl"
-              role="img"
-              aria-label="加工例：犬の顔はそのままに、一緒に写った2人の顔を笑顔のスタンプで隠した写真"
-            >
-              <img
-                src={shareExample}
-                width={360}
-                height={480}
-                alt=""
-                className="block w-full"
-              />
-              <img
-                src={smileSticker}
-                alt=""
-                className="absolute top-[12%] left-[18%] w-[27%]"
-              />
-              <img
-                src={smileSticker}
-                alt=""
-                className="absolute top-[9%] left-[54%] w-[27%]"
-              />
-            </div>
+            <img
+              src={shareExample}
+              width={360}
+              height={480}
+              alt="加工例：犬の顔はそのままに、一緒に写った2人の顔を笑顔のスタンプで隠した写真"
+              className="block w-full overflow-hidden rounded-xl"
+            />
             <figcaption className="text-muted-foreground text-xs leading-relaxed">
               <span className="block">犬の顔はそのまま、</span>
               <span className="block">人の顔を隠せます。</span>
