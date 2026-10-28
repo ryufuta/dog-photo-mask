@@ -10,28 +10,24 @@ export type Face = Rect & {
   score: number; // 検出した顔の確信度。デバッグに使用
 };
 
-let faceDetectorPromise: Promise<FaceDetector> | undefined;
+export function createFaceDetectorLoader() {
+  let faceDetectorPromise: Promise<FaceDetector> | undefined;
 
-export async function detectFaces(image: HTMLImageElement) {
-  const faceDetector = await getFaceDetector();
+  return function loadFaceDetector() {
+    if (!faceDetectorPromise) {
+      faceDetectorPromise = createFaceDetector().catch((error) => {
+        faceDetectorPromise = undefined;
+        throw new Error('Failed to initialize face detector', { cause: error });
+      });
+    }
 
-  return toFaces(faceDetector.detect(image));
-}
-
-async function getFaceDetector() {
-  if (!faceDetectorPromise) {
-    faceDetectorPromise = createFaceDetector().catch((error) => {
-      faceDetectorPromise = undefined;
-      throw error;
-    });
-  }
-
-  return faceDetectorPromise;
+    return faceDetectorPromise;
+  };
 }
 
 async function createFaceDetector() {
   const vision = await FilesetResolver.forVisionTasks(
-    'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.0.1/wasm',
+    `${import.meta.env.BASE_URL}mediapipe/wasm`,
   );
 
   return FaceDetector.createFromOptions(vision, {
@@ -59,4 +55,12 @@ function toFaces(result: FaceDetectorResult): Face[] {
       score: category.score,
     };
   });
+}
+
+const loadFaceDetector = createFaceDetectorLoader();
+
+export async function detectFaces(image: HTMLImageElement) {
+  const faceDetector = await loadFaceDetector();
+
+  return toFaces(faceDetector.detect(image));
 }

@@ -16,8 +16,9 @@
     }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "copy-mediapipe-wasm": "node scripts/copy-mediapipe-wasm.js",
+    "dev": "pnpm run copy-mediapipe-wasm && vite",
+    "build": "pnpm run copy-mediapipe-wasm && tsc -b && vite build",
     "preview": "vite preview",
     "deploy": "pnpm wrangler deploy",
     "cloudflare:preview": "pnpm wrangler preview",
@@ -26,9 +27,10 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "pretest": "pnpm run copy-mediapipe-wasm",
     "test": "vitest run",
-    "test:ui": "vitest --ui --coverage",
-    "coverage": "vitest run --coverage",
+    "test:ui": "pnpm run copy-mediapipe-wasm && vitest --ui --coverage",
+    "coverage": "pnpm run copy-mediapipe-wasm && vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed"
