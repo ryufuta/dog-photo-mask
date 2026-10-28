@@ -29,8 +29,8 @@
     "lint:fix": "eslint . --fix",
     "pretest": "pnpm run copy-mediapipe-wasm",
     "test": "vitest run",
-    "test:ui": "vitest --ui --coverage",
-    "coverage": "vitest run --coverage",
+    "test:ui": "pnpm run copy-mediapipe-wasm && vitest --ui --coverage",
+    "coverage": "pnpm run copy-mediapipe-wasm && vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed"
