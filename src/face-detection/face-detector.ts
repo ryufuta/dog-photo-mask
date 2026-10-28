@@ -17,7 +17,7 @@ export function createFaceDetectorLoader() {
     if (!faceDetectorPromise) {
       faceDetectorPromise = createFaceDetector().catch((error) => {
         faceDetectorPromise = undefined;
-        throw error;
+        throw new Error('Failed to initialize face detector', { cause: error });
       });
     }
 
