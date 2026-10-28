@@ -38,3 +38,6 @@ coverage/
 # Cloudflare
 .wrangler
 .dev.vars*
+
+# MediaPipe
+/public/mediapipe/

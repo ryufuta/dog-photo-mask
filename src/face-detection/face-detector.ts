@@ -27,7 +27,7 @@ export function createFaceDetectorLoader() {
 
 async function createFaceDetector() {
   const vision = await FilesetResolver.forVisionTasks(
-    'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.0.1/wasm',
+    `${import.meta.env.BASE_URL}mediapipe/wasm`,
   );
 
   return FaceDetector.createFromOptions(vision, {

@@ -15,7 +15,7 @@ import tseslint from 'typescript-eslint';
 const configFiles = ['**/*.config.{js,ts}'];
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'public']),
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     extends: [js.configs.recommended],
