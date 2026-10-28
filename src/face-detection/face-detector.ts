@@ -10,23 +10,19 @@ export type Face = Rect & {
   score: number; // 検出した顔の確信度。デバッグに使用
 };
 
-let faceDetectorPromise: Promise<FaceDetector> | undefined;
+export function createFaceDetectorLoader() {
+  let faceDetectorPromise: Promise<FaceDetector> | undefined;
 
-export async function detectFaces(image: HTMLImageElement) {
-  const faceDetector = await getFaceDetector();
+  return function loadFaceDetector() {
+    if (!faceDetectorPromise) {
+      faceDetectorPromise = createFaceDetector().catch((error) => {
+        faceDetectorPromise = undefined;
+        throw error;
+      });
+    }
 
-  return toFaces(faceDetector.detect(image));
-}
-
-async function getFaceDetector() {
-  if (!faceDetectorPromise) {
-    faceDetectorPromise = createFaceDetector().catch((error) => {
-      faceDetectorPromise = undefined;
-      throw error;
-    });
-  }
-
-  return faceDetectorPromise;
+    return faceDetectorPromise;
+  };
 }
 
 async function createFaceDetector() {
@@ -59,4 +55,12 @@ function toFaces(result: FaceDetectorResult): Face[] {
       score: category.score,
     };
   });
+}
+
+const loadFaceDetector = createFaceDetectorLoader();
+
+export async function detectFaces(image: HTMLImageElement) {
+  const faceDetector = await loadFaceDetector();
+
+  return toFaces(faceDetector.detect(image));
 }
