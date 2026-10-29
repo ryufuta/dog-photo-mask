@@ -137,7 +137,7 @@ export function EditorScreen({
         </Button>
         <Button
           type="button"
-          className="bg-brand hover:bg-[#6a4e39]"
+          className="bg-brand hover:bg-brand-hover"
           onClick={() => {
             void handleDownload();
           }}

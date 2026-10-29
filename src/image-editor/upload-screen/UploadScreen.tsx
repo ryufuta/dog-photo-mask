@@ -144,7 +144,7 @@ export function UploadScreen({ onUpload }: Props) {
         <Button
           type="button"
           onClick={open}
-          className="bg-brand h-12 w-full max-w-sm hover:bg-[#6a4e39] sm:hidden"
+          className="bg-brand hover:bg-brand-hover h-12 w-full max-w-sm sm:hidden"
         >
           <ImageIcon aria-hidden="true" />
           写真を選ぶ

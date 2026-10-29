@@ -19,7 +19,7 @@ export function ErrorPage() {
           予期しないエラーが発生しました。ページを再読み込みして、もう一度お試しください。
         </p>
         <Button
-          className="bg-brand mt-8 h-12 rounded-full px-6 hover:bg-[#6a4e39]"
+          className="bg-brand hover:bg-brand-hover mt-8 h-12 rounded-full px-6"
           onClick={() => window.location.reload()}
         >
           ページを再読み込み
