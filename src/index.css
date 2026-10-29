@@ -103,10 +103,12 @@
   box-shadow: 0 0 0 1px rgb(50 70 45 / 8%);
 }
 
-.modal-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: #b49a78 #f5ebd6;
-  scrollbar-gutter: stable;
+@layer components {
+  .modal-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #b49a78 #f5ebd6;
+    scrollbar-gutter: stable;
+  }
 }
 
 .dog-pattern {
