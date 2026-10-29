@@ -93,7 +93,7 @@ export function CanvasArea({
           )}
         </Stage>
         {showHelp && (
-          <div className="text-brand pointer-events-none absolute right-2 bottom-2 left-2 rounded-lg border border-[#d7c3a5] bg-[#fffaf0]/80 px-9 py-2 text-center text-xs leading-5 shadow-sm">
+          <div className="text-brand bg-surface/80 pointer-events-none absolute right-2 bottom-2 left-2 rounded-lg border border-[#d7c3a5] px-9 py-2 text-center text-xs leading-5 shadow-sm">
             <p>
               <span className="inline-block">
                 スタンプを選んでドラッグで移動、
