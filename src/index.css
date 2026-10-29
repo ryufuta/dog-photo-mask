@@ -15,7 +15,7 @@
 :root {
   color-scheme: light;
 
-  --background: oklch(1 0 0);
+  --background: #e4eddf;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -88,7 +88,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-color: #e4eddf;
   }
   html {
     @apply font-sans;
