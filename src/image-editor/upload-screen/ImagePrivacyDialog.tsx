@@ -14,7 +14,7 @@ export function ImagePrivacyDialog() {
         render={
           <button
             type="button"
-            className="w-full rounded-lg bg-[#f5ebd6] px-3 py-2 text-center text-sm leading-relaxed font-semibold text-[#513b2c] transition-colors hover:bg-[#eee0bf] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#513b2c]"
+            className="text-brand focus-visible:outline-brand w-full rounded-lg bg-[#f5ebd6] px-3 py-2 text-center text-sm leading-relaxed font-semibold transition-colors hover:bg-[#eee0bf] focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             <span className="inline-block">🔒 写真はサーバーに</span>
             <span className="inline-block">
@@ -42,7 +42,7 @@ export function ImagePrivacyDialog() {
           <p>
             加工後の画像もブラウザ内で作成し、端末へのダウンロードやコピーができます。チャットやSNSへの共有は、ご自身で行います。
           </p>
-          <p className="rounded-lg bg-[#f5ebd6] p-3 leading-6 text-[#513b2c]">
+          <p className="text-brand rounded-lg bg-[#f5ebd6] p-3 leading-6">
             ページの表示や顔の検出に必要なプログラムの取得などには通信を使いますが、選んだ写真は送信しません。
           </p>
         </div>

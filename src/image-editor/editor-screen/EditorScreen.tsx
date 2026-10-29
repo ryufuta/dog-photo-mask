@@ -21,7 +21,7 @@ type Props = {
 };
 
 const secondaryButtonClassName =
-  'border-[#d7c3a5] bg-[#f5e6cc] text-[#513b2c] hover:bg-[#ecd6b3] hover:text-[#513b2c]';
+  'border-[#d7c3a5] bg-[#f5e6cc] text-brand hover:bg-[#ecd6b3] hover:text-brand';
 
 export function EditorScreen({
   image,
@@ -137,7 +137,7 @@ export function EditorScreen({
         </Button>
         <Button
           type="button"
-          className="bg-[#513b2c] hover:bg-[#6a4e39]"
+          className="bg-brand hover:bg-[#6a4e39]"
           onClick={() => {
             void handleDownload();
           }}
