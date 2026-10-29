@@ -19,6 +19,7 @@
   --brand-hover: #6a4e39;
   --background: #e4eddf;
   --surface: #fffaf0;
+  --highlight-surface: #f5ebd6;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -77,6 +78,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   --color-foreground: var(--foreground);
+  --color-highlight-surface: var(--highlight-surface);
   --color-surface: var(--surface);
   --color-background: var(--background);
   --radius-sm: calc(var(--radius) * 0.6);
