@@ -1,4 +1,5 @@
 import { Info } from 'lucide-react';
+import { Button } from '@/components/ui/button.tsx';
 import {
   Dialog,
   DialogContent,
@@ -12,9 +13,10 @@ export function ImagePrivacyDialog() {
     <Dialog>
       <DialogTrigger
         render={
-          <button
+          <Button
             type="button"
-            className="text-brand focus-visible:outline-brand bg-highlight-surface w-full rounded-lg px-3 py-2 text-center text-sm leading-relaxed font-semibold transition-colors hover:bg-[#eee0bf] focus-visible:outline-2 focus-visible:outline-offset-2"
+            variant="secondary"
+            className="text-brand focus-visible:outline-brand bg-highlight-surface inline-block h-auto w-full border-0 px-3 py-2 text-center leading-relaxed font-semibold whitespace-normal hover:bg-[#eee0bf] focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid"
           >
             <span className="inline-block">🔒 写真はサーバーに</span>
             <span className="inline-block">
@@ -24,7 +26,7 @@ export function ImagePrivacyDialog() {
                 aria-hidden="true"
               />
             </span>
-          </button>
+          </Button>
         }
       />
       <DialogContent>
