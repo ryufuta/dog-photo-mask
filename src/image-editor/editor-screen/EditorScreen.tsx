@@ -21,7 +21,7 @@ type Props = {
 };
 
 const secondaryButtonClassName =
-  'border-[#d7c3a5] bg-[#f5e6cc] text-brand hover:bg-[#ecd6b3] hover:text-brand';
+  'border-[#d7c3a5] bg-[#f5e6cc] text-brand hover:bg-[#ecd6b3]';
 
 export function EditorScreen({
   image,
@@ -89,7 +89,7 @@ export function EditorScreen({
       <Toolbar label="スタンプの編集">
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           className={secondaryButtonClassName}
           onClick={handleAddSticker}
         >
@@ -98,7 +98,7 @@ export function EditorScreen({
         </Button>
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           className={secondaryButtonClassName}
           onClick={handleDeleteSticker}
           disabled={selectedStickerId === null}
@@ -126,7 +126,7 @@ export function EditorScreen({
       <Toolbar label="画像の保存">
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           className={secondaryButtonClassName}
           onClick={() => {
             void handleCopy();
