@@ -1,5 +1,6 @@
 import { Stage } from 'react-konva';
 import { X } from 'lucide-react';
+import { Button } from '@/components/ui/button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
 import { useElementSize } from '@/hooks/useElementSize.ts';
 import type { Position, Rect } from '@/lib/coordinate.ts';
@@ -100,14 +101,16 @@ export function CanvasArea({
               </span>
               <span className="inline-block">四隅でサイズを調整できます。</span>
             </p>
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               aria-label="スタンプの操作説明を閉じる"
               onClick={onDismissHelp}
-              className="focus-visible:outline-brand pointer-events-auto absolute top-1 right-1 flex size-8 items-center justify-center rounded-md hover:bg-[#f5e6cc] focus-visible:outline-2"
+              className="hover:text-brand focus-visible:outline-brand pointer-events-auto absolute top-1 right-1 rounded-md border-0 p-0 transition-none hover:bg-[#f5e6cc] focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-solid active:not-aria-[haspopup]:translate-y-0"
             >
               <X className="size-4" aria-hidden="true" />
-            </button>
+            </Button>
           </div>
         )}
       </div>
