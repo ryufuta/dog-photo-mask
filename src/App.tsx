@@ -19,7 +19,7 @@ function App() {
             src={logo}
             alt=""
           />
-          <h1 className="site-logo my-5 text-center text-[clamp(1.5rem,5.8vw,3rem)] leading-tight font-semibold sm:my-8">
+          <h1 className="font-logo text-brand my-5 text-center text-[clamp(1.5rem,5.8vw,3rem)] leading-tight font-semibold sm:my-8">
             Dog Photo Mask
           </h1>
         </header>
