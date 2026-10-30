@@ -107,7 +107,7 @@ export function CanvasArea({
               size="icon"
               aria-label="スタンプの操作説明を閉じる"
               onClick={onDismissHelp}
-              className="hover:text-brand focus-visible:outline-brand pointer-events-auto absolute top-1 right-1 rounded-md border-0 p-0 transition-none hover:bg-[#f5e6cc] focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-solid active:not-aria-[haspopup]:translate-y-0"
+              className="hover:text-brand focus-visible:ring-brand pointer-events-auto absolute top-1 right-1 rounded-md hover:bg-[#f5e6cc]"
             >
               <X className="size-4" aria-hidden="true" />
             </Button>
