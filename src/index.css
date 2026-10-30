@@ -118,27 +118,3 @@
     scrollbar-gutter: stable;
   }
 }
-
-.dog-pattern {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.dog-pattern-grid {
-  display: grid;
-  grid-auto-rows: 82px;
-}
-
-.dog-pattern-face {
-  background-image: url('./assets/dog-faces-pattern-small.webp');
-  background-size: 164px 246px;
-  background-repeat: no-repeat;
-}
-
-@media (max-width: 640px) {
-  .dog-pattern {
-    display: none;
-  }
-}

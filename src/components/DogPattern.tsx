@@ -1,3 +1,4 @@
+import dogFacesPattern from '@/assets/dog-faces-pattern-small.webp';
 import { useElementSize } from '@/hooks/useElementSize.ts';
 
 const CELL_SIZE = 82;
@@ -17,11 +18,16 @@ export function DogPattern() {
   const rows = Math.ceil(size.height / CELL_SIZE);
 
   return (
-    <div ref={ref} className="dog-pattern" aria-hidden="true">
+    <div
+      ref={ref}
+      className="pointer-events-none fixed inset-0 hidden overflow-hidden sm:block"
+      aria-hidden="true"
+    >
       <div
-        className="dog-pattern-grid"
+        className="grid"
         style={{
           gridTemplateColumns: `repeat(${Math.max(1, columns)}, ${CELL_SIZE}px)`,
+          gridAutoRows: CELL_SIZE,
         }}
       >
         {Array.from({ length: columns * rows }, (_, index) => {
@@ -30,8 +36,10 @@ export function DogPattern() {
           return (
             <span
               key={`${row}-${column}`}
-              className="dog-pattern-face"
+              className="bg-no-repeat"
               style={{
+                backgroundImage: `url(${dogFacesPattern})`,
+                backgroundSize: `${CELL_SIZE * 2}px ${CELL_SIZE * 3}px`,
                 backgroundPosition:
                   positions[(row * 2 + column) % positions.length],
               }}
