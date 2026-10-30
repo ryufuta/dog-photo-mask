@@ -16,7 +16,7 @@ export function ImagePrivacyDialog() {
           <Button
             type="button"
             variant="secondary"
-            className="text-brand focus-visible:outline-brand bg-highlight-surface inline-block h-auto w-full border-0 px-3 py-2 text-center leading-relaxed font-semibold whitespace-normal hover:bg-[#eee0bf] focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid"
+            className="text-brand bg-highlight-surface focus-visible:ring-brand inline-block h-auto w-full px-3 py-2 text-center leading-relaxed font-semibold whitespace-normal hover:bg-[#eee0bf] focus-visible:ring-offset-2"
           >
             <span className="inline-block">🔒 写真はサーバーに</span>
             <span className="inline-block">
