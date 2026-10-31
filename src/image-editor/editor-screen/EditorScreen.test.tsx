@@ -1,5 +1,6 @@
 import Konva from 'konva';
 import { toast, Toaster } from 'sonner';
+import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { createTestImage } from '@/image-editor/test-utils.ts';
 import { EditorScreen } from './EditorScreen.tsx';
@@ -65,39 +66,30 @@ test('enables the delete sticker button only when a selected sticker exists', as
 });
 
 test('deletes only the selected sticker when the delete sticker button is clicked', async () => {
-  const screen = await render(
-    <EditorScreen
-      image={createTestImage()}
-      stickerImage={createTestImage()}
-      detectedFaces={[]}
-      onReset={() => {}}
-    />,
-  );
-  const stage = Konva.stages.at(-1)!;
-  const addButton = screen.getByRole('button', { name: 'スタンプを追加' });
-
-  await addButton.click();
-  await addButton.click();
-
-  const stickers = stage.find('.sticker');
-  expect(stickers).toHaveLength(2);
-
-  const transformer = stage.findOne<Konva.Transformer>('Transformer');
-  if (!transformer) {
-    throw new Error('Expected a Transformer');
-  }
-
-  const selectedNodes = transformer.nodes();
-  expect(selectedNodes).toHaveLength(1);
-
-  const selectedSticker = selectedNodes[0]!;
-  expect(stickers).toContain(selectedSticker);
-
-  const unselectedSticker = stickers.find(
-    (sticker) => sticker !== selectedSticker,
-  )!;
+  const { screen, stage, unselectedSticker } =
+    await renderEditorWithTwoStickers();
 
   await screen.getByRole('button', { name: 'スタンプを削除' }).click();
+
+  const remainingStickers = stage.find('.sticker');
+  expect(remainingStickers).toHaveLength(1);
+  expect(remainingStickers[0]).toBe(unselectedSticker);
+});
+
+test('deletes only the selected sticker when the Delete key is pressed', async () => {
+  const { stage, unselectedSticker } = await renderEditorWithTwoStickers();
+
+  await userEvent.keyboard('{Delete}');
+
+  const remainingStickers = stage.find('.sticker');
+  expect(remainingStickers).toHaveLength(1);
+  expect(remainingStickers[0]).toBe(unselectedSticker);
+});
+
+test('deletes only the selected sticker when the Backspace key is pressed', async () => {
+  const { stage, unselectedSticker } = await renderEditorWithTwoStickers();
+
+  await userEvent.keyboard('{Backspace}');
 
   const remainingStickers = stage.find('.sticker');
   expect(remainingStickers).toHaveLength(1);
@@ -212,3 +204,38 @@ test('shows an error message when the canvas download fails', async () => {
 
   toast.dismiss();
 });
+
+async function renderEditorWithTwoStickers() {
+  const screen = await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[]}
+      onReset={() => {}}
+    />,
+  );
+  const stage = Konva.stages.at(-1)!;
+  const addButton = screen.getByRole('button', { name: 'スタンプを追加' });
+
+  await addButton.click();
+  await addButton.click();
+
+  const stickers = stage.find('.sticker');
+  expect(stickers).toHaveLength(2);
+
+  const transformer = stage.findOne<Konva.Transformer>('Transformer');
+  if (!transformer) {
+    throw new Error('Expected a Transformer');
+  }
+  const selectedNodes = transformer.nodes();
+  expect(selectedNodes).toHaveLength(1);
+
+  const selectedSticker = selectedNodes[0]!;
+  expect(stickers).toContain(selectedSticker);
+
+  return {
+    screen,
+    stage,
+    unselectedSticker: stickers.find((sticker) => sticker !== selectedSticker)!,
+  };
+}
