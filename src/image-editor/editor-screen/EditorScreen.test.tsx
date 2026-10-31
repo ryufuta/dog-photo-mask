@@ -36,6 +36,74 @@ test('adds a sticker and selects it when the add sticker button is clicked', asy
   expect(transformer.nodes()).toContain(stickers[0]);
 });
 
+test('enables the delete sticker button only when a selected sticker exists', async () => {
+  const screen = await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[{ x: 0, y: 0, width: 10, height: 10, score: 0.9 }]}
+      onReset={() => {}}
+    />,
+  );
+  const stage = Konva.stages.at(-1)!;
+
+  expect(stage.find('.sticker')).toHaveLength(1);
+  const transformer = stage.findOne<Konva.Transformer>('Transformer');
+  if (!transformer) {
+    throw new Error('Expected a Transformer');
+  }
+  // 顔検出で追加されたスタンプは選択状態にない
+  expect(transformer.nodes()).toHaveLength(0);
+
+  const deleteButton = screen.getByRole('button', { name: 'スタンプを削除' });
+
+  await expect.element(deleteButton).toBeDisabled();
+
+  await screen.getByRole('button', { name: 'スタンプを追加' }).click();
+
+  await expect.element(deleteButton).toBeEnabled();
+});
+
+test('deletes only the selected sticker when the delete sticker button is clicked', async () => {
+  const screen = await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[]}
+      onReset={() => {}}
+    />,
+  );
+  const stage = Konva.stages.at(-1)!;
+  const addButton = screen.getByRole('button', { name: 'スタンプを追加' });
+
+  await addButton.click();
+  await addButton.click();
+
+  const stickers = stage.find('.sticker');
+  expect(stickers).toHaveLength(2);
+
+  const transformer = stage.findOne<Konva.Transformer>('Transformer');
+  if (!transformer) {
+    throw new Error('Expected a Transformer');
+  }
+
+  const selectedNodes = transformer.nodes();
+  expect(selectedNodes).toHaveLength(1);
+
+  const selectedSticker = selectedNodes[0]!;
+  expect(stickers).toContain(selectedSticker);
+
+  const unselectedSticker = stickers.find(
+    (sticker) => sticker !== selectedSticker,
+  )!;
+
+  await screen.getByRole('button', { name: 'スタンプを削除' }).click();
+
+  const remainingStickers = stage.find('.sticker');
+  expect(remainingStickers).toHaveLength(1);
+  expect(remainingStickers[0]).toBe(unselectedSticker);
+});
+
 test('shows sticker instructions when the first sticker is added', async () => {
   const screen = await render(
     <EditorScreen
