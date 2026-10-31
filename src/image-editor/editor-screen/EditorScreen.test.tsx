@@ -138,13 +138,17 @@ test('dismissed sticker instructions stay closed when another sticker is added',
   await expect
     .element(screen.getByText('スタンプを選んでドラッグで移動、'))
     .toBeVisible();
+
   await screen
     .getByRole('button', { name: 'スタンプの操作説明を閉じる' })
     .click();
+
   await expect
     .element(screen.getByText('スタンプを選んでドラッグで移動、'))
     .not.toBeInTheDocument();
+
   await screen.getByRole('button', { name: 'スタンプを追加' }).click();
+
   await expect
     .element(screen.getByText('スタンプを選んでドラッグで移動、'))
     .not.toBeInTheDocument();
