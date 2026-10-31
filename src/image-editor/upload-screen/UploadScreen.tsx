@@ -63,7 +63,7 @@ export function UploadScreen({ onUpload }: Props) {
         <input {...getInputProps({ 'aria-label': '写真を選択' })} />
 
         <div
-          className="flex items-center justify-center gap-5 text-[#513b2c]"
+          className="text-brand flex items-center justify-center gap-5"
           aria-hidden="true"
         >
           <Camera
@@ -93,13 +93,13 @@ export function UploadScreen({ onUpload }: Props) {
         aria-labelledby="about-heading"
       >
         <ArrowUp
-          className="mx-auto size-8 text-[#513b2c]"
+          className="text-brand mx-auto size-8"
           strokeWidth={4}
           aria-hidden="true"
         />
         <h2
           id="about-heading"
-          className="text-xl leading-relaxed font-bold text-[#513b2c] sm:text-2xl"
+          className="text-brand text-xl leading-relaxed font-bold sm:text-2xl"
         >
           <span className="block lg:inline">愛犬の写真をシェア。</span>
           <span className="block lg:inline">人の顔はスタンプで隠す。</span>
@@ -144,7 +144,7 @@ export function UploadScreen({ onUpload }: Props) {
         <Button
           type="button"
           onClick={open}
-          className="h-12 w-full max-w-sm bg-[#513b2c] hover:bg-[#6a4e39] sm:hidden"
+          className="bg-brand hover:bg-brand-hover h-12 w-full max-w-sm sm:hidden"
         >
           <ImageIcon aria-hidden="true" />
           写真を選ぶ

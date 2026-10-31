@@ -1,5 +1,6 @@
 import { Stage } from 'react-konva';
 import { X } from 'lucide-react';
+import { Button } from '@/components/ui/button.tsx';
 import type { Face } from '@/face-detection/face-detector.ts';
 import { useElementSize } from '@/hooks/useElementSize.ts';
 import type { Position, Rect } from '@/lib/coordinate.ts';
@@ -93,21 +94,23 @@ export function CanvasArea({
           )}
         </Stage>
         {showHelp && (
-          <div className="pointer-events-none absolute right-2 bottom-2 left-2 rounded-lg border border-[#d7c3a5] bg-[#fffaf0]/80 px-9 py-2 text-center text-xs leading-5 text-[#513b2c] shadow-sm">
+          <div className="text-brand bg-surface/80 pointer-events-none absolute right-2 bottom-2 left-2 rounded-lg border border-[#d7c3a5] px-9 py-2 text-center text-xs leading-5 shadow-sm">
             <p>
               <span className="inline-block">
                 スタンプを選んでドラッグで移動、
               </span>
               <span className="inline-block">四隅でサイズを調整できます。</span>
             </p>
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               aria-label="スタンプの操作説明を閉じる"
               onClick={onDismissHelp}
-              className="pointer-events-auto absolute top-1 right-1 flex size-8 items-center justify-center rounded-md hover:bg-[#f5e6cc] focus-visible:outline-2 focus-visible:outline-[#513b2c]"
+              className="hover:text-brand focus-visible:ring-brand pointer-events-auto absolute top-1 right-1 rounded-md hover:bg-[#f5e6cc]"
             >
               <X className="size-4" aria-hidden="true" />
-            </button>
+            </Button>
           </div>
         )}
       </div>

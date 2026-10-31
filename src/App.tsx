@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <DogPattern />
-      <div className="site-column relative mx-auto flex min-h-svh w-full max-w-160 flex-col bg-[#fffaf0]">
+      <div className="bg-surface shadow-site-column relative mx-auto flex min-h-svh w-full max-w-160 flex-col">
         <Toaster position="top-right" theme="light" closeButton />
         <header className="flex items-center justify-center gap-2 px-3 sm:gap-3">
           <img
@@ -19,7 +19,7 @@ function App() {
             src={logo}
             alt=""
           />
-          <h1 className="site-logo my-5 text-center text-[clamp(1.5rem,5.8vw,3rem)] leading-tight font-semibold sm:my-8">
+          <h1 className="font-logo text-brand my-5 text-center text-[clamp(1.5rem,5.8vw,3rem)] leading-tight font-semibold sm:my-8">
             Dog Photo Mask
           </h1>
         </header>
