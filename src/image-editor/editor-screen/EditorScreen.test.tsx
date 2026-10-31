@@ -1,3 +1,4 @@
+import Konva from 'konva';
 import { toast, Toaster } from 'sonner';
 import { render } from 'vitest-browser-react';
 import { createTestImage } from '@/image-editor/test-utils.ts';
@@ -8,6 +9,32 @@ vi.mock(import('./export-canvas.ts'), () => ({
   copyCanvas: vi.fn(),
   downloadCanvas: vi.fn(),
 }));
+
+test('adds a sticker and selects it when the add sticker button is clicked', async () => {
+  const screen = await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[]}
+      onReset={() => {}}
+    />,
+  );
+  const stage = Konva.stages.at(-1)!;
+
+  expect(stage.find('.sticker')).toHaveLength(0);
+
+  await screen.getByRole('button', { name: 'スタンプを追加' }).click();
+
+  const stickers = stage.find('.sticker');
+  expect(stickers).toHaveLength(1);
+
+  const transformer = stage.findOne<Konva.Transformer>('Transformer');
+  if (!transformer) {
+    throw new Error('Expected a Transformer');
+  }
+
+  expect(transformer.nodes()).toContain(stickers[0]);
+});
 
 test('shows sticker instructions when the first sticker is added', async () => {
   const screen = await render(
