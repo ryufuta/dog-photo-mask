@@ -9,6 +9,27 @@ vi.mock(import('./export-canvas.ts'), () => ({
   downloadCanvas: vi.fn(),
 }));
 
+test('shows sticker instructions when the first sticker is added', async () => {
+  const screen = await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[]}
+      onReset={() => {}}
+    />,
+  );
+
+  await expect
+    .element(screen.getByText('スタンプを選んでドラッグで移動、'))
+    .not.toBeInTheDocument();
+
+  await screen.getByRole('button', { name: 'スタンプを追加' }).click();
+
+  await expect
+    .element(screen.getByText('スタンプを選んでドラッグで移動、'))
+    .toBeVisible();
+});
+
 test('dismissed sticker instructions stay closed when another sticker is added', async () => {
   const screen = await render(
     <EditorScreen
