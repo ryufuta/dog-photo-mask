@@ -37,6 +37,51 @@ test('adds a sticker and selects it when the add sticker button is clicked', asy
   expect(transformer.nodes()).toContain(stickers[0]);
 });
 
+test('selects a sticker when it is clicked, and deselects the sticker when a non-sticker part of the canvas is clicked', async () => {
+  const screen = await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[{ x: 50, y: 50, width: 10, height: 10, score: 0.9 }]}
+      onReset={() => {}}
+    />,
+  );
+  const stage = Konva.stages.at(-1)!;
+  // テストの安定化のためResizeObserverによるStageサイズの計算結果が反映されるのを待機
+  await expect.poll(() => stage.width()).toBeGreaterThan(0);
+  await expect.poll(() => stage.height()).toBeGreaterThan(0);
+  const stickers = stage.find('.sticker');
+  expect(stickers).toHaveLength(1);
+
+  const transformer = stage.findOne<Konva.Transformer>('Transformer');
+  if (!transformer) {
+    throw new Error('Expected a Transformer');
+  }
+  expect(transformer.nodes()).toHaveLength(0);
+
+  // selects the sticker when it is clicked
+
+  const sticker = stickers[0]!;
+  const { x, y, width, height } = sticker.getClientRect({ relativeTo: stage });
+  // テストの保守性のためスタンプのヒットエリア調整の影響を受けにくい中央をクリックする
+  const stickerCenter = { x: x + width / 2, y: y + height / 2 };
+  // テストの安定化のためCanvasにスタンプが描画されてクリック可能になるのを待機
+  await expect.poll(() => stage.getIntersection(stickerCenter)).toBe(sticker);
+  await userEvent.click(stage.container(), { position: stickerCenter });
+
+  const deleteButton = screen.getByRole('button', { name: 'スタンプを削除' });
+  // テストの安定化のためスタンプの選択状態が画面に反映されるのを待機
+  await expect.element(deleteButton).toBeEnabled();
+  expect(transformer.nodes()).toContain(sticker);
+
+  // deselects a sticker when a non-sticker part of the canvas is clicked
+
+  await userEvent.click(stage.container(), { position: { x: 0, y: 0 } });
+
+  await expect.element(deleteButton).toBeDisabled();
+  expect(transformer.nodes()).toHaveLength(0);
+});
+
 test('enables the delete sticker button only when a selected sticker exists', async () => {
   const screen = await render(
     <EditorScreen
