@@ -141,6 +141,55 @@ test('deletes only the selected sticker when the Backspace key is pressed', asyn
   expect(remainingStickers[0]).toBe(unselectedSticker);
 });
 
+test('moves a sticker when it is dragged', async () => {
+  await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[{ x: 50, y: 50, width: 10, height: 10, score: 0.9 }]}
+      onReset={() => {}}
+    />,
+  );
+  const stage = Konva.stages.at(-1)!;
+  await expect.poll(() => stage.width()).toBeGreaterThan(0);
+  await expect.poll(() => stage.height()).toBeGreaterThan(0);
+
+  const stickers = stage.find('.sticker');
+  expect(stickers).toHaveLength(1);
+  const sticker = stickers[0]!;
+  const initialPosition = sticker.position();
+
+  const { x, y, width, height } = sticker.getClientRect({ relativeTo: stage });
+  // テストの保守性のためスタンプのヒットエリア調整の影響を受けにくい中央をドラッグする
+  const start = { x: x + width / 2, y: y + height / 2 };
+  const end = { x: start.x + 50, y: start.y + 30 };
+  // テストの安定化のためCanvasにスタンプが描画されてドラッグ可能になるのを待機
+  await expect.poll(() => stage.getIntersection(start)).toBe(sticker);
+
+  const container = stage.container();
+  const content = container.querySelector('.konvajs-content');
+  if (!content) {
+    throw new Error('Expected Konva content');
+  }
+  const stageRect = container.getBoundingClientRect();
+  const toClientPosition = ({ x, y }: { x: number; y: number }) => ({
+    clientX: stageRect.left + x,
+    clientY: stageRect.top + y,
+  });
+  content.dispatchEvent(
+    new MouseEvent('mousedown', { ...toClientPosition(start), bubbles: true }),
+  );
+  window.dispatchEvent(
+    new MouseEvent('mousemove', { ...toClientPosition(end), bubbles: true }),
+  );
+  window.dispatchEvent(
+    new MouseEvent('mouseup', { ...toClientPosition(end), bubbles: true }),
+  );
+
+  expect(sticker.x()).toBeCloseTo(initialPosition.x + 50);
+  expect(sticker.y()).toBeCloseTo(initialPosition.y + 30);
+});
+
 test('shows sticker instructions when the first sticker is added', async () => {
   const screen = await render(
     <EditorScreen
