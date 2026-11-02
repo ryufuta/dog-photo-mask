@@ -190,6 +190,67 @@ test('moves a sticker when it is dragged', async () => {
   expect(sticker.y()).toBeCloseTo(initialPosition.y + 30);
 });
 
+test('resizes a sticker with its aspect ratio locked when its handle is dragged', async () => {
+  await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[{ x: 50, y: 50, width: 10, height: 10, score: 0.9 }]}
+      onReset={() => {}}
+    />,
+  );
+  const stage = Konva.stages.at(-1)!;
+  await expect.poll(() => stage.width()).toBeGreaterThan(0);
+  await expect.poll(() => stage.height()).toBeGreaterThan(0);
+
+  const stickers = stage.find('.sticker');
+  expect(stickers).toHaveLength(1);
+  const sticker = stickers[0]!;
+  const initialAspectRatio = sticker.width() / sticker.height();
+  const { x, y, width, height } = sticker.getClientRect({ relativeTo: stage });
+  const stickerCenter = { x: x + width / 2, y: y + height / 2 };
+  await expect.poll(() => stage.getIntersection(stickerCenter)).toBe(sticker);
+  await userEvent.click(stage.container(), { position: stickerCenter });
+
+  const transformer = stage.findOne<Konva.Transformer>('Transformer');
+  if (!transformer) {
+    throw new Error('Expected a Transformer');
+  }
+  await expect.poll(() => transformer.nodes()).toContain(sticker);
+  const bottomRightAnchor = transformer.findOne<Konva.Shape>('.bottom-right');
+  if (!bottomRightAnchor) {
+    throw new Error('Expected a bottom-right Transformer anchor');
+  }
+
+  const start = bottomRightAnchor.absolutePosition();
+  const end = { x: start.x + 50, y: start.y + 30 };
+  await expect.poll(() => stage.getIntersection(start)).toBe(bottomRightAnchor);
+
+  const content = stage.container().querySelector('.konvajs-content');
+  if (!content) {
+    throw new Error('Expected Konva content');
+  }
+  const stageRect = stage.container().getBoundingClientRect();
+  const toClientPosition = ({ x, y }: { x: number; y: number }) => ({
+    clientX: stageRect.left + x,
+    clientY: stageRect.top + y,
+  });
+  content.dispatchEvent(
+    new MouseEvent('mousedown', { ...toClientPosition(start), bubbles: true }),
+  );
+  window.dispatchEvent(
+    new MouseEvent('mousemove', { ...toClientPosition(end), bubbles: true }),
+  );
+  window.dispatchEvent(
+    new MouseEvent('mouseup', { ...toClientPosition(end), bubbles: true }),
+  );
+
+  // リサイズ中にキャンバス上ではstickerノードのwidthとheightではなくscaleXとscaleYが更新される
+  // リサイズ終了後にReactのstickerの状態が更新され、その更新がキャンバス上のstickerノードに反映されるのを待機
+  await expect.poll(() => sticker.width()).toBeGreaterThan(width);
+  expect(sticker.width() / sticker.height()).toBeCloseTo(initialAspectRatio);
+});
+
 test('shows sticker instructions when the first sticker is added', async () => {
   const screen = await render(
     <EditorScreen
