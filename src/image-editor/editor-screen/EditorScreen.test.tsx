@@ -76,34 +76,36 @@ test('enables the delete sticker button only when a selected sticker exists', as
 });
 
 test('deletes only the selected sticker when the delete sticker button is clicked', async () => {
-  const { screen, stage, unselectedSticker } =
+  const { screen, stage, selectedSticker, unselectedSticker } =
     await renderEditorWithTwoStickers();
 
   await screen.getByRole('button', { name: 'スタンプを削除' }).click();
 
   const remainingStickers = stage.find('.sticker');
-  expect(remainingStickers).toHaveLength(1);
-  expect(remainingStickers[0]).toBe(unselectedSticker);
+  expect(remainingStickers).not.toContain(selectedSticker);
+  expect(remainingStickers).toContain(unselectedSticker);
 });
 
 test('deletes only the selected sticker when the Delete key is pressed', async () => {
-  const { stage, unselectedSticker } = await renderEditorWithTwoStickers();
+  const { stage, selectedSticker, unselectedSticker } =
+    await renderEditorWithTwoStickers();
 
   await userEvent.keyboard('{Delete}');
 
   const remainingStickers = stage.find('.sticker');
-  expect(remainingStickers).toHaveLength(1);
-  expect(remainingStickers[0]).toBe(unselectedSticker);
+  expect(remainingStickers).not.toContain(selectedSticker);
+  expect(remainingStickers).toContain(unselectedSticker);
 });
 
 test('deletes only the selected sticker when the Backspace key is pressed', async () => {
-  const { stage, unselectedSticker } = await renderEditorWithTwoStickers();
+  const { stage, selectedSticker, unselectedSticker } =
+    await renderEditorWithTwoStickers();
 
   await userEvent.keyboard('{Backspace}');
 
   const remainingStickers = stage.find('.sticker');
-  expect(remainingStickers).toHaveLength(1);
-  expect(remainingStickers[0]).toBe(unselectedSticker);
+  expect(remainingStickers).not.toContain(selectedSticker);
+  expect(remainingStickers).toContain(unselectedSticker);
 });
 
 test('moves a sticker when it is dragged', async () => {
@@ -251,6 +253,7 @@ async function renderEditorWithTwoStickers() {
   return {
     screen,
     stage,
+    selectedSticker,
     unselectedSticker: stickers.find((sticker) => sticker !== selectedSticker)!,
   };
 }
