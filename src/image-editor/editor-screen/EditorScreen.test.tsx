@@ -142,73 +142,25 @@ test('deletes only the selected sticker when the Backspace key is pressed', asyn
 });
 
 test('moves a sticker when it is dragged', async () => {
-  await render(
-    <EditorScreen
-      image={createTestImage()}
-      stickerImage={createTestImage()}
-      detectedFaces={[{ x: 50, y: 50, width: 10, height: 10, score: 0.9 }]}
-      onReset={() => {}}
-    />,
-  );
-  const stage = Konva.stages.at(-1)!;
-  await expect.poll(() => stage.width()).toBeGreaterThan(0);
-  await expect.poll(() => stage.height()).toBeGreaterThan(0);
-
-  const stickers = stage.find('.sticker');
-  expect(stickers).toHaveLength(1);
-  const sticker = stickers[0]!;
+  const { stage, sticker } = await renderEditorWithFaceSticker();
   const initialPosition = sticker.position();
-
-  const { x, y, width, height } = sticker.getClientRect({ relativeTo: stage });
   // テストの保守性のためスタンプのヒットエリア調整の影響を受けにくい中央をドラッグする
-  const start = { x: x + width / 2, y: y + height / 2 };
+  const start = getCenter(sticker, stage);
   const end = { x: start.x + 50, y: start.y + 30 };
   // テストの安定化のためCanvasにスタンプが描画されてドラッグ可能になるのを待機
   await expect.poll(() => stage.getIntersection(start)).toBe(sticker);
 
-  const container = stage.container();
-  const content = container.querySelector('.konvajs-content');
-  if (!content) {
-    throw new Error('Expected Konva content');
-  }
-  const stageRect = container.getBoundingClientRect();
-  const toClientPosition = ({ x, y }: { x: number; y: number }) => ({
-    clientX: stageRect.left + x,
-    clientY: stageRect.top + y,
-  });
-  content.dispatchEvent(
-    new MouseEvent('mousedown', { ...toClientPosition(start), bubbles: true }),
-  );
-  window.dispatchEvent(
-    new MouseEvent('mousemove', { ...toClientPosition(end), bubbles: true }),
-  );
-  window.dispatchEvent(
-    new MouseEvent('mouseup', { ...toClientPosition(end), bubbles: true }),
-  );
+  dragOnStage(stage, start, end);
 
   expect(sticker.x()).toBeCloseTo(initialPosition.x + 50);
   expect(sticker.y()).toBeCloseTo(initialPosition.y + 30);
 });
 
 test('resizes a sticker with its aspect ratio locked when its handle is dragged', async () => {
-  await render(
-    <EditorScreen
-      image={createTestImage()}
-      stickerImage={createTestImage()}
-      detectedFaces={[{ x: 50, y: 50, width: 10, height: 10, score: 0.9 }]}
-      onReset={() => {}}
-    />,
-  );
-  const stage = Konva.stages.at(-1)!;
-  await expect.poll(() => stage.width()).toBeGreaterThan(0);
-  await expect.poll(() => stage.height()).toBeGreaterThan(0);
-
-  const stickers = stage.find('.sticker');
-  expect(stickers).toHaveLength(1);
-  const sticker = stickers[0]!;
-  const initialAspectRatio = sticker.width() / sticker.height();
-  const { x, y, width, height } = sticker.getClientRect({ relativeTo: stage });
-  const stickerCenter = { x: x + width / 2, y: y + height / 2 };
+  const { stage, sticker } = await renderEditorWithFaceSticker();
+  const initialWidth = sticker.width();
+  const initialAspectRatio = initialWidth / sticker.height();
+  const stickerCenter = getCenter(sticker, stage);
   await expect.poll(() => stage.getIntersection(stickerCenter)).toBe(sticker);
   await userEvent.click(stage.container(), { position: stickerCenter });
 
@@ -226,28 +178,11 @@ test('resizes a sticker with its aspect ratio locked when its handle is dragged'
   const end = { x: start.x + 50, y: start.y + 30 };
   await expect.poll(() => stage.getIntersection(start)).toBe(bottomRightAnchor);
 
-  const content = stage.container().querySelector('.konvajs-content');
-  if (!content) {
-    throw new Error('Expected Konva content');
-  }
-  const stageRect = stage.container().getBoundingClientRect();
-  const toClientPosition = ({ x, y }: { x: number; y: number }) => ({
-    clientX: stageRect.left + x,
-    clientY: stageRect.top + y,
-  });
-  content.dispatchEvent(
-    new MouseEvent('mousedown', { ...toClientPosition(start), bubbles: true }),
-  );
-  window.dispatchEvent(
-    new MouseEvent('mousemove', { ...toClientPosition(end), bubbles: true }),
-  );
-  window.dispatchEvent(
-    new MouseEvent('mouseup', { ...toClientPosition(end), bubbles: true }),
-  );
+  dragOnStage(stage, start, end);
 
   // リサイズ中にキャンバス上ではstickerノードのwidthとheightではなくscaleXとscaleYが更新される
   // リサイズ終了後にReactのstickerの状態が更新され、その更新がキャンバス上のstickerノードに反映されるのを待機
-  await expect.poll(() => sticker.width()).toBeGreaterThan(width);
+  await expect.poll(() => sticker.width()).toBeGreaterThan(initialWidth);
   expect(sticker.width() / sticker.height()).toBeCloseTo(initialAspectRatio);
 });
 
@@ -393,4 +328,55 @@ async function renderEditorWithTwoStickers() {
     stage,
     unselectedSticker: stickers.find((sticker) => sticker !== selectedSticker)!,
   };
+}
+
+async function renderEditorWithFaceSticker() {
+  await render(
+    <EditorScreen
+      image={createTestImage()}
+      stickerImage={createTestImage()}
+      detectedFaces={[{ x: 50, y: 50, width: 10, height: 10, score: 0.9 }]}
+      onReset={() => {}}
+    />,
+  );
+  const stage = Konva.stages.at(-1)!;
+  await expect.poll(() => stage.width()).toBeGreaterThan(0);
+  await expect.poll(() => stage.height()).toBeGreaterThan(0);
+
+  const stickers = stage.find('.sticker');
+  expect(stickers).toHaveLength(1);
+
+  return { stage, sticker: stickers[0]! };
+}
+
+function getCenter(sticker: Konva.Node, stage: Konva.Stage) {
+  const { x, y, width, height } = sticker.getClientRect({ relativeTo: stage });
+
+  return { x: x + width / 2, y: y + height / 2 };
+}
+
+function dragOnStage(
+  stage: Konva.Stage,
+  start: { x: number; y: number },
+  end: { x: number; y: number },
+) {
+  const content = stage.container().querySelector('.konvajs-content');
+  if (!content) {
+    throw new Error('Expected Konva content');
+  }
+  const stageRect = stage.container().getBoundingClientRect();
+  const toClientPosition = ({ x, y }: { x: number; y: number }) => ({
+    clientX: stageRect.left + x,
+    clientY: stageRect.top + y,
+  });
+
+  content.dispatchEvent(
+    new MouseEvent('mousedown', { ...toClientPosition(start), bubbles: true }),
+  );
+  window.dispatchEvent(
+    new MouseEvent('mousemove', { ...toClientPosition(end), bubbles: true }),
+  );
+  window.dispatchEvent(
+    new MouseEvent('mouseup', { ...toClientPosition(end), bubbles: true }),
+  );
 }
