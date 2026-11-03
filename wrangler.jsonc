@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "dog-photo-mask",
-  "compatibility_date": "2026-10-02",
+  "compatibility_date": "2026-09-21",
   "assets": {
     "not_found_handling": "single-page-application",
   },

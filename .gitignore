@@ -24,8 +24,7 @@ dist-ssr
 *.sw?
 
 # Vitest
-.vitest-attachments/
-**/__screenshots__/
+.vitest
 coverage/
 
 # Playwright

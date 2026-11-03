@@ -110,7 +110,7 @@ test('shows the image privacy explanation when its button is clicked', async () 
   const screen = await render(<UploadScreen onUpload={() => {}} />);
 
   await screen
-    .getByRole('button', { name: '写真はサーバーに送信されません。' })
+    .getByRole('button', { name: '🔒 写真はサーバーに送信されません。' })
     .click();
 
   await expect
