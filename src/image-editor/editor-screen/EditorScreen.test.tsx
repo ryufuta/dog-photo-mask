@@ -56,7 +56,7 @@ test('selects a sticker when it is clicked, and deselects the sticker when a non
   await expect.poll(() => transformer.nodes()).toHaveLength(0);
 });
 
-test('selects a sticker when it is tapped', async () => {
+test('selects a sticker when it is tapped, and deselects the sticker when a non-sticker part of the canvas is tapped', async () => {
   const { stage, sticker } = await renderEditorWithFaceSticker({
     x: 50,
     y: 50,
@@ -68,12 +68,20 @@ test('selects a sticker when it is tapped', async () => {
   const transformer = getTransformer(stage);
   expect(transformer.nodes()).toHaveLength(0);
 
-  const tapPosition = getCenter(sticker, stage);
-  await expect.poll(() => stage.getIntersection(tapPosition)).toBe(sticker);
+  // selects a sticker when it is tapped
 
-  tapOnStage(stage, tapPosition);
+  const stickerCenter = getCenter(sticker, stage);
+  await expect.poll(() => stage.getIntersection(stickerCenter)).toBe(sticker);
+
+  tapOnStage(stage, stickerCenter);
 
   await expect.poll(() => transformer.nodes()).toContain(sticker);
+
+  // deselects the sticker when a non-sticker part of the canvas is tapped
+
+  tapOnStage(stage, { x: 0, y: 0 });
+
+  await expect.poll(() => transformer.nodes()).toHaveLength(0);
 });
 
 test('enables the delete sticker button only when a selected sticker exists', async () => {

@@ -68,7 +68,7 @@ export function CanvasArea({
         <Stage
           width={displayImageWidth}
           height={displayImageHeight}
-          onClick={(e) => {
+          onPointerClick={(e) => {
             if (e.target === e.target.getStage()) {
               onSelectSticker(null);
             }
