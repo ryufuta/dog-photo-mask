@@ -33,6 +33,7 @@ export function CanvasSticker({
   return (
     <KonvaImage
       ref={ref}
+      name="sticker"
       image={image}
       x={x}
       y={y}
