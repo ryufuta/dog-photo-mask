@@ -16,18 +16,21 @@ export function PrivacyPolicyContent() {
       </p>
 
       <h3 className="mt-7 mb-3 text-lg leading-snug font-semibold">
-        第2条（アクセス情報およびエラー情報の取り扱い）
+        第2条（アクセス情報、エラー情報および利用状況データの取り扱い）
       </h3>
       <p className="mb-5">
         本サービスでは、稼働状況やページの読み込み性能を把握し、不具合の調査およびサービスの改善を行うため、
         Cloudflare Web Analytics および Sentry を利用しています。
+        また、顔検出機能の実現のために MediaPipe を利用しています。
       </p>
       <p className="mb-5">
         Cloudflare Web Analytics
         を通じて、ページの閲覧状況や読み込み性能などの情報が収集されます。
-        また、Sentry を通じて、エラー情報、エラー発生時のブラウザや
-        環境に関する情報などが収集されます。
-        これらの情報は、サービスの安定した運用および改善のために利用します。
+        Sentry を通じて、エラー情報、エラー発生時のブラウザや
+        環境に関する情報などが収集されます。 また、 MediaPipe は、API
+        の利用状況や性能に関するメトリクスデータを Google に送信します。
+        これらの情報は、サービスの安定した運用および改善、ならびに MediaPipe の
+        性能測定・保守・改善などに利用されます。
       </p>
       <p className="mb-5">
         Sentry
