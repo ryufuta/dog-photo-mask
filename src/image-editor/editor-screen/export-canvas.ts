@@ -63,8 +63,7 @@ export async function exportCanvasAsBlob(
     layer.add(imageNode, ...stickerNodes);
     layer.draw();
 
-    // KonvaのNode#toBlobの型注釈の不備でunknownになっているようなので型アサーションを使用
-    const blob = (await stage.toBlob()) as Blob;
+    const blob = await stage.toBlob();
 
     return blob;
   } finally {
